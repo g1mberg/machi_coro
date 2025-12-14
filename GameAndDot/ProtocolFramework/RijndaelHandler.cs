@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Security.Cryptography;
 
-namespace XProtocol
+namespace ProtocolFramework
 {
     public static class RijndaelHandler
     {

@@ -1,4 +1,4 @@
-﻿using XProtocol.Serializator;
+﻿using ProtocolFramework.Serializator;
 
 namespace ProtocolFramework;
 

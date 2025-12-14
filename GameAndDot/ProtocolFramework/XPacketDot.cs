@@ -1,6 +1,6 @@
 ﻿namespace ProtocolFramework;
 
-using XProtocol.Serializator;
+using ProtocolFramework.Serializator;
 
 public class PointPlacedDto
 {

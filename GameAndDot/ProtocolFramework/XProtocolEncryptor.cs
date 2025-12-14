@@ -1,4 +1,4 @@
-﻿namespace XProtocol;
+﻿namespace ProtocolFramework;
 
 public class XProtocolEncryptor
 {

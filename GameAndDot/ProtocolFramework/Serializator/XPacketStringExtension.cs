@@ -1,6 +1,5 @@
-﻿namespace XProtocol.Serializator;
-using System.Text;
-using XProtocol;
+﻿namespace ProtocolFramework.Serializator;
+
 using System.Text;
 
 public static class XPacketStringExtensions
