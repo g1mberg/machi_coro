@@ -8,11 +8,8 @@ namespace MachiCoroUI
     public partial class Form1 : Form
     {
         private static int _handshakeMagic;
-
         private int _myPlayerId;
-        private Bitmap _canvas;
-        private Graphics _graphics;
-        private readonly Dictionary<int, Brush> PlayerBrushById = new();
+
         private readonly Dictionary<int, string> PlayerNameById = new();
 
         XClient client = new XClient();
@@ -68,14 +65,11 @@ namespace MachiCoroUI
                     {
                         int id = packet.GetValue<int>(1);
                         string username = packet.GetString(2);
-                        string colorHex = packet.GetString(3);
-
                         PlayerNameById[id] = username;
-                        PlayerBrushById[id] = new SolidBrush(ColorTranslator.FromHtml(colorHex));
-
                         BeginInvoke(new Action(UpdatePlayersList));
                         break;
                     }
+     
             }
         }
 
@@ -84,6 +78,11 @@ namespace MachiCoroUI
             listBox1.Items.Clear();
             foreach (var name in PlayerNameById.Values)
                 listBox1.Items.Add(name);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
     }
 }

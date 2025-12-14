@@ -36,9 +36,10 @@
             // 
             // button2
             // 
-            button2.Location = new Point(1618, 377);
+            button2.Location = new Point(871, 177);
+            button2.Margin = new Padding(2, 1, 2, 1);
             button2.Name = "button2";
-            button2.Size = new Size(725, 160);
+            button2.Size = new Size(390, 75);
             button2.TabIndex = 1;
             button2.Text = "Подключиться";
             button2.UseVisualStyleBackColor = true;
@@ -46,39 +47,45 @@
             // 
             // textBox5
             // 
-            textBox5.Location = new Point(755, 434);
+            textBox5.Location = new Point(407, 203);
+            textBox5.Margin = new Padding(2, 1, 2, 1);
             textBox5.Name = "textBox5";
-            textBox5.Size = new Size(792, 39);
+            textBox5.Size = new Size(428, 23);
             textBox5.TabIndex = 10;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(653, 441);
+            label5.Location = new Point(352, 207);
+            label5.Margin = new Padding(2, 0, 2, 0);
             label5.Name = "label5";
-            label5.Size = new Size(54, 32);
+            label5.Size = new Size(27, 15);
             label5.TabIndex = 11;
             label5.Text = "ник";
             // 
             // listBox1
             // 
             listBox1.FormattingEnabled = true;
-            listBox1.Location = new Point(282, 656);
+            listBox1.ItemHeight = 15;
+            listBox1.Location = new Point(152, 308);
+            listBox1.Margin = new Padding(2, 1, 2, 1);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(338, 388);
+            listBox1.Size = new Size(184, 184);
             listBox1.TabIndex = 12;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(13F, 32F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(3241, 1241);
+            ClientSize = new Size(1401, 629);
             Controls.Add(listBox1);
             Controls.Add(label5);
             Controls.Add(textBox5);
             Controls.Add(button2);
+            Margin = new Padding(2, 1, 2, 1);
             Name = "Form1";
             Text = "Form1";
+            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }
