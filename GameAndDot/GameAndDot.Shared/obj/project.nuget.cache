@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "mvrqjzC52vg=",
+  "success": true,
+  "projectFilePath": "C:\\kfu\\oris\\gameanddotmatvey\\oris\\HomeWork_9\\GameAndDot\\GameAndDot.Shared\\GameAndDot.Shared.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\муха\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.10\\microsoft.netcore.app.ref.9.0.10.nupkg.sha512",
+    "C:\\Users\\муха\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.10\\microsoft.windowsdesktop.app.ref.9.0.10.nupkg.sha512",
+    "C:\\Users\\муха\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.10\\microsoft.aspnetcore.app.ref.9.0.10.nupkg.sha512"
+  ],
+  "logs": []
+}
