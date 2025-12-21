@@ -12,4 +12,7 @@ public class Enterprise
 
     public int Gain(List<Enterprise> enterprises) =>
         Foreach != null ? enterprises.Where(x => x.EType.Equals(Foreach)).Sum(_ => Income) : Income;
+    
+    
+
 }

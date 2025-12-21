@@ -6,6 +6,7 @@ namespace Game;
 
 public class Game
 {
+    private int _currentPlayerIndex = 0;
     private readonly Player[] Players = new Player[4];
     private List<Enterprise> Mart = [];
 
@@ -18,4 +19,5 @@ public class Game
             for (var i = 0; i < 6; i++)
                 Mart.Add(enterprise);
     }
+    
 }

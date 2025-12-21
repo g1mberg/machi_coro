@@ -30,4 +30,25 @@ public class Player
         Enterprises.Add(EnterpriseFromJson.Get("WheatField"));
         Enterprises.Add(EnterpriseFromJson.Get("Bakery"));
     }
+
+
+    public int TakeMoney(int amount)
+    {
+        int taken = 0;
+        if (Money - amount < 0)
+        {
+            taken = Money;
+            Money = 0;
+        }
+        else
+        {
+            Money -= amount;
+        }
+        return taken;
+    }
+
+    public void AddMoney(int amount)
+    {
+        Money += amount;
+    }
 }
