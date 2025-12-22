@@ -3,14 +3,21 @@
 public class RollCube
 {
     private static readonly Random _random = new();
-
-    public static int Roll(int diceCount = 1)
+    
+    
+    // сделал так потому что есть достопремечательность  которая чекает что выпал дубль и значит чел ходит еще раз
+    public static DiceResult Roll(int diceCount)
     {
-        int sum = 0;
-        for (int i = 0; i < diceCount; i++)
+        if (diceCount == 1)
         {
-            sum += _random.Next(1, 7); 
+            int res = _random.Next(1, 7);
+            return new DiceResult(res, false);
         }
-        return sum;
+
+        int res1 = _random.Next(1, 7);
+        int res2 = _random.Next(1, 7);
+        bool isDouble = res1 == res2;
+
+        return new DiceResult(res1 + res2, isDouble);
     }
 }

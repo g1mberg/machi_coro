@@ -20,6 +20,7 @@ public enum ActivationCondition
 public enum PurpleEffect
 {
     TakeFromAll,
-    TakeFromOne
+    TakeFromOne,
+    
 }
 

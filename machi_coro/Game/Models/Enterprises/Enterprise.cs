@@ -1,6 +1,9 @@
-﻿namespace Game.Models.Enterprises;
+﻿
+using Game.Models.Sites;
 
-public class Enterprise
+namespace Game.Models.Enterprises;
+
+public class Enterprise 
 {
     public string Name { get; init; }
     public int Cost { get; init; }
@@ -9,9 +12,29 @@ public class Enterprise
     public EnterpriseType EType { get; init; }
     public EnterpriseType? Foreach { get; init; }
     public int Income { get; init; }
+    
+    public void Build(Player player)
+    {
+        player.Enterprises.Add(this);
+    }
 
-    public int Gain(List<Enterprise> enterprises) =>
-        Foreach != null ? enterprises.Where(x => x.EType.Equals(Foreach)).Sum(_ => Income) : Income;
+    
+    // перепесал под торговый центр ебанный без негатива
+    public int Gain(List<Enterprise> enterprises, Player owner)
+    {
+        int count = Foreach != null ? enterprises.Count(x => x.EType == Foreach) : 1;
+
+        int income = Income;
+        
+        var mall = owner.Sites.OfType<Mall>().FirstOrDefault();
+        if (mall?.IsActivated == true && (EType == EnterpriseType.Shop || EType == EnterpriseType.Cafe))
+        {
+            income += 1;
+        }
+
+        return count * income;
+    }
+
     
     
 

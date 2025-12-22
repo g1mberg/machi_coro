@@ -9,6 +9,9 @@ public class Game
     private int _currentPlayerIndex = 0;
     private readonly Player[] Players = new Player[4];
     private List<Enterprise> Mart = [];
+    private readonly Turn _turn = new();
+    private bool _isGameOver = false;
+
 
     public void Start()
     {
@@ -20,4 +23,36 @@ public class Game
                 Mart.Add(enterprise);
     }
     
+    //тут сделал что игрок ходит
+    public void PlayStep()
+    {
+        var activePlayer = Players[_currentPlayerIndex];
+        bool extraTurn = _turn.DoTurn(activePlayer, Players.ToList());
+        if (activePlayer.HasWon())
+        {
+            EndGame(activePlayer);
+            return;
+        }
+        if (!extraTurn)
+        {
+            _currentPlayerIndex = (_currentPlayerIndex + 1) % Players.Length;
+        }
+    }
+    
+    //ну тут понятно
+    public void Play()
+    {
+        while (!_isGameOver)
+        {
+            PlayStep();
+        }
+    }
+    private void EndGame(Player winner)
+    {   
+        //че то красивое сделать
+        // _isGameOver = true;
+        // Console.WriteLine($"Игра окончена.");
+    }
+
+
 }
