@@ -1,8 +1,12 @@
-﻿namespace Game.Models.PurpleCards;
+﻿using Game.Models.Enterprises;
+using Game.Utils;
 
-public class TvCenter : PurpleCards
+namespace Game.Models.PurpleCards;
+
+public class TvCenter(Enterprise other) : PurpleCards(other)
 {
-    public override void Apply(Player activePlayer, List<Player> players)
+    public TvCenter() : this(JsonRepository<Enterprise>.Get("TvCenter")) {}
+    public override void Apply(Player activePlayer, Player[] players)
     {   
         // тут надо добавить выбор цели у кого красть деньги ого ww)(
         // var target = players

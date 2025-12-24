@@ -1,8 +1,12 @@
-﻿namespace Game.Models.PurpleCards;
+﻿using Game.Models.Enterprises;
+using Game.Utils;
 
-public class BusinessCenter: PurpleCards
+namespace Game.Models.PurpleCards;
+
+public class BusinessCenter(Enterprise other) : PurpleCards(other)
 {
-    public override void Apply(Player activePlayer, List<Player> players)
+    public BusinessCenter() : this(JsonRepository<Enterprise>.Get("BusinessCenter")) {}
+    public override void Apply(Player activePlayer, Player[] players)
     {   
         // тут надо добавить выбор цели у с кем поменяться преприятием ого круть)(ww)
         

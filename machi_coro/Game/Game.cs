@@ -8,8 +8,8 @@ public class Game
 {
     private int _currentPlayerIndex = 0;
     private readonly Player[] Players = new Player[4];
-    private List<Enterprise> Mart = [];
-    private readonly Turn _turn = new();
+    private CardsMart Mart;
+    private readonly Turn.Turn _turn = new();
     private bool _isGameOver = false;
 
 
@@ -17,17 +17,16 @@ public class Game
     {
         for (var i = 0; i < 4; i++)
             Players[i] = new Player();
-        
-        foreach (var enterprise in EnterpriseFromJson.GetAll())
-            for (var i = 0; i < 6; i++)
-                Mart.Add(enterprise);
+
+        Mart = new CardsMart();
+        Play();
     }
     
     //тут сделал что игрок ходит
-    public void PlayStep()
+    private void PlayStep()
     {
         var activePlayer = Players[_currentPlayerIndex];
-        bool extraTurn = _turn.DoTurn(activePlayer, Players.ToList());
+        var extraTurn = _turn.DoTurn(activePlayer, Players);
         if (activePlayer.HasWon())
         {
             EndGame(activePlayer);
@@ -40,7 +39,7 @@ public class Game
     }
     
     //ну тут понятно
-    public void Play()
+    private void Play()
     {
         while (!_isGameOver)
         {
@@ -49,9 +48,7 @@ public class Game
     }
     private void EndGame(Player winner)
     {   
-        //че то красивое сделать
-        // _isGameOver = true;
-        // Console.WriteLine($"Игра окончена.");
+        Console.WriteLine($"Игра окончена." + winner + " is winner");
     }
 
 

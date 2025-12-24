@@ -7,7 +7,7 @@ public enum EnterpriseColors
 
 public enum EnterpriseType
 {
-    Field, Shop, Farm, Mountain, Factory, Cafe, Mart
+    Field, Shop, Farm, Mountain, Factory, Cafe, Mart, MajorEstablishment
 }
 
 public enum ActivationCondition

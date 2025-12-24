@@ -1,5 +1,6 @@
 ﻿
 using Game.Models.Sites;
+using Game.Utils;
 
 namespace Game.Models.Enterprises;
 
@@ -13,29 +14,28 @@ public class Enterprise
     public EnterpriseType? Foreach { get; init; }
     public int Income { get; init; }
     
-    public void Build(Player player)
-    {
-        player.Enterprises.Add(this);
-    }
 
+    public Enterprise(Enterprise other)
+    {
+        Name = other.Name;
+        Cost = other.Cost;
+        CubeResult = other.CubeResult.ToArray(); // глубокая копия массива
+        Color = other.Color;
+        EType = other.EType;
+        Foreach = other.Foreach;
+        Income = other.Income;
+    }
     
-    // перепесал под торговый центр ебанный без негатива
+    
+    // переписал под торговый центр ебанный без негатива
     public int Gain(List<Enterprise> enterprises, Player owner)
     {
-        int count = Foreach != null ? enterprises.Count(x => x.EType == Foreach) : 1;
-
-        int income = Income;
+        //считает количество income
+        var count = Foreach != null ? enterprises.Count(x => x.EType == Foreach) : 1;
         
-        var mall = owner.Sites.OfType<Mall>().FirstOrDefault();
-        if (mall?.IsActivated == true && (EType == EnterpriseType.Shop || EType == EnterpriseType.Cafe))
-        {
-            income += 1;
-        }
+        if (owner.IsMall && EType is EnterpriseType.Shop or EnterpriseType.Cafe)
+            return Income * count + 1;
 
-        return count * income;
+        return count * Income;
     }
-
-    
-    
-
 }

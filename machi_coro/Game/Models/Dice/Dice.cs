@@ -1,0 +1,22 @@
+﻿namespace Game.Models;
+
+public class Dice
+{
+    private static readonly Random Random = new();
+    
+    
+    public static DiceResult Roll(int diceCount)
+    {
+        if (diceCount == 1)
+        {
+            var res = Random.Next(1, 7);
+            return new DiceResult(res, false);
+        }
+
+        var res1 = Random.Next(1, 7);
+        var res2 = Random.Next(1, 7);
+        var isDouble = res1 == res2;
+
+        return new DiceResult(res1 + res2, isDouble);
+    }
+}

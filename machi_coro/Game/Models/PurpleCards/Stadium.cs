@@ -1,14 +1,15 @@
-﻿namespace Game.Models.PurpleCards;
+﻿using Game.Models.Enterprises;
+using Game.Utils;
 
-public class Stadium : PurpleCards
+namespace Game.Models.PurpleCards;
+
+public class Stadium(Enterprise other) : PurpleCards(other)
 {
-    public override void Apply(Player activePlayer, List<Player> players)
+    public Stadium() : this(JsonRepository<Enterprise>.Get("Stadium")) {}
+    public override void Apply(Player activePlayer, Player[] players)
     {
         foreach (var player in players.Where(player => player != activePlayer ))
-        {
-            int taken = player.TakeMoney(2);
-            activePlayer.AddMoney(taken);
-        }
+            activePlayer.AddMoney(player.TakeMoney(2));
     }
     
 }

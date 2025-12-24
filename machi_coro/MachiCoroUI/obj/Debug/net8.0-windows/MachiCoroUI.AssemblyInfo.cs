@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MachiCoroUI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4734a76c6dacc84654ddd04aae1866a581ef60dd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6d234b43ec6fb743fa251c770de4befd013b636a")]
 [assembly: System.Reflection.AssemblyProductAttribute("MachiCoroUI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MachiCoroUI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

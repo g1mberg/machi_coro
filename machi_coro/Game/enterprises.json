@@ -106,6 +106,8 @@
     "Foreach" : "Field",
     "Income": 2
   },
+  
+  
 
   "Cafe": {
     "Name": "Кафе",
@@ -127,5 +129,31 @@
     "Color": "Red",
     "EType": "Cafe",
     "Income": 2
+  },
+  
+  
+  "Stadium": {
+    "Name": "Стадион",
+    "Cost": 6,
+    "CubeResult": [6],
+    "Color": "Purple",
+    "EType": "MajorEstablishment",
+    "Income": 2
+  },
+  "TvStation": {
+    "Name": "Телецентр",
+    "Cost": 7,
+    "CubeResult": [6],
+    "Color": "Purple",
+    "EType": "MajorEstablishment",
+    "Income": 5
+  },
+  "BusinessCenter": {
+    "Name": "Бизнес-центр",
+    "Cost": 8,
+    "CubeResult": [6],
+    "Color": "Purple",
+    "EType": "MajorEstablishment",
+    "Income": 0
   }
 }
