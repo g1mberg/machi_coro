@@ -26,7 +26,7 @@ namespace MachiCoroUI
             XPacketTypeManager.RegisterType(XPacketType.PlayerConnected, 1, 1);
             XPacketTypeManager.RegisterType(XPacketType.Welcome, 1, 2);
             XPacketTypeManager.RegisterType(XPacketType.PlayerJoined, 1, 3);
-            XPacketTypeManager.RegisterType(XPacketType.PointPlaced, 1, 4);
+          
 
             try
             {
@@ -172,7 +172,7 @@ namespace MachiCoroUI
                 Height = 130,
                 Margin = new Padding(5),
                 Cursor = Cursors.Hand,
-                Tag = card // ← КЛЮЧЕВО
+                Tag = card 
             };
 
             pb.Click += MarketCard_Click;
@@ -222,7 +222,7 @@ namespace MachiCoroUI
                 return;
             }
 
-            // UI формирует намерение, НЕ покупает
+          
             var choice = new BuildChoice
             {
                 Type = BuildChoiceType.Enterprise,
@@ -237,9 +237,14 @@ namespace MachiCoroUI
 
         private void SendBuildChoice(BuildChoice choice)
         {
-            // ВРЕМЕННО
-            labelLastAction.Text = $"Отправлен запрос на покупку: {choice.EnterpriseName!}";
+            var packet = XPacket.Create(XPacketType.BuyEnterprise);
+            packet.SetString(1, "BuyEnterprise");
+            packet.SetString(2, choice.EnterpriseName!);
+            client.QueuePacketSend(packet.ToPacket());
         }
+        
+        
+
 
         private void ClearMarketSelection()
         {
@@ -249,6 +254,7 @@ namespace MachiCoroUI
                     pb.BorderStyle = BorderStyle.None;
             }
         }
+        
 
 
     }

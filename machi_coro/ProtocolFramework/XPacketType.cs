@@ -9,5 +9,8 @@ public enum XPacketType : byte
     Welcome = 11,
     PlayerJoined = 12,
 
-    PointPlaced = 20
+    RollDice = 20,
+    BuyEnterprise = 8,
+    BuildSite,
+    SkipTurn
 }

@@ -1,4 +1,5 @@
-﻿using Game.Models;
+﻿using System.Net.Security;
+using Game.Models;
 using Game.Models.Enterprises;
 using Game.Utils;
 
@@ -11,7 +12,7 @@ public class Game
     private CardsMart Mart;
     private readonly Turn.Turn _turn = new();
     private bool _isGameOver = false;
-
+    private BuildPhase? _buildPhase;
 
     public void Start()
     {
@@ -49,6 +50,18 @@ public class Game
     private void EndGame(Player winner)
     {   
         Console.WriteLine($"Игра окончена." + winner + " is winner");
+    }
+    GameState BuildGameState()
+    {
+        return new GameState
+        {
+            CurrentPlayerId = _currentPlayerIndex,
+            Phase = _buildPhase.ToString(),
+            LastAction = 
+            DiceValue = LastDice,
+            Players = Players,
+            Market  = Mart
+        };
     }
 
 

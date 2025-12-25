@@ -13,7 +13,7 @@ namespace Server
             XPacketTypeManager.RegisterType(XPacketType.PlayerConnected, 1, 1);
             XPacketTypeManager.RegisterType(XPacketType.Welcome, 1, 2);
             XPacketTypeManager.RegisterType(XPacketType.PlayerJoined, 1, 3);
-            XPacketTypeManager.RegisterType(XPacketType.PointPlaced, 1, 4);
+           
 
 
             var server = new XServer();

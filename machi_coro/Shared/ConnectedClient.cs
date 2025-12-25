@@ -65,10 +65,10 @@ public class ConnectedClient
             case XPacketType.PlayerConnected:
                 ProcessPlayerConnected(packet);
                 break;
-
-            case XPacketType.PointPlaced:
-                _server.Broadcast(packet);
-                break;
+            //case XPacketType.BuyEnterprise:
+            //    ProcessBuyEnterprise(packet);
+            //    break;
+           
 
             case XPacketType.Unknown:
                 break;
@@ -77,6 +77,24 @@ public class ConnectedClient
                 throw new ArgumentOutOfRangeException();
         }
     }
+
+    //private void ProcessBuyEnterprise(XPacket packet)
+    //{
+    //    var playerId = PlayerId;
+    //    string enterpriseName = packet.GetString(1);
+    //    GameInstance instance = gameManager.GetInstanceByPlayer(playerId);
+
+    //    var marketItem = instance.Market
+    //        .FirstOrDefault(m => m.Enterprise.Name == enterpriseName);
+
+    //    if (marketItem == null || marketItem.Count == 0)
+    //        return;
+        
+    //    GameState state = instance.BuildGameState();
+    //    BroadcastGameState(instance, state);
+
+
+    //}
 
     private void ProcessPlayerConnected(XPacket packet)
     {
