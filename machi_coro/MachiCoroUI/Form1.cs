@@ -1,3 +1,4 @@
+﻿using Game.Models;
 using ProtocolFramework;
 using ProtocolFramework.Serializator;
 using Shared.Models;
@@ -9,6 +10,8 @@ namespace MachiCoroUI
     {
         private static int _handshakeMagic;
         private int _myPlayerId;
+     
+
 
         private readonly Dictionary<int, string> PlayerNameById = new();
 
@@ -50,6 +53,10 @@ namespace MachiCoroUI
             var p = XPacket.Create(XPacketType.PlayerConnected);
             p.SetString(1, _username);
             client.QueuePacketSend(p.ToPacket());
+            button2.Visible = false;
+            textBox5.Visible = false;
+            label5.Visible = true;
+            label1.Visible = true;
         }
 
         private void Client_OnPacketRecieve(byte[] raw)
@@ -69,7 +76,7 @@ namespace MachiCoroUI
                         BeginInvoke(new Action(UpdatePlayersList));
                         break;
                     }
-     
+
             }
         }
 
@@ -83,6 +90,166 @@ namespace MachiCoroUI
         private void Form1_Load(object sender, EventArgs e)
         {
             this.StartPosition = FormStartPosition.CenterScreen;
+            RenderMarket(new List<EnterpriseView>
+            {
+                new EnterpriseView { Name="Bakery", ImageName="bakery.png" },
+                 new EnterpriseView { Name="Cafe", ImageName="cafe.png" }
+             });
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click_2(object sender, EventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+
+        }
+        private void RenderMarket(List<EnterpriseView> marketCards)
+        {
+            flowMarket.SuspendLayout();
+            flowMarket.Controls.Clear();
+
+            foreach (var card in marketCards)
+            {
+                flowMarket.Controls.Add(CreateMarketCard(card));
+            }
+
+            flowMarket.ResumeLayout();
+        }
+
+
+
+        PictureBox CreateMarketCard(EnterpriseView card)
+        {
+            var pb = new PictureBox
+            {
+                Image = Image.FromFile($"Assets/Enterprises/{card.ImageName}"),
+                SizeMode = PictureBoxSizeMode.Zoom,
+                Width = 90,
+                Height = 130,
+                Margin = new Padding(5),
+                Cursor = Cursors.Hand,
+                Tag = card // ← КЛЮЧЕВО
+            };
+
+            pb.Click += MarketCard_Click;
+            return pb;
+        }
+
+        private EnterpriseView? _selectedMarketCard;
+
+        private void MarketCard_Click(object? sender, EventArgs e)
+        {
+            if (sender is not PictureBox pb)
+                return;
+
+            _selectedMarketCard = (EnterpriseView)pb.Tag;
+
+            HighlightSelected(pb);
+        }
+
+        //private void buyButton_Click(object sender, EventArgs e)
+        //{
+        //    if (_selectedMarketCard == null)
+        //        return;
+
+        //    _controller.ChooseBuild(new BuildChoice
+        //    {
+        //        Type = BuildChoiceType.Enterprise,
+        //        Enterprise = _selectedMarketCard
+        //    });
+        //}
+
+        void HighlightSelected(PictureBox selected)
+        {
+            foreach (Control c in flowMarket.Controls)
+            {
+                if (c is PictureBox pb)
+                    pb.BorderStyle = BorderStyle.None;
+            }
+
+            selected.BorderStyle = BorderStyle.Fixed3D;
+        }
+
+        private void buildButton_Click(object sender, EventArgs e)
+        {
+            if (_selectedMarketCard == null)
+            {
+                labelLastAction.Text = "Сначала выберите карту";
+                return;
+            }
+
+            // UI формирует намерение, НЕ покупает
+            var choice = new BuildChoice
+            {
+                Type = BuildChoiceType.Enterprise,
+                EnterpriseName = _selectedMarketCard.Name
+            };
+
+            SendBuildChoice(choice);
+
+            _selectedMarketCard = null;
+            ClearMarketSelection();
+        }
+
+        private void SendBuildChoice(BuildChoice choice)
+        {
+            // ВРЕМЕННО
+            labelLastAction.Text = $"Отправлен запрос на покупку: {choice.EnterpriseName!}";
+        }
+
+        private void ClearMarketSelection()
+        {
+            foreach (Control c in flowMarket.Controls)
+            {
+                if (c is PictureBox pb)
+                    pb.BorderStyle = BorderStyle.None;
+            }
+        }
+
+
     }
 }

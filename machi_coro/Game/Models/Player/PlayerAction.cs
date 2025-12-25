@@ -52,4 +52,22 @@ public class PlayerAction
         otherPlayer.City.Add(enterprise);
         return true;
     }
+    
+    // public static BuildChoice Choose(Player player)
+    // {
+    //     // Console.WriteLine($"Деньги: {player.Money}");
+    //     // Console.WriteLine("1 — Купить предприятие");
+    //     // Console.WriteLine("2 — Построить достопримечательность");
+    //     // Console.WriteLine("0 — Ничего не делать");
+    //     //
+    //     // var input = Console.ReadLine();
+    //     //
+    //     // return input switch
+    //     // {
+    //     //     "1" => ChooseEnterprise(player),
+    //     //     "2" => ChooseSite(player),
+    //     //     _ => new BuildChoice { Type = BuildChoiceType.None }
+    //     // };
+    // }
+
 }

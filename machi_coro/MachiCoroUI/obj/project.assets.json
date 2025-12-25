@@ -2,6 +2,16 @@
   "version": 3,
   "targets": {
     "net8.0-windows7.0": {
+      "Game/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/Game.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Game.dll": {}
+        }
+      },
       "ProtocolFramework/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
@@ -41,6 +51,11 @@
     }
   },
   "libraries": {
+    "Game/1.0.0": {
+      "type": "project",
+      "path": "../Game/Game.csproj",
+      "msbuildProject": "../Game/Game.csproj"
+    },
     "ProtocolFramework/1.0.0": {
       "type": "project",
       "path": "../ProtocolFramework/ProtocolFramework.csproj",
@@ -59,29 +74,30 @@
   },
   "projectFileDependencyGroups": {
     "net8.0-windows7.0": [
+      "Game >= 1.0.0",
       "ProtocolFramework >= 1.0.0",
       "Server >= 1.0.0",
       "Shared >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\муха\\.nuget\\packages\\": {},
+    "C:\\Users\\mxtvey\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\kfu\\oris\\semestry\\machi_coro\\machi_coro\\MachiCoroUI\\MachiCoroUI.csproj",
+      "projectUniqueName": "C:\\machi_coro\\machi_coro\\machi_coro\\MachiCoroUI\\MachiCoroUI.csproj",
       "projectName": "MachiCoroUI",
-      "projectPath": "C:\\kfu\\oris\\semestry\\machi_coro\\machi_coro\\MachiCoroUI\\MachiCoroUI.csproj",
-      "packagesPath": "C:\\Users\\муха\\.nuget\\packages\\",
-      "outputPath": "C:\\kfu\\oris\\semestry\\machi_coro\\machi_coro\\MachiCoroUI\\obj\\",
+      "projectPath": "C:\\machi_coro\\machi_coro\\machi_coro\\MachiCoroUI\\MachiCoroUI.csproj",
+      "packagesPath": "C:\\Users\\mxtvey\\.nuget\\packages\\",
+      "outputPath": "C:\\machi_coro\\machi_coro\\machi_coro\\MachiCoroUI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\муха\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\mxtvey\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -96,14 +112,17 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "projectReferences": {
-            "C:\\kfu\\oris\\semestry\\machi_coro\\machi_coro\\ProtocolFramework\\ProtocolFramework.csproj": {
-              "projectPath": "C:\\kfu\\oris\\semestry\\machi_coro\\machi_coro\\ProtocolFramework\\ProtocolFramework.csproj"
+            "C:\\machi_coro\\machi_coro\\machi_coro\\Game\\Game.csproj": {
+              "projectPath": "C:\\machi_coro\\machi_coro\\machi_coro\\Game\\Game.csproj"
             },
-            "C:\\kfu\\oris\\semestry\\machi_coro\\machi_coro\\Server\\Server.csproj": {
-              "projectPath": "C:\\kfu\\oris\\semestry\\machi_coro\\machi_coro\\Server\\Server.csproj"
+            "C:\\machi_coro\\machi_coro\\machi_coro\\ProtocolFramework\\ProtocolFramework.csproj": {
+              "projectPath": "C:\\machi_coro\\machi_coro\\machi_coro\\ProtocolFramework\\ProtocolFramework.csproj"
             },
-            "C:\\kfu\\oris\\semestry\\machi_coro\\machi_coro\\Shared\\Shared.csproj": {
-              "projectPath": "C:\\kfu\\oris\\semestry\\machi_coro\\machi_coro\\Shared\\Shared.csproj"
+            "C:\\machi_coro\\machi_coro\\machi_coro\\Server\\Server.csproj": {
+              "projectPath": "C:\\machi_coro\\machi_coro\\machi_coro\\Server\\Server.csproj"
+            },
+            "C:\\machi_coro\\machi_coro\\machi_coro\\Shared\\Shared.csproj": {
+              "projectPath": "C:\\machi_coro\\machi_coro\\machi_coro\\Shared\\Shared.csproj"
             }
           }
         }
@@ -118,7 +137,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "net8.0-windows7.0": {
@@ -142,7 +161,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-rc.2.25502.107/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

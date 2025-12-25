@@ -54,3 +54,28 @@ C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\obj\Debug\net8.0-windows\refint\
 C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\obj\Debug\net8.0-windows\MachiCoroUI.pdb
 C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\obj\Debug\net8.0-windows\MachiCoroUI.genruntimeconfig.cache
 C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\obj\Debug\net8.0-windows\ref\MachiCoroUI.dll
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\SItes\Mall.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\SItes\Park.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\SItes\terminal.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\SItes\TV.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\Enterprises\apple.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\Enterprises\bakery.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\Enterprises\business.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\Enterprises\cafe.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\Enterprises\cheese factory.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\Enterprises\eatary.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\Enterprises\farm.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\Enterprises\furniture factory.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\Enterprises\mine.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\Enterprises\reserve.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\Enterprises\stadium.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\Enterprises\supermarket.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\Enterprises\tvcenter.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\Enterprises\vegetable market.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\Enterprises\wheat field.png
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Game.deps.json
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Game.runtimeconfig.json
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Game.exe
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\enterprises.json
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Game.dll
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Game.pdb

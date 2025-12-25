@@ -8,12 +8,21 @@
     ".NETCoreApp,Version=v8.0": {
       "MachiCoroUI/1.0.0": {
         "dependencies": {
+          "Game": "1.0.0",
           "ProtocolFramework": "1.0.0",
           "Server": "1.0.0",
           "Shared": "1.0.0"
         },
         "runtime": {
           "MachiCoroUI.dll": {}
+        }
+      },
+      "Game/1.0.0": {
+        "runtime": {
+          "Game.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "ProtocolFramework/1.0.0": {
@@ -50,6 +59,11 @@
   },
   "libraries": {
     "MachiCoroUI/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Game/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -6,19 +6,21 @@ namespace Game;
 public class BuildPhase
 {
     public void Execute(Player player)
-    {   
-        // надо сделать строительство красиво как-то
-        // if (!player.CanBuild())
-        //     return;
+    {
+        // var choice = PlayerAction.Choose(player);
         //
-        // var choice = player.ChooseBuildOption();
-        // if (choice == null)
-        //     return;
+        // switch (choice.Type)
+        // {
+        //     case BuildChoiceType.None:
+        //         return;
         //
-        // if (!player.CanPay(choice.Cost))
-        //     return;
+        //     case BuildChoiceType.Enterprise:
+        //         PlayerAction.Build(player, choice.Enterprise!);
+        //         return;
         //
-        // player.Pay(choice.Cost);
-        // choice.Build(player);
+        //     case BuildChoiceType.Site:
+        //         PlayerAction.Build(player, choice.SiteName!);
+        //         return;
+        // }
     }
 }

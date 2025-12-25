@@ -7,6 +7,11 @@ namespace Game.Models;
 public class CardsMart
 {
     private static List<Enterprise> Mart = [];
+    public static IReadOnlyList<Enterprise> GetAvailable()
+    {
+        return Mart;
+    }
+
 
     public CardsMart()
     {

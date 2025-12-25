@@ -9,6 +9,33 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Assets\SItes\Mall.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\SItes\Park.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\SItes\terminal.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\SItes\TV.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Assets\Enterprises\**\*.*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Assets\Sites\**\*.*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Game\Game.csproj" />
     <ProjectReference Include="..\Server\Server.csproj" />
     <ProjectReference Include="..\Shared\Shared.csproj" />
     <ProjectReference Include="..\ProtocolFramework\ProtocolFramework.csproj" />

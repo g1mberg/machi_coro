@@ -8,6 +8,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Assets\Cards\**" />
+    <EmbeddedResource Remove="Assets\Cards\**" />
+    <None Remove="Assets\Cards\**" />
+  </ItemGroup>
+	
+	<ItemGroup>
+		<Content Include="Assets\Enterprices\**\*.*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Assets\Sites\**\*.*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+
+	<ItemGroup>
+    <None Update="Assets\Enterprices\apple.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="enterprises.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
