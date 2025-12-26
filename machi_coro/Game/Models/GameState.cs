@@ -24,7 +24,6 @@ public class GameState
         if (Phase is Phase.Build)
         {
             Phase = Phase.Roll;
-            NextPlayer();
             return;
         }
         Phase += 1;
