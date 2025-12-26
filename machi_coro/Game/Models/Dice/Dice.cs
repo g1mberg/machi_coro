@@ -1,6 +1,6 @@
-﻿namespace Game.Models;
+﻿namespace Game.Models.Dice;
 
-public class Dice
+public static class Dice
 {
     private static readonly Random Random = new();
     

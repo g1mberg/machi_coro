@@ -2,7 +2,7 @@
 using Game.Models.Sites;
 using Game.Utils;
 
-namespace Game.Models;
+namespace Game.Models.Player;
 
 public class Player
 {
@@ -10,12 +10,14 @@ public class Player
 
     public readonly Dictionary<string, Site> Sites;
 
-    public List<Enterprise> City = [];
+    public readonly List<Enterprise> City = [];
 
     public bool IsTwoDices => Sites["Terminal"].IsActivated;
     public bool IsMall => Sites["Mall"].IsActivated;
     public bool IsDoubleCheck => Sites["tvTower"].IsActivated;
     public bool IsReroll => Sites["Park"].IsActivated;
+    public bool IsChangeable { get; set; } = false;
+    public bool IsStealer { get; set; } = false;
 
     public bool HasWon() => Sites.Values.All(s => s.IsActivated);
 

@@ -1,37 +1,19 @@
-﻿
-using Game.Models.Sites;
-using Game.Utils;
+﻿namespace Game.Models.Enterprises;
 
-namespace Game.Models.Enterprises;
-
-public class Enterprise 
+public class Enterprise(Enterprise other)
 {
-    public string Name { get; init; }
-    public int Cost { get; init; }
-    public int[] CubeResult { get; init; }
-    public EnterpriseColors Color { get; init; }
-    public EnterpriseType EType { get; init; }
-    public EnterpriseType? Foreach { get; init; }
-    public int Income { get; init; }
-    
+    public string Name { get; init; } = other.Name;
+    public int Cost { get; init; } = other.Cost;
+    public int[] CubeResult { get; init; } = other.CubeResult.ToArray();
+    public EnterpriseColors Color { get; init; } = other.Color;
+    private EnterpriseType EType { get; init; } = other.EType;
+    private EnterpriseType? IncomeType { get; init; } = other.IncomeType;
+    private int Income { get; init; } = other.Income;
 
-    public Enterprise(Enterprise other)
+
+    public int Gain(List<Enterprise> enterprises, Player.Player owner)
     {
-        Name = other.Name;
-        Cost = other.Cost;
-        CubeResult = other.CubeResult.ToArray(); // глубокая копия массива
-        Color = other.Color;
-        EType = other.EType;
-        Foreach = other.Foreach;
-        Income = other.Income;
-    }
-    
-    
-    // переписал под торговый центр ебанный без негатива
-    public int Gain(List<Enterprise> enterprises, Player owner)
-    {
-        //считает количество income
-        var count = Foreach != null ? enterprises.Count(x => x.EType == Foreach) : 1;
+        var count = IncomeType != null ? enterprises.Count(x => x.EType == IncomeType) : 1;
         
         if (owner.IsMall && EType is EnterpriseType.Shop or EnterpriseType.Cafe)
             return Income * count + 1;

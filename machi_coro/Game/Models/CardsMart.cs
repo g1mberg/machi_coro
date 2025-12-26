@@ -1,17 +1,13 @@
 ﻿using Game.Models.Enterprises;
-using Game.Models.PurpleCards;
+using Game.Models.Enterprises.PurpleCards;
 using Game.Utils;
 
 namespace Game.Models;
 
 public class CardsMart
 {
-    private static List<Enterprise> Mart = [];
-    public static IReadOnlyList<Enterprise> GetAvailable()
-    {
-        return Mart;
-    }
-
+    private static readonly List<Enterprise> Mart = [];
+    public static IReadOnlyList<Enterprise> GetAvailable() =>  Mart;
 
     public CardsMart()
     {
@@ -27,7 +23,7 @@ public class CardsMart
         }
     }
 
-    public static bool BuyEnterprise(Player player, Enterprise enterprise)
+    public static bool BuyEnterprise(Player.Player player, Enterprise enterprise)
     {
         if (!Mart.Contains(enterprise)) return false;
         player.TakeMoney(enterprise.Cost);
