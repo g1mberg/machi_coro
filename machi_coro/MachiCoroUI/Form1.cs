@@ -23,6 +23,12 @@ namespace MachiCoroUI
         private Dictionary<int, string> PlayerNameById = new Dictionary<int, string>();
         private List<EnterpriseView> _allMarketCards;
 
+        string? _myBuildingToGive;
+        int? _targetPlayerId;
+        string? _targetBuilding;
+        int? _stealTargetPlayerId;
+        int _stealAmount = 1;
+        private int _lastDiceCount = 1;
 
 
 
@@ -155,6 +161,12 @@ namespace MachiCoroUI
             }
         }
 
+        private void rerollButton_Click(object sender, EventArgs e)
+        {
+            var packet = XPacket.Create(XPacketType.Reroll);
+            packet.SetValue(1, _lastDiceCount); // 1 или 2
+            client.QueuePacketSend(packet.ToPacket());
+        }
 
 
         void RenderGame(GameState game)
@@ -169,10 +181,17 @@ namespace MachiCoroUI
 
             changeButton.Visible = isMyTurn && isChangePhase;
             skipChangeButton.Visible = isMyTurn && isChangePhase;
+            bool isStealPhase = game.Phase == Phase.Steal;
+
+            stealButton.Visible = isMyTurn && isStealPhase;
+            skip.Visible = isMyTurn && isStealPhase;
+
+            rerollButton.Visible = game.Phase == Phase.Roll && isMyTurn && game.CurrentPlayer.IsReroll;
+
 
 
             labelCurrentPlayer.Text = game.CurrentPlayer.Name;
-            labelDice.Text = game.DiceValue.ToString();
+            labelDice.Text = game.DiceValue.Sum.ToString();
             labelPhase.Text = game.Phase.ToString();
             labelLastAction.Text = game.LastAction.ToString();
             PlayerName.Text = _username;
@@ -237,6 +256,13 @@ namespace MachiCoroUI
 
             panel.ResumeLayout();
         }
+        private void skip_Click(object sender, EventArgs e)
+        {
+            var packet = XPacket.Create(XPacketType.Steal);
+            packet.SetValue(1, -1); // нет цели
+            packet.SetValue(2, 0);  // нет суммы
+            client.QueuePacketSend(packet.ToPacket());
+        }
 
 
 
@@ -247,7 +273,13 @@ namespace MachiCoroUI
             return JsonSerializer.Deserialize<List<EnterpriseView>>(json)!;
         }
 
-       
+        void OnOpponentClicked(int playerId,GameState game)
+        {
+            _stealTargetPlayerId = playerId;
+            labelLastAction.Text = $"Цель выбрана: {game.Players[playerId].Name}";
+        }
+
+
 
 
         private LobbyState DeserializeLobbyState(byte[] data)
@@ -423,9 +455,10 @@ namespace MachiCoroUI
 
         private void roll1_Click(object sender, EventArgs e)
         {
-            var dice = 1;
-            var packet = XPacket.Create(XPacketType.Roll);
-            packet.SetValue(1, dice);
+          _lastDiceCount = 1;
+
+        var packet = XPacket.Create(XPacketType.Roll);
+            packet.SetValue(1, _lastDiceCount);
             client.QueuePacketSend(packet.ToPacket());
             howdice.Visible = false;
             roll1.Visible = false;
@@ -436,7 +469,7 @@ namespace MachiCoroUI
         {
             var dice = 2;
             var packet = XPacket.Create(XPacketType.Roll);
-            packet.SetValue(1, dice);
+            packet.SetValue(1, _lastDiceCount);
             client.QueuePacketSend(packet.ToPacket());
             howdice.Visible = false;
             roll1.Visible = false;
@@ -460,6 +493,39 @@ namespace MachiCoroUI
             _selectedMarketCard = null;
             ClearMarketSelection();
         }
+
+        private void skipChangeButton_Click(object sender, EventArgs e)
+        {
+            var packet = XPacket.Create(XPacketType.Change);
+            packet.SetValue(1, false); // wants = false
+            client.QueuePacketSend(packet.ToPacket());
+        }
+
+        private void confirmChangeButton_Click(object sender, EventArgs e)
+        {
+            if (_myBuildingToGive == null ||
+                _targetPlayerId == null ||
+                _targetBuilding == null)
+            {
+                labelLastAction.Text = "Выбери здания для обмена";
+                return;
+            }
+
+            var packet = XPacket.Create(XPacketType.Change);
+            packet.SetValue(1, true); // wants
+            packet.SetString(2, _myBuildingToGive);
+            packet.SetValue(3, _targetPlayerId.Value);
+            packet.SetString(4, _targetBuilding);
+
+            client.QueuePacketSend(packet.ToPacket());
+
+            // очистка UI
+            _myBuildingToGive = null;
+            _targetPlayerId = null;
+            _targetBuilding = null;
+        }
+
+
 
     }
 }

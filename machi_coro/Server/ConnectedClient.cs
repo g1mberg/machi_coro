@@ -132,7 +132,9 @@ public class ConnectedClient
             packet.SetValue(1, i);
             clientsList[i].QueuePacketSend(packet.ToPacket());
         }
+        _server.Broadcast(XPacket.Create(XPacketType.GameStart));
         _server.BroadcastGameState(clientsList[0].Game.Instance); 
+
     }
 
     private void ProcessReady()
@@ -144,14 +146,20 @@ public class ConnectedClient
     private void ProcessSteal(XPacket packet)
     {
         var instance = Game.Instance;
-        
+        var targetPlayerId = packet.GetValue<int>(1);
+        if (targetPlayerId == -1)
+        {
+            instance.NextPhase();
+            _server.BroadcastGameState(instance);
+            return;
+        }
+
         if (instance.CurrentPlayer != ClientPlayer || instance.Phase != Phase.Steal)
         {
             SendError("Сейчас нельзя воровать");
             return;
         }
-        
-        var targetPlayerId = packet.GetValue<int>(1);               
+                     
         var amount = packet.GetValue<int>(2);                        
 
         var target = instance.Players.FirstOrDefault(p => p.Id == targetPlayerId);
