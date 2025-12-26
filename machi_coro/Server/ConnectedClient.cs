@@ -129,8 +129,6 @@ public class ConnectedClient
             clientsList[i].Game = game;
             clientsList[i].ClientPlayer = clientsList[i].Game.Instance.Players[i];
         }
-
-        _server.Broadcast(XPacket.Create(XPacketType.GameStart));
         _server.BroadcastGameState(clientsList[0].Game.Instance); 
     }
 
