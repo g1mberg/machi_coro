@@ -9,7 +9,8 @@ public enum XPacketType : byte
     Welcome = 11,
     PlayerJoined = 12,
     GameStart = 13,
-
+    PlayerReady,
+    LobbyState,
     Roll = 20,
     Reroll = 21,
     Build = 24,
