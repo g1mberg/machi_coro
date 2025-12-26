@@ -1,10 +1,11 @@
 ﻿using Game.Models.Dice;
 using Game.Models.Enterprises;
 using Game.Models.Enterprises.PurpleCards;
+using Game.Models.Sites;
 
 namespace Game.Models.Player;
 
-public class PlayerAction
+public static class PlayerAction
 {
     public static DiceResult Roll(Player player, int dices)
     {
@@ -13,16 +14,17 @@ public class PlayerAction
         return Dice.Dice.Roll(dices);
     }
 
-    public static bool Build(Player player, Enterprise enterprise)
+    public static bool TryBuild(Player player, string building, Game game)
     {
-        if (enterprise.Color is EnterpriseColors.Purple && player.City.Any(x => x.Name.Equals(enterprise.Name))) 
+        if (player.Sites.TryGetValue(building, out var site)) return TryBuild(player, site);
+        var enterprise = game.Instance.Mart.GetByName(building);
+        if (enterprise is null || enterprise.Color is EnterpriseColors.Purple && player.City.Any(x => x.Name.Equals(enterprise.Name))) 
             return false;
-        return player.Money >= enterprise.Cost && CardsMart.BuyEnterprise(player, enterprise);
+        return player.Money >= enterprise.Cost && game.Instance.Mart.BuyEnterprise(player, enterprise);
     }
 
-    public static bool Build(Player player, string siteName)
+    public static bool TryBuild(Player player, Site site)
     {
-        var site = player.Sites[siteName];
         //проверка на читы
         if (player.Money < site.Cost || site.IsActivated) return false;
         player.TakeMoney(site.Cost);
@@ -30,10 +32,15 @@ public class PlayerAction
         return true;
     }
 
-    public static bool Change(Player player, Player otherPlayer, Enterprise enterprise, Enterprise otherEnterprise)
+    public static bool TryChange(Player player, Player otherPlayer, string enterpriseName, string otherEnterpriseName)
     {
+        var enterprise = player.City.FirstOrDefault(x => x.Name.Equals(enterpriseName));
+        var otherEnterprise = otherPlayer.City.FirstOrDefault(x => x.Name.Equals(otherEnterpriseName));
+        
         //проверка на читы
-        if (!(player.City.Contains(enterprise)
+        if (!(enterprise is not null 
+              && otherEnterprise is not null 
+              && player.City.Contains(enterprise)
               && otherPlayer.City.Contains(otherEnterprise)
               && !enterprise.Color.Equals(EnterpriseColors.Purple)
               && !otherEnterprise.Color.Equals(EnterpriseColors.Purple) 
@@ -46,8 +53,10 @@ public class PlayerAction
         return true;
     }
     
-    public static void Income(Player activePlayer, Player[] players, int dice)
+    public static void Income(Player activePlayer, GameState game)
     {
+        var players = game.Players;
+        var dice = game.DiceValue.Sum;
         //red
         foreach (var player in players.Where(player => player != activePlayer))
         foreach (var e in player.City.Where(e => e.Color == EnterpriseColors.Red && e.CubeResult.Contains(dice)))

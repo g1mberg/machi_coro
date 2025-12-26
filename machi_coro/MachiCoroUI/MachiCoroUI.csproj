@@ -37,7 +37,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Game\Game.csproj" />
     <ProjectReference Include="..\Server\Server.csproj" />
-    <ProjectReference Include="..\Shared\Shared.csproj" />
     <ProjectReference Include="..\ProtocolFramework\ProtocolFramework.csproj" />
   </ItemGroup>
 

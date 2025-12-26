@@ -6,29 +6,31 @@ namespace Game.Models;
 
 public class CardsMart
 {
-    private static readonly List<Enterprise> Mart = [];
-    public static IReadOnlyList<Enterprise> GetAvailable() =>  Mart;
+    private readonly List<Enterprise> _mart = [];
+    public IReadOnlyList<Enterprise> GetAvailable() =>  _mart;
 
     public CardsMart()
     {
         foreach (var enterprise in JsonRepository<Enterprise>.GetAll()
                      .Where(x => !x.Color.Equals(EnterpriseColors.Purple)))
             for (var i = 0; i < 6; i++)
-                Mart.Add(new Enterprise(enterprise));
+                _mart.Add(new Enterprise(enterprise));
         for (var i = 0; i < 4; i++)
         {
-            Mart.Add(new BusinessCenter());
-            Mart.Add(new Stadium());
-            Mart.Add(new TvCenter());
+            _mart.Add(new BusinessCenter());
+            _mart.Add(new Stadium());
+            _mart.Add(new TvCenter());
         }
     }
 
-    public static bool BuyEnterprise(Player.Player player, Enterprise enterprise)
+    public bool BuyEnterprise(Player.Player player, Enterprise? enterprise)
     {
-        if (!Mart.Contains(enterprise)) return false;
+        if (enterprise is null || !_mart.Contains(enterprise)) return false;
         player.TakeMoney(enterprise.Cost);
         player.City.Add(enterprise);
-        Mart.Remove(enterprise);
+        _mart.Remove(enterprise);
         return true;
     }
+
+    public Enterprise? GetByName(string name) => _mart.FirstOrDefault(x => x.Name.Equals(name));
 }

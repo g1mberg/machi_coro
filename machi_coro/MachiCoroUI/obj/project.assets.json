@@ -26,26 +26,14 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
-          "Shared": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/Server.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Server.dll": {}
-        }
-      },
-      "Shared/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v8.0",
-        "dependencies": {
+          "Game": "1.0.0",
           "ProtocolFramework": "1.0.0"
         },
         "compile": {
-          "bin/placeholder/Shared.dll": {}
+          "bin/placeholder/Server.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Shared.dll": {}
+          "bin/placeholder/Server.dll": {}
         }
       }
     }
@@ -65,19 +53,13 @@
       "type": "project",
       "path": "../Server/Server.csproj",
       "msbuildProject": "../Server/Server.csproj"
-    },
-    "Shared/1.0.0": {
-      "type": "project",
-      "path": "../Shared/Shared.csproj",
-      "msbuildProject": "../Shared/Shared.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0-windows7.0": [
       "Game >= 1.0.0",
       "ProtocolFramework >= 1.0.0",
-      "Server >= 1.0.0",
-      "Shared >= 1.0.0"
+      "Server >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -120,9 +102,6 @@
             },
             "C:\\kfu\\oris\\semestry\\machi_coro\\machi_coro\\Server\\Server.csproj": {
               "projectPath": "C:\\kfu\\oris\\semestry\\machi_coro\\machi_coro\\Server\\Server.csproj"
-            },
-            "C:\\kfu\\oris\\semestry\\machi_coro\\machi_coro\\Shared\\Shared.csproj": {
-              "projectPath": "C:\\kfu\\oris\\semestry\\machi_coro\\machi_coro\\Shared\\Shared.csproj"
             }
           }
         }

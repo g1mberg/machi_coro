@@ -8,9 +8,15 @@ public enum XPacketType : byte
     PlayerConnected = 10,
     Welcome = 11,
     PlayerJoined = 12,
+    GameStart = 13,
 
-    RollDice = 20,
-    BuyEnterprise = 8,
-    BuildSite,
-    SkipTurn
+    Roll = 20,
+    Reroll = 21,
+    Build = 24,
+    Change = 25,
+    Confirm = 26,
+    
+    GameStateUpdate = 30,
+    
+    Error = 40
 }
