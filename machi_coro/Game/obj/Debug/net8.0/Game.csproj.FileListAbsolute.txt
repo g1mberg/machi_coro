@@ -14,10 +14,8 @@ C:\kfu\oris\semestry\machi_coro\machi_coro\Game\obj\Debug\net8.0\Game.pdb
 C:\kfu\oris\semestry\machi_coro\machi_coro\Game\obj\Debug\net8.0\Game.genruntimeconfig.cache
 C:\kfu\oris\semestry\machi_coro\machi_coro\Game\obj\Debug\net8.0\ref\Game.dll
 C:\kfu\oris\semestry\machi_coro\machi_coro\Game\bin\Debug\net8.0\enterprises.json
-C:\machi_coro\machi_coro\machi_coro\Game\bin\Debug\net8.0\Game.exe
 C:\machi_coro\machi_coro\machi_coro\Game\bin\Debug\net8.0\enterprises.json
 C:\machi_coro\machi_coro\machi_coro\Game\bin\Debug\net8.0\Game.deps.json
-C:\machi_coro\machi_coro\machi_coro\Game\bin\Debug\net8.0\Game.runtimeconfig.json
 C:\machi_coro\machi_coro\machi_coro\Game\bin\Debug\net8.0\Game.dll
 C:\machi_coro\machi_coro\machi_coro\Game\bin\Debug\net8.0\Game.pdb
 C:\machi_coro\machi_coro\machi_coro\Game\obj\Debug\net8.0\Game.GeneratedMSBuildEditorConfig.editorconfig
@@ -28,9 +26,4 @@ C:\machi_coro\machi_coro\machi_coro\Game\obj\Debug\net8.0\Game.sourcelink.json
 C:\machi_coro\machi_coro\machi_coro\Game\obj\Debug\net8.0\Game.dll
 C:\machi_coro\machi_coro\machi_coro\Game\obj\Debug\net8.0\refint\Game.dll
 C:\machi_coro\machi_coro\machi_coro\Game\obj\Debug\net8.0\Game.pdb
-C:\machi_coro\machi_coro\machi_coro\Game\obj\Debug\net8.0\Game.genruntimeconfig.cache
 C:\machi_coro\machi_coro\machi_coro\Game\obj\Debug\net8.0\ref\Game.dll
-C:\machi_coro\machi_coro\machi_coro\Game\bin\Debug\net8.0\Assets\Sites\Mall.png
-C:\machi_coro\machi_coro\machi_coro\Game\bin\Debug\net8.0\Assets\Sites\Park.png
-C:\machi_coro\machi_coro\machi_coro\Game\bin\Debug\net8.0\Assets\Sites\terminal.png
-C:\machi_coro\machi_coro\machi_coro\Game\bin\Debug\net8.0\Assets\Sites\TV.png

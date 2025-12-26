@@ -12,5 +12,7 @@ public enum XPacketType : byte
     RollDice = 20,
     BuyEnterprise = 8,
     BuildSite,
-    SkipTurn
+    SkipTurn,
+    PlayerReady,
+    LobbyState
 }

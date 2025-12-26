@@ -29,12 +29,11 @@
         private void InitializeComponent()
         {
             button2 = new Button();
-            textBox5 = new TextBox();
-            label5 = new Label();
-            listBox1 = new ListBox();
+            playerList = new ListBox();
             label1 = new Label();
             ConnectPanel = new Panel();
             LobbyPanel = new Panel();
+            readyButton = new Button();
             GamePanel = new Panel();
             splitContainer1 = new SplitContainer();
             tableLayoutPanel1 = new TableLayoutPanel();
@@ -72,6 +71,8 @@
             playerEnterprises = new FlowLayoutPanel();
             playerMoney = new Label();
             PlayerName = new Label();
+            textBox5 = new TextBox();
+            label4 = new Label();
             ConnectPanel.SuspendLayout();
             LobbyPanel.SuspendLayout();
             GamePanel.SuspendLayout();
@@ -91,7 +92,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(729, 133);
+            button2.Location = new Point(669, 137);
             button2.Margin = new Padding(2, 1, 2, 1);
             button2.Name = "button2";
             button2.Size = new Size(390, 75);
@@ -100,71 +101,61 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
-            // textBox5
+            // playerList
             // 
-            textBox5.Location = new Point(282, 155);
-            textBox5.Margin = new Padding(2, 1, 2, 1);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(428, 23);
-            textBox5.TabIndex = 10;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(207, 163);
-            label5.Margin = new Padding(2, 0, 2, 0);
-            label5.Name = "label5";
-            label5.Size = new Size(27, 15);
-            label5.TabIndex = 11;
-            label5.Text = "ник";
-            // 
-            // listBox1
-            // 
-            listBox1.FormattingEnabled = true;
-            listBox1.ItemHeight = 15;
-            listBox1.Location = new Point(374, 254);
-            listBox1.Margin = new Padding(2, 1, 2, 1);
-            listBox1.Name = "listBox1";
-            listBox1.Size = new Size(184, 184);
-            listBox1.TabIndex = 12;
-            listBox1.Visible = false;
-            listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
+            playerList.FormattingEnabled = true;
+            playerList.ItemHeight = 15;
+            playerList.Location = new Point(538, 98);
+            playerList.Margin = new Padding(2, 1, 2, 1);
+            playerList.Name = "playerList";
+            playerList.Size = new Size(184, 184);
+            playerList.TabIndex = 12;
+            playerList.Visible = false;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 15F);
-            label1.Location = new Point(616, 295);
+            label1.Location = new Point(488, 40);
             label1.Name = "label1";
             label1.Size = new Size(289, 28);
             label1.TabIndex = 13;
             label1.Text = "\"Ожидание других игроков…\"";
             label1.Visible = false;
-            label1.Click += label1_Click;
             // 
             // ConnectPanel
             // 
-            ConnectPanel.Controls.Add(button2);
-            ConnectPanel.Controls.Add(label5);
+            ConnectPanel.Controls.Add(label4);
             ConnectPanel.Controls.Add(textBox5);
-            ConnectPanel.Location = new Point(1367, 49);
+            ConnectPanel.Controls.Add(button2);
+            ConnectPanel.Location = new Point(138, 54);
             ConnectPanel.Name = "ConnectPanel";
             ConnectPanel.Size = new Size(1344, 596);
             ConnectPanel.TabIndex = 14;
             // 
             // LobbyPanel
             // 
-            LobbyPanel.Controls.Add(listBox1);
+            LobbyPanel.Controls.Add(readyButton);
+            LobbyPanel.Controls.Add(playerList);
             LobbyPanel.Controls.Add(label1);
-            LobbyPanel.Location = new Point(1367, 12);
+            LobbyPanel.Location = new Point(113, 54);
             LobbyPanel.Name = "LobbyPanel";
-            LobbyPanel.Size = new Size(1316, 532);
+            LobbyPanel.Size = new Size(1316, 566);
             LobbyPanel.TabIndex = 15;
+            // 
+            // readyButton
+            // 
+            readyButton.Location = new Point(538, 331);
+            readyButton.Name = "readyButton";
+            readyButton.Size = new Size(186, 60);
+            readyButton.TabIndex = 14;
+            readyButton.Text = "Готов";
+            readyButton.UseVisualStyleBackColor = true;
             // 
             // GamePanel
             // 
             GamePanel.Controls.Add(splitContainer1);
-            GamePanel.Location = new Point(6, 7);
+            GamePanel.Location = new Point(61, 26);
             GamePanel.Name = "GamePanel";
             GamePanel.Size = new Size(1353, 611);
             GamePanel.TabIndex = 16;
@@ -179,11 +170,11 @@
             // splitContainer1.Panel1
             // 
             splitContainer1.Panel1.Controls.Add(tableLayoutPanel1);
+            splitContainer1.Panel1.Paint += splitContainer1_Panel1_Paint;
             // 
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(player);
-            splitContainer1.Panel2.Paint += splitContainer1_Panel2_Paint;
             splitContainer1.Size = new Size(1353, 611);
             splitContainer1.SplitterDistance = 451;
             splitContainer1.TabIndex = 0;
@@ -196,17 +187,16 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
             tableLayoutPanel1.Controls.Add(marketPanel, 1, 1);
             tableLayoutPanel1.Controls.Add(panel1, 1, 0);
-            tableLayoutPanel1.Controls.Add(panel2, 0, 0);
             tableLayoutPanel1.Controls.Add(panel3, 2, 0);
-            tableLayoutPanel1.Location = new Point(10, 12);
+            tableLayoutPanel1.Controls.Add(panel2, 0, 0);
+            tableLayoutPanel1.Location = new Point(6, 15);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 70F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Size = new Size(1339, 435);
+            tableLayoutPanel1.Size = new Size(1339, 434);
             tableLayoutPanel1.TabIndex = 0;
-            tableLayoutPanel1.Paint += tableLayoutPanel1_Paint;
             // 
             // marketPanel
             // 
@@ -259,7 +249,6 @@
             topOppMoney.Size = new Size(38, 15);
             topOppMoney.TabIndex = 5;
             topOppMoney.Text = "label2";
-            topOppMoney.Click += label9_Click;
             // 
             // label10
             // 
@@ -289,38 +278,36 @@
             panel2.Location = new Point(3, 3);
             panel2.Name = "panel2";
             tableLayoutPanel1.SetRowSpan(panel2, 2);
-            panel2.Size = new Size(328, 429);
+            panel2.Size = new Size(328, 428);
             panel2.TabIndex = 5;
             // 
             // leftOppSites
             // 
-            leftOppSites.Location = new Point(3, 251);
+            leftOppSites.Location = new Point(10, 251);
             leftOppSites.Name = "leftOppSites";
             leftOppSites.Size = new Size(325, 175);
             leftOppSites.TabIndex = 7;
             // 
             // leftOppEnterprises
             // 
-            leftOppEnterprises.Location = new Point(2, 74);
+            leftOppEnterprises.Location = new Point(9, 74);
             leftOppEnterprises.Name = "leftOppEnterprises";
             leftOppEnterprises.Size = new Size(325, 171);
             leftOppEnterprises.TabIndex = 6;
-            leftOppEnterprises.Paint += flowLayoutPanel1_Paint;
             // 
             // leftOppMoney
             // 
             leftOppMoney.AutoSize = true;
-            leftOppMoney.Location = new Point(50, 42);
+            leftOppMoney.Location = new Point(57, 42);
             leftOppMoney.Name = "leftOppMoney";
             leftOppMoney.Size = new Size(38, 15);
             leftOppMoney.TabIndex = 5;
             leftOppMoney.Text = "label2";
-            leftOppMoney.Click += label2_Click_2;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(2, 42);
+            label3.Location = new Point(9, 42);
             label3.Name = "label3";
             label3.Size = new Size(42, 15);
             label3.TabIndex = 4;
@@ -329,7 +316,7 @@
             // leftOppName
             // 
             leftOppName.AutoSize = true;
-            leftOppName.Location = new Point(3, 15);
+            leftOppName.Location = new Point(10, 15);
             leftOppName.Name = "leftOppName";
             leftOppName.Size = new Size(38, 15);
             leftOppName.TabIndex = 3;
@@ -413,7 +400,6 @@
             buildButton.TabIndex = 8;
             buildButton.Text = "Построить";
             buildButton.UseVisualStyleBackColor = true;
-            buildButton.Click += buildButton_Click;
             // 
             // label2
             // 
@@ -521,11 +507,28 @@
             PlayerName.TabIndex = 0;
             PlayerName.Text = "label2";
             // 
+            // textBox5
+            // 
+            textBox5.Location = new Point(203, 163);
+            textBox5.Name = "textBox5";
+            textBox5.Size = new Size(339, 23);
+            textBox5.TabIndex = 2;
+            textBox5.TextChanged += textBox1_TextChanged;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(47, 166);
+            label4.Name = "label4";
+            label4.Size = new Size(128, 15);
+            label4.TabIndex = 3;
+            label4.Text = "Введите ваш никнейм";
+            label4.Click += label4_Click;
+            // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1378, 632);
+            AutoScaleMode = AutoScaleMode.None;
+            ClientSize = new Size(1485, 673);
             Controls.Add(GamePanel);
             Controls.Add(LobbyPanel);
             Controls.Add(ConnectPanel);
@@ -560,9 +563,7 @@
 
         #endregion
         private Button button2;
-        private TextBox textBox5;
-        private Label label5;
-        private ListBox listBox1;
+        private ListBox playerList;
         private Label label1;
         private Panel ConnectPanel;
         private Panel LobbyPanel;
@@ -607,5 +608,8 @@
         private FlowLayoutPanel rightOppEnterprises;
         private FlowLayoutPanel playerEnterprises;
         private Button buildButton;
+        private Button readyButton;
+        private Label label4;
+        private TextBox textBox5;
     }
 }
