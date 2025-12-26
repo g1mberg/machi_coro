@@ -15,7 +15,7 @@ public class GameState
     public DiceResult DiceValue { get; set; }
     public string LastAction { get; set; }
 
-    public Player.Player[] Players { get; init; }
+    public Player.Player[] Players { get; init; } = new Player.Player[4];
 
     public void NextPlayer() => CurrentPlayer = Players[(CurrentPlayer.Id + 1) % Players.Length];
 

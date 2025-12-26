@@ -81,7 +81,7 @@
     ],
     "Color": "Green",
     "EType": "Factory",
-    "Foreach" : "Farm",
+    "IncomeType" : "Farm",
     "Income": 3
   },
   "FurnitureFactory": {
@@ -92,7 +92,7 @@
     ],
     "Color": "Green",
     "EType": "Factory",
-    "Foreach" : "Mountain",
+    "IncomeType": "Mountain",
     "Income": 3
   },
   "VegetablesMart": {
@@ -103,7 +103,7 @@
     ],
     "Color": "Green",
     "EType": "Mart",
-    "Foreach" : "Field",
+    "IncomeType": "Field",
     "Income": 2
   },
   
@@ -140,7 +140,7 @@
     "EType": "MajorEstablishment",
     "Income": 2
   },
-  "TvStation": {
+  "TvCenter": {
     "Name": "Телецентр",
     "Cost": 7,
     "CubeResult": [6],

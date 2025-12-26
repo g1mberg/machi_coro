@@ -1,9 +1,13 @@
-﻿using Game;
-using Game.Models;
+﻿using Game.Models;
 using Game.Models.Enterprises;
 using ProtocolFramework;
 using ProtocolFramework.Serializator;
+using Server.Lobby;
 using Shared.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Text.Json;
 using System.Windows.Forms;
 
@@ -33,6 +37,7 @@ namespace MachiCoroUI
             XPacketTypeManager.RegisterType(XPacketType.PlayerJoined, 1, 3);
             XPacketTypeManager.RegisterType(XPacketType.PlayerReady, 1, 5);
             XPacketTypeManager.RegisterType(XPacketType.LobbyState, 1, 6);
+            XPacketTypeManager.RegisterType(XPacketType.GameStart, 1, 7);
             ConnectPanel.Visible = true;
             GamePanel.Visible = false;
             LobbyPanel.Visible = false;
@@ -58,9 +63,9 @@ namespace MachiCoroUI
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Sign_in_button_Click(object sender, EventArgs e)
         {
-            var nickname = textBox5.Text.Trim();
+            var nickname = NicknameBox.Text.Trim();
             if (string.IsNullOrEmpty(nickname))
                 return;
             _username = nickname;
@@ -77,16 +82,18 @@ namespace MachiCoroUI
             if (packet == null) return;
 
             var type = XPacketTypeManager.GetTypeFromPacket(packet);
-            MessageBox.Show("PACKET RECEIVED");
-            MessageBox.Show(XPacketTypeManager.GetTypeFromPacket(packet).ToString());
+            Console.WriteLine("PACKET RECEIVED");
+            Console.WriteLine(XPacketTypeManager.GetTypeFromPacket(packet).ToString());
 
 
             switch (type)
             {
                 case XPacketType.LobbyState:
                     {
-                        var lobby = packet.GetValue<LobbyState>(1);
-                        MessageBox.Show($"Players count: {lobby.Players?.Count ?? -1}");
+                        var playersData = packet.GetValueRaw(0);
+
+                        var lobby = DeserializeLobbyState(playersData);
+                        Console.WriteLine($"Players count: {lobby.Players.Count}");
                         BeginInvoke(() => RenderLobby(lobby));
                         break;
                     }
@@ -94,7 +101,7 @@ namespace MachiCoroUI
 
 
                 case XPacketType.Welcome:
-                    {        
+                    {
                         BeginInvoke(() =>
                         {
                             ConnectPanel.Visible = false;
@@ -105,13 +112,24 @@ namespace MachiCoroUI
                         break;
                     }
 
+                case XPacketType.GameStart:
+                    {
+                        BeginInvoke(() =>
+                        {
+                            LobbyPanel.Visible = false;
+                            GamePanel.Visible = true;
+                            GamePanel.BringToFront();
+                        });
+                        break;
+                    }
+
 
                 case XPacketType.Handshake:
                     {
                         int serverMagic = packet.GetValue<int>(1);
                         if (serverMagic != _handshakeMagic - 15)
                         {
-                            MessageBox.Show("Handshake failed");                      
+                            Console.WriteLine("Handshake failed");
                             return;
                         }
                         break;
@@ -151,9 +169,29 @@ namespace MachiCoroUI
             return JsonSerializer.Deserialize<List<EnterpriseView>>(json)!;
         }
 
-       
 
 
+
+        private LobbyState DeserializeLobbyState(byte[] data)
+        {
+            using var ms = new MemoryStream(data);
+            using var br = new BinaryReader(ms);
+
+            var playerCount = br.ReadByte();  // количество игроков
+            var players = new List<LobbyPlayerState>();
+
+            for (int i = 0; i < playerCount; i++)
+            {
+                var nameLength = br.ReadByte();
+                var nameBytes = br.ReadBytes(nameLength);
+                var name = Encoding.UTF8.GetString(nameBytes);
+                var isReady = br.ReadBoolean();
+
+                players.Add(new LobbyPlayerState { Name = name, IsReady = isReady });
+            }
+
+            return new LobbyState { Players = players };
+        }
 
 
 
@@ -276,14 +314,6 @@ namespace MachiCoroUI
             }
         }
 
-        private void readyButton_Click(object sender, EventArgs e)
-        {
-            var packet = XPacket.Create(XPacketType.PlayerReady);
-            client.QueuePacketSend(packet.ToPacket());
-
-            readyButton.Enabled = false;
-        }
-
         private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
         {
 
@@ -297,6 +327,23 @@ namespace MachiCoroUI
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void readyButton_Click(object sender, EventArgs e)
+        {
+            var packet = XPacket.Create(XPacketType.PlayerReady);
+            client.QueuePacketSend(packet.ToPacket());
+
+            readyButton.Enabled = false;
+            readyButton.Visible = false;
+            Confirm.Visible = true;
+            Confirm.Enabled = true;
+        }
+
+        private void Confirm_Click(object sender, EventArgs e)
+        {
+            var packet = XPacket.Create(XPacketType.GameStart);
+            client.QueuePacketSend(packet.ToPacket());
         }
     }
 }

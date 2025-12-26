@@ -1,20 +1,32 @@
 ﻿namespace Game.Models.Enterprises;
 
-public class Enterprise(Enterprise other)
+public class Enterprise
 {
-    public string Name { get; init; } = other.Name;
-    public int Cost { get; init; } = other.Cost;
-    public int[] CubeResult { get; init; } = other.CubeResult.ToArray();
-    public EnterpriseColors Color { get; init; } = other.Color;
-    private EnterpriseType EType { get; init; } = other.EType;
-    private EnterpriseType? IncomeType { get; init; } = other.IncomeType;
-    private int Income { get; init; } = other.Income;
+    public string Name { get; init; }
+    public int Cost { get; init; }
+    public int[] CubeResult { get; init; }
+    public EnterpriseColors Color { get; init; }
+    public EnterpriseType EType { get; init; }
+    public EnterpriseType? IncomeType { get; init; }
+    public int Income { get; init; }
 
+    public Enterprise() { } 
+
+    public Enterprise(Enterprise other)
+    {
+        Name = other.Name;
+        Cost = other.Cost;
+        CubeResult = other.CubeResult.ToArray();
+        Color = other.Color;
+        EType = other.EType;
+        IncomeType = other.IncomeType;
+        Income = other.Income;
+    }
 
     public int Gain(List<Enterprise> enterprises, Player.Player owner)
     {
         var count = IncomeType != null ? enterprises.Count(x => x.EType == IncomeType) : 1;
-        
+
         if (owner.IsMall && EType is EnterpriseType.Shop or EnterpriseType.Cafe)
             return Income * count + 1;
 

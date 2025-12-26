@@ -3,6 +3,10 @@
     "Name": "ui",
     "Projects": [
       {
+        "Path": "Server\\Server.csproj",
+        "Action": "Start"
+      },
+      {
         "Path": "MachiCoroUI\\MachiCoroUI.csproj",
         "Action": "Start",
         "DebugTarget": "MachiCoroUI"
@@ -21,6 +25,15 @@
         "Path": "MachiCoroUI\\MachiCoroUI.csproj",
         "Action": "Start",
         "DebugTarget": "MachiCoroUI"
+      }
+    ]
+  },
+  {
+    "Name": "Новый профиль",
+    "Projects": [
+      {
+        "Path": "Game\\Game.csproj",
+        "Action": "Start"
       }
     ]
   }

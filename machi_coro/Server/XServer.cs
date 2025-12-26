@@ -1,11 +1,14 @@
-﻿using ProtocolFramework;
+﻿using Game;
+using Game.Models;
+using ProtocolFramework;
+using ProtocolFramework.Serializator;
+using Server.Lobby;
 using System.Net;
 using System.Net.Sockets;
-using Game.Models;
-using Game;
-using ProtocolFramework.Serializator;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Channels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Shared;
 
@@ -37,7 +40,7 @@ public class XServer
     {
         while (true)
         {
-            if (_stopListening || _clients.Count >= 4) return;
+            if (_stopListening || _clients.Count >= 4) continue;
             
             Socket client;
             try { client = _socket.Accept(); }
@@ -59,7 +62,7 @@ public class XServer
     public XPacket MakePlayerJoinedPacket(ConnectedClient c)
     {
         var p = XPacket.Create(XPacketType.PlayerJoined);
-        p.SetValueRaw(1, System.Text.Encoding.UTF8.GetBytes(c.Username));
+        p.SetValueRaw(1, Encoding.UTF8.GetBytes(c.Username));
         return p;
     }
 
@@ -84,29 +87,37 @@ public class XServer
 
     public void BroadcastLobbyState()
     {
-        var lobbyState = new LobbyState
+        var players = _clients.Select(c => new LobbyPlayerState
         {
-            Players = _clients.Select(c => new LobbyPlayerState
-            {
-                Name = c.Username,
-                IsReady = c.IsReady
-            }).ToList()
-        };
+            Name = c.Username,
+            IsReady = c.IsReady,
+        }).ToList();
 
-        var packet = XPacketConverter.Serialize(XPacketType.LobbyState,lobbyState);
-        foreach (var c in _clients)
-        {
-            Console.WriteLine($"CLIENT USERNAME = '{c.Username}'");
-        }
+        var playersData = SerializePlayers(players);
+
+        var packet = XPacket.Create(XPacketType.LobbyState);
+        packet.SetValueRaw(0, playersData);
 
         foreach (var client in _clients)
             client.QueuePacketSend(packet.ToPacket());
     }
 
+    private byte[] SerializePlayers(List<LobbyPlayerState> players)
+    {
+        using var ms = new MemoryStream();
+        using var bw = new BinaryWriter(ms);
 
+        bw.Write((byte)players.Count);  // количество игроков (0-255)
 
+        foreach (var player in players)
+        {
+            bw.Write((byte)(player.Name.Length)); // длина имени
+            bw.Write(Encoding.UTF8.GetBytes(player.Name)); // имя
+            bw.Write(player.IsReady);            // bool (1 байт)
+        }
 
-
+        return ms.ToArray();
+    }
 
 
     public void BroadcastExcept(ConnectedClient except, XPacket packet)

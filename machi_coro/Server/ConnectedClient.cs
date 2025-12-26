@@ -129,8 +129,9 @@ public class ConnectedClient
             clientsList[i].Game = game;
             clientsList[i].ClientPlayer = clientsList[i].Game.Instance.Players[i];
         }
-        
-        _server.BroadcastGameState(clientsList[0].Game.Instance);
+
+        _server.Broadcast(XPacket.Create(XPacketType.GameStart));
+        _server.BroadcastGameState(clientsList[0].Game.Instance); 
     }
 
     private void ProcessReady()
@@ -306,7 +307,7 @@ public class ConnectedClient
     private void SendError(string message)
     {
         var errorPacket = XPacket.Create(XPacketType.Error);
-        errorPacket.SetValue(1, message);
+        errorPacket.SetString(1, message);
         QueuePacketSend(errorPacket.ToPacket());
     }
 }
