@@ -206,6 +206,8 @@ public class ConnectedClient
         }
         instance.NextPhase();
 
+        if (!(ClientPlayer.IsDoubleCheck && instance.DiceValue.IsDouble))
+            instance.NextPlayer();
         _server.BroadcastGameState(instance);
     }
 
