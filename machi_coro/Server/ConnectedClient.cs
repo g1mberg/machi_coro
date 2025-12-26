@@ -15,6 +15,7 @@ public class ConnectedClient
 
     private readonly XServer _server;
 
+    public bool IsReady= false;
     private Game.Game Game { get; set; }
     public Player ClientPlayer { get; set; }
     public string Username { get; private set; } = "";
@@ -95,6 +96,9 @@ public class ConnectedClient
             case XPacketType.GameStart:
                 ProcessGameStart();
                 break;
+            case XPacketType.PlayerReady:
+                ProcessReady();
+                break;
 
             case XPacketType.Error:
             case XPacketType.Welcome:
@@ -129,6 +133,11 @@ public class ConnectedClient
         _server.BroadcastGameState(clientsList[0].Game.Instance);
     }
 
+    private void ProcessReady()
+    {
+        IsReady = true;
+        _server.BroadcastLobbyState();
+    }
 
     private void ProcessSteal(XPacket packet)
     {
@@ -248,6 +257,7 @@ public class ConnectedClient
         Username = packet.GetString(1);
         var welcome = XPacket.Create(XPacketType.Welcome);
         QueuePacketSend(welcome.ToPacket());
+        _server.BroadcastLobbyState();
     }
 
 

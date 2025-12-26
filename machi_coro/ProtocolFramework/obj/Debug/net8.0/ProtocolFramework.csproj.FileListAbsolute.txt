@@ -34,3 +34,8 @@ C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\obj\Debug\net8.0\ProtocolF
 C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\obj\Debug\net8.0\refint\ProtocolFramework.dll
 C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\obj\Debug\net8.0\ProtocolFramework.pdb
 C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\obj\Debug\net8.0\ref\ProtocolFramework.dll
+C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\bin\Debug\net8.0\enterprises.json
+C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\bin\Debug\net8.0\Game.dll
+C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\bin\Debug\net8.0\Game.pdb
+C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\obj\Debug\net8.0\ProtocolFramework.csproj.AssemblyReference.cache
+C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\obj\Debug\net8.0\Protocol.01A33382.Up2Date

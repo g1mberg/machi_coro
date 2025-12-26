@@ -1,4 +1,5 @@
-﻿using Game.Models;
+﻿using Game;
+using Game.Models;
 using Game.Models.Enterprises;
 using ProtocolFramework;
 using ProtocolFramework.Serializator;
@@ -30,6 +31,8 @@ namespace MachiCoroUI
             XPacketTypeManager.RegisterType(XPacketType.PlayerConnected, 1, 1);
             XPacketTypeManager.RegisterType(XPacketType.Welcome, 1, 2);
             XPacketTypeManager.RegisterType(XPacketType.PlayerJoined, 1, 3);
+            XPacketTypeManager.RegisterType(XPacketType.PlayerReady, 1, 5);
+            XPacketTypeManager.RegisterType(XPacketType.LobbyState, 1, 6);
             ConnectPanel.Visible = true;
             GamePanel.Visible = false;
             LobbyPanel.Visible = false;
@@ -74,28 +77,28 @@ namespace MachiCoroUI
             if (packet == null) return;
 
             var type = XPacketTypeManager.GetTypeFromPacket(packet);
+            MessageBox.Show("PACKET RECEIVED");
+            MessageBox.Show(XPacketTypeManager.GetTypeFromPacket(packet).ToString());
 
 
             switch (type)
             {
                 case XPacketType.LobbyState:
                     {
-                        var lobby = XPacketConverter.Deserialize<LobbyState>(packet);
+                        var lobby = packet.GetValue<LobbyState>(1);
+                        MessageBox.Show($"Players count: {lobby.Players?.Count ?? -1}");
                         BeginInvoke(() => RenderLobby(lobby));
                         break;
                     }
 
-                case XPacketType.Welcome:
-                    {
-             
 
+
+                case XPacketType.Welcome:
+                    {        
                         BeginInvoke(() =>
                         {
-
-
                             ConnectPanel.Visible = false;
                             LobbyPanel.Visible = true;
-
                             LobbyPanel.BringToFront();
                         });
 
@@ -115,11 +118,6 @@ namespace MachiCoroUI
                     }
 
 
-
-
-
-
-
             }
         }
 
@@ -136,26 +134,19 @@ namespace MachiCoroUI
 
         private void RenderLobby(LobbyState lobby)
         {
+            if (lobby.Players == null) return;
+
             playerList.Items.Clear();
 
             foreach (var p in lobby.Players)
-            {
-                string text = p.IsReady
-                    ? $"{p.Name} ✔ готов"
-                    : $"{p.Name} ❌ не готов";
-
-                playerList.Items.Add(text);
-
-                if (p.PlayerId == _myPlayerId)
-                {
-                    readyButton.Enabled = !p.IsReady;
-                }
-            }
+                playerList.Items.Add($"{p.Name} {(p.IsReady ? "✔" : "❌")}");
         }
+
+
 
         private List<EnterpriseView> LoadMarket()
         {
-            var json = File.ReadAllText("Assets/enterprises.json");
+            var json = File.ReadAllText("enterprises.json");
 
             return JsonSerializer.Deserialize<List<EnterpriseView>>(json)!;
         }

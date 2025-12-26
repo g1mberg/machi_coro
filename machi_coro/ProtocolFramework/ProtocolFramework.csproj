@@ -7,4 +7,8 @@
     <Configurations>Debug;Release;server</Configurations>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Game\Game.csproj" />
+  </ItemGroup>
+
 </Project>

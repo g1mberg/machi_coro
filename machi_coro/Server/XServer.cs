@@ -2,6 +2,10 @@
 using System.Net;
 using System.Net.Sockets;
 using Game.Models;
+using Game;
+using ProtocolFramework.Serializator;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Threading.Channels;
 
 namespace Shared;
 
@@ -77,7 +81,34 @@ public class XServer
         Console.WriteLine($"BROADCAST: Player={state.CurrentPlayer.Id} Phase={state.Phase}");
         Broadcast(packet);
     }
-    
+
+    public void BroadcastLobbyState()
+    {
+        var lobbyState = new LobbyState
+        {
+            Players = _clients.Select(c => new LobbyPlayerState
+            {
+                Name = c.Username,
+                IsReady = c.IsReady
+            }).ToList()
+        };
+
+        var packet = XPacketConverter.Serialize(XPacketType.LobbyState,lobbyState);
+        foreach (var c in _clients)
+        {
+            Console.WriteLine($"CLIENT USERNAME = '{c.Username}'");
+        }
+
+        foreach (var client in _clients)
+            client.QueuePacketSend(packet.ToPacket());
+    }
+
+
+
+
+
+
+
     public void BroadcastExcept(ConnectedClient except, XPacket packet)
     {
         var bytes = packet.ToPacket();

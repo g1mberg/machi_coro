@@ -24,6 +24,9 @@
         }
       },
       "ProtocolFramework/1.0.0": {
+        "dependencies": {
+          "Game": "1.0.0"
+        },
         "runtime": {
           "ProtocolFramework.dll": {
             "assemblyVersion": "1.0.0",
