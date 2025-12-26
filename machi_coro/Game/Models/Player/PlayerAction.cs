@@ -52,6 +52,13 @@ public static class PlayerAction
         otherPlayer.City.Add(enterprise);
         return true;
     }
+
+    public static bool TrySteal(Player player, Player otherPlayer, int sum = 3)
+    {
+        if (!player.IsStealer) return false;
+        player.AddMoney(otherPlayer.TakeMoney(sum));
+        return true;
+    }
     
     public static void Income(Player activePlayer, GameState game)
     {

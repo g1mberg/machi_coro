@@ -84,6 +84,10 @@ public class ConnectedClient
                 ProcessChange(packet);
                 break;
             
+            case XPacketType.Steal:
+                ProcessSteal(packet);
+                break;
+
             case XPacketType.Confirm:
                 ProcessConfirm();
                 break;
@@ -126,7 +130,35 @@ public class ConnectedClient
     }
 
 
-    
+    private void ProcessSteal(XPacket packet)
+    {
+        var instance = Game.Instance;
+        
+        if (instance.CurrentPlayer != ClientPlayer || instance.Phase != Phase.Steal)
+        {
+            SendError("Сейчас нельзя воровать");
+            return;
+        }
+        
+        var targetPlayerId = packet.GetValue<int>(1);               
+        var amount = packet.GetValue<int>(2);                        
+
+        var target = instance.Players.FirstOrDefault(p => p.Id == targetPlayerId);
+        if (target is null)
+        {
+            SendError("Цель не найдена");
+            return;
+        }
+
+        if (!PlayerAction.TrySteal(ClientPlayer, target, amount))
+        {
+            SendError("Украсть не получилось");
+            return;
+        }
+        instance.NextPhase();
+        _server.BroadcastGameState(instance);
+    }
+
     private void ProcessRoll(XPacket packet, bool isReroll = false)
     {
         var instance = Game.Instance;

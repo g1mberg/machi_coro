@@ -14,6 +14,7 @@ public enum Phase
 {
     Roll = 1,
     Income = 2,
-    Change = 3,
-    Build = 4
+    Steal = 3,
+    Change = 4,
+    Build = 5
 }
