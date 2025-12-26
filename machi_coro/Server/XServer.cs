@@ -42,7 +42,7 @@ public class XServer
             Console.WriteLine($"[!] Accepted client {_clients.Count + 1}/4 from {(IPEndPoint) client.RemoteEndPoint}");
 
             var id = _nextPlayerId++;
-            var c = new ConnectedClient(client, this, id);
+            var c = new ConnectedClient(client, this);
             lock (_clients) _clients.Add(c);
         }
     }
