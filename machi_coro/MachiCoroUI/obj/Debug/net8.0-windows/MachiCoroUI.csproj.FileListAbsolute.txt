@@ -26,9 +26,6 @@ C:\kfu\oris\semestry\machi_coro\GameAndDot\MachiCoroUI\bin\Debug\net8.0-windows\
 C:\kfu\oris\semestry\machi_coro\GameAndDot\MachiCoroUI\bin\Debug\net8.0-windows\ProtocolFramework.pdb
 C:\kfu\oris\semestry\machi_coro\GameAndDot\MachiCoroUI\obj\Debug\net8.0-windows\MachiCoroUI.csproj.AssemblyReference.cache
 C:\kfu\oris\semestry\machi_coro\GameAndDot\MachiCoroUI\obj\Debug\net8.0-windows\MachiCor.C58E48DC.Up2Date
-C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Server.deps.json
-C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Server.runtimeconfig.json
-C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Server.exe
 C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\MachiCoroUI.exe
 C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\MachiCoroUI.deps.json
 C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\MachiCoroUI.runtimeconfig.json
@@ -36,9 +33,7 @@ C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\MachiCo
 C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\MachiCoroUI.pdb
 C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\ProtocolFramework.dll
 C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Server.dll
-C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Shared.dll
 C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Server.pdb
-C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Shared.pdb
 C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\ProtocolFramework.pdb
 C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\obj\Debug\net8.0-windows\MachiCoroUI.csproj.AssemblyReference.cache
 C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\obj\Debug\net8.0-windows\MachiCoroUI.Form1.resources
@@ -76,3 +71,6 @@ C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Assets\
 C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\enterprises.json
 C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Game.dll
 C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Game.pdb
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Server.deps.json
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Server.runtimeconfig.json
+C:\machi_coro\machi_coro\machi_coro\MachiCoroUI\bin\Debug\net8.0-windows\Server.exe

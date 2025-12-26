@@ -30,7 +30,9 @@ namespace MachiCoroUI
             XPacketTypeManager.RegisterType(XPacketType.PlayerConnected, 1, 1);
             XPacketTypeManager.RegisterType(XPacketType.Welcome, 1, 2);
             XPacketTypeManager.RegisterType(XPacketType.PlayerJoined, 1, 3);
-
+            ConnectPanel.Visible = true;
+            GamePanel.Visible = false;
+            LobbyPanel.Visible = false;
 
 
 
@@ -73,6 +75,7 @@ namespace MachiCoroUI
 
             var type = XPacketTypeManager.GetTypeFromPacket(packet);
 
+
             switch (type)
             {
                 case XPacketType.LobbyState:
@@ -81,27 +84,36 @@ namespace MachiCoroUI
                         BeginInvoke(() => RenderLobby(lobby));
                         break;
                     }
+
                 case XPacketType.Welcome:
                     {
-                        _myPlayerId = packet.GetValue<int>(1);
+             
 
                         BeginInvoke(() =>
                         {
+
+
                             ConnectPanel.Visible = false;
                             LobbyPanel.Visible = true;
+
+                            LobbyPanel.BringToFront();
                         });
 
                         break;
                     }
+
+
                 case XPacketType.Handshake:
                     {
-                        int magic = packet.GetValue<int>(1);
-                        if (magic != _handshakeMagic)
+                        int serverMagic = packet.GetValue<int>(1);
+                        if (serverMagic != _handshakeMagic - 15)
                         {
-                            MessageBox.Show("Handshake failed");
+                            MessageBox.Show("Handshake failed");                      
+                            return;
                         }
                         break;
                     }
+
 
 
 
@@ -118,11 +130,8 @@ namespace MachiCoroUI
         private void Form1_Load(object sender, EventArgs e)
         {
             this.StartPosition = FormStartPosition.CenterScreen;
-
-
             _allMarketCards = LoadMarket();
             RenderMarket(_allMarketCards);
-
         }
 
         private void RenderLobby(LobbyState lobby)

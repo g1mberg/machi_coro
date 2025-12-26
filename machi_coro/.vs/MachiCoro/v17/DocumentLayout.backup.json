@@ -3,16 +3,36 @@
   "WorkspaceRootPath": "C:\\machi_coro\\machi_coro\\machi_coro\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|C:\\machi_coro\\machi_coro\\machi_coro\\machicoroui\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|solutionrelative:machicoroui\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\machicoroui\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|solutionrelative:machicoroui\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\machicoroui\\enterpriseview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|solutionrelative:machicoroui\\enterpriseview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{22F72E50-B86A-48A6-4252-6FDC98C636E8}|Server\\Server.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\server\\connectedclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22F72E50-B86A-48A6-4252-6FDC98C636E8}|Server\\Server.csproj|solutionrelative:server\\connectedclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\machicoroui\\enterprisedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|solutionrelative:machicoroui\\enterprisedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{22F72E50-B86A-48A6-4252-6FDC98C636E8}|Server\\Server.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\server\\xserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22F72E50-B86A-48A6-4252-6FDC98C636E8}|Server\\Server.csproj|solutionrelative:server\\xserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22F72E50-B86A-48A6-4252-6FDC98C636E8}|Server\\Server.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22F72E50-B86A-48A6-4252-6FDC98C636E8}|Server\\Server.csproj|solutionrelative:server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\machicoroui\\machicoroui.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|solutionrelative:machicoroui\\machicoroui.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22F72E50-B86A-48A6-4252-6FDC98C636E8}|Server\\Server.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\server\\server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{22F72E50-B86A-48A6-4252-6FDC98C636E8}|Server\\Server.csproj|solutionrelative:server\\server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\machicoroui\\enterpriseview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|solutionrelative:machicoroui\\enterpriseview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B5CC20C1-26F2-4C99-AB70-9E706F1A848E}|Game\\Game.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\game\\game.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -23,16 +43,8 @@
       "RelativeMoniker": "D:0:0:{B5CC20C1-26F2-4C99-AB70-9E706F1A848E}|Game\\Game.csproj|solutionrelative:game\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\machicoroui\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|solutionrelative:machicoroui\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B5CC20C1-26F2-4C99-AB70-9E706F1A848E}|Game\\Game.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\game\\models\\enterprises\\enterprise.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B5CC20C1-26F2-4C99-AB70-9E706F1A848E}|Game\\Game.csproj|solutionrelative:game\\models\\enterprises\\enterprise.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22F72E50-B86A-48A6-4252-6FDC98C636E8}|Shared\\Shared.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\shared\\connectedclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22F72E50-B86A-48A6-4252-6FDC98C636E8}|Shared\\Shared.csproj|solutionrelative:shared\\connectedclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5CEB39DB-C24C-4E93-8755-7D86F0F747A5}|ProtocolFramework\\ProtocolFramework.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\protocolframework\\xpackettype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -47,32 +59,32 @@
       "RelativeMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|solutionrelative:machicoroui\\lobbystate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\machicoroui\\machicoroui.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|solutionrelative:machicoroui\\machicoroui.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22F72E50-B86A-48A6-4252-6FDC98C636E8}|Shared\\Shared.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\shared\\enums\\eventtype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22F72E50-B86A-48A6-4252-6FDC98C636E8}|Shared\\Shared.csproj|solutionrelative:shared\\enums\\eventtype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\machicoroui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{78022C9F-F74D-4E05-9292-4D4624C88DED}|MachiCoroUI\\MachiCoroUI.csproj|solutionrelative:machicoroui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{22F72E50-B86A-48A6-4252-6FDC98C636E8}|Shared\\Shared.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\shared\\models\\xclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22F72E50-B86A-48A6-4252-6FDC98C636E8}|Shared\\Shared.csproj|solutionrelative:shared\\models\\xclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22F72E50-B86A-48A6-4252-6FDC98C636E8}|Shared\\Shared.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\shared\\xserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22F72E50-B86A-48A6-4252-6FDC98C636E8}|Shared\\Shared.csproj|solutionrelative:shared\\xserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22F72E50-B86A-48A6-4252-6FDC98C636E8}|Shared\\Shared.csproj|c:\\machi_coro\\machi_coro\\machi_coro\\shared\\models\\eventmessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22F72E50-B86A-48A6-4252-6FDC98C636E8}|Shared\\Shared.csproj|solutionrelative:shared\\models\\eventmessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\machi_coro\\machi_coro\\machi_coro\\Game\\Models\\Choise\\BuildChoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Game\\Models\\Choise\\BuildChoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\machi_coro\\machi_coro\\machi_coro\\Shared\\XServer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Shared\\XServer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\machi_coro\\machi_coro\\machi_coro\\Shared\\ConnectedClient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Shared\\ConnectedClient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\machi_coro\\machi_coro\\machi_coro\\Shared\\Models\\XClient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Shared\\Models\\XClient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\machi_coro\\machi_coro\\machi_coro\\Shared\\Models\\EventMessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Shared\\Models\\EventMessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\machi_coro\\machi_coro\\machi_coro\\Shared\\Enums\\EventType.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Shared\\Enums\\EventType.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -82,17 +94,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 20,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Form1.cs",
               "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\MachiCoroUI\\Form1.cs",
               "RelativeDocumentMoniker": "MachiCoroUI\\Form1.cs",
-              "ToolTip": "C:\\machi_coro\\machi_coro\\machi_coro\\MachiCoroUI\\Form1.cs*",
-              "RelativeToolTip": "MachiCoroUI\\Form1.cs*",
-              "ViewState": "AgIAAHkAAAAAAAAAAAAawJQAAAAwAAAAAAAAAA==",
+              "ToolTip": "C:\\machi_coro\\machi_coro\\machi_coro\\MachiCoroUI\\Form1.cs",
+              "RelativeToolTip": "MachiCoroUI\\Form1.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAowF4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-14T17:33:08.867Z",
               "IsPinned": true,
@@ -100,20 +112,59 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "EnterpriseData.cs",
-              "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\MachiCoroUI\\EnterpriseData.cs",
-              "RelativeDocumentMoniker": "MachiCoroUI\\EnterpriseData.cs",
-              "ToolTip": "C:\\machi_coro\\machi_coro\\machi_coro\\MachiCoroUI\\EnterpriseData.cs",
-              "RelativeToolTip": "MachiCoroUI\\EnterpriseData.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAoAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "XServer.cs",
+              "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\Server\\XServer.cs",
+              "RelativeDocumentMoniker": "Server\\XServer.cs",
+              "ToolTip": "C:\\machi_coro\\machi_coro\\machi_coro\\Server\\XServer.cs",
+              "RelativeToolTip": "Server\\XServer.cs",
+              "ViewState": "AgIAADEAAAAAAAAAAAAtwDgAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-26T14:55:53.082Z",
+              "WhenOpened": "2025-12-26T16:09:28.163Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ConnectedClient.cs",
+              "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\Server\\ConnectedClient.cs",
+              "RelativeDocumentMoniker": "Server\\ConnectedClient.cs",
+              "ToolTip": "C:\\machi_coro\\machi_coro\\machi_coro\\Server\\ConnectedClient.cs",
+              "RelativeToolTip": "Server\\ConnectedClient.cs",
+              "ViewState": "AgIAAM8AAAAAAAAAAAAvwP4AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T15:40:58.994Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
+              "Title": "Server.csproj",
+              "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\Server\\Server.csproj",
+              "RelativeDocumentMoniker": "Server\\Server.csproj",
+              "ToolTip": "C:\\machi_coro\\machi_coro\\machi_coro\\Server\\Server.csproj",
+              "RelativeToolTip": "Server\\Server.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-12-26T15:39:11.969Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\Server\\Program.cs",
+              "RelativeDocumentMoniker": "Server\\Program.cs",
+              "ToolTip": "C:\\machi_coro\\machi_coro\\machi_coro\\Server\\Program.cs",
+              "RelativeToolTip": "Server\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T15:38:22.798Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "Enterprise.cs",
               "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\Game\\Models\\Enterprises\\Enterprise.cs",
               "RelativeDocumentMoniker": "Game\\Models\\Enterprises\\Enterprise.cs",
@@ -126,7 +177,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "Form1.Designer.cs",
               "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\MachiCoroUI\\Form1.Designer.cs",
               "RelativeDocumentMoniker": "MachiCoroUI\\Form1.Designer.cs",
@@ -139,7 +190,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 13,
               "Title": "LobbyState.cs",
               "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\MachiCoroUI\\LobbyState.cs",
               "RelativeDocumentMoniker": "MachiCoroUI\\LobbyState.cs",
@@ -152,7 +203,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "XPacketType.cs",
               "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\ProtocolFramework\\XPacketType.cs",
               "RelativeDocumentMoniker": "ProtocolFramework\\XPacketType.cs",
@@ -165,7 +216,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 15,
               "Title": "BuildChoice.cs",
               "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\Game\\Models\\Choise\\BuildChoice.cs",
               "RelativeDocumentMoniker": "Game\\Models\\Choise\\BuildChoice.cs",
@@ -176,7 +227,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "Game.csproj",
               "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\Game\\Game.csproj",
               "RelativeDocumentMoniker": "Game\\Game.csproj",
@@ -189,7 +240,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "EnterpriseView.cs",
               "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\MachiCoroUI\\EnterpriseView.cs",
               "RelativeDocumentMoniker": "MachiCoroUI\\EnterpriseView.cs",
@@ -202,7 +253,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "Game.cs",
               "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\Game\\Game.cs",
               "RelativeDocumentMoniker": "Game\\Game.cs",
@@ -215,7 +266,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "XServer.cs",
               "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\Shared\\XServer.cs",
               "RelativeDocumentMoniker": "Shared\\XServer.cs",
@@ -227,7 +278,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 17,
               "Title": "ConnectedClient.cs",
               "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\Shared\\ConnectedClient.cs",
               "RelativeDocumentMoniker": "Shared\\ConnectedClient.cs",
@@ -235,12 +286,11 @@
               "RelativeToolTip": "Shared\\ConnectedClient.cs",
               "ViewState": "AgIAADoAAAAAAAAAAAAwwE0AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-14T17:51:59.154Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-14T17:51:59.154Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 18,
               "Title": "XClient.cs",
               "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\Shared\\Models\\XClient.cs",
               "RelativeDocumentMoniker": "Shared\\Models\\XClient.cs",
@@ -252,7 +302,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 19,
               "Title": "EventMessage.cs",
               "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\Shared\\Models\\EventMessage.cs",
               "RelativeDocumentMoniker": "Shared\\Models\\EventMessage.cs",
@@ -264,7 +314,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 20,
               "Title": "EventType.cs",
               "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\Shared\\Enums\\EventType.cs",
               "RelativeDocumentMoniker": "Shared\\Enums\\EventType.cs",
@@ -276,7 +326,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\MachiCoroUI\\Program.cs",
               "RelativeDocumentMoniker": "MachiCoroUI\\Program.cs",
@@ -284,11 +334,12 @@
               "RelativeToolTip": "MachiCoroUI\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-14T17:32:56.122Z"
+              "WhenOpened": "2025-12-14T17:32:56.122Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 5,
               "Title": "MachiCoroUI.csproj",
               "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\MachiCoroUI\\MachiCoroUI.csproj",
               "RelativeDocumentMoniker": "MachiCoroUI\\MachiCoroUI.csproj",
@@ -301,12 +352,12 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "C:\\machi_coro\\machi_coro\\machi_coro\\MachiCoroUI\\Form1.cs",
               "RelativeDocumentMoniker": "MachiCoroUI\\Form1.cs",
-              "ToolTip": "C:\\machi_coro\\machi_coro\\machi_coro\\MachiCoroUI\\Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]*",
-              "RelativeToolTip": "MachiCoroUI\\Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]*",
+              "ToolTip": "C:\\machi_coro\\machi_coro\\machi_coro\\MachiCoroUI\\Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "MachiCoroUI\\Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-26T13:20:25.919Z",
               "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"

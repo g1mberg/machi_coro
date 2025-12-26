@@ -213,31 +213,11 @@ public class ConnectedClient
 
     private void ProcessPlayerConnected(XPacket packet)
     {
-        Username = System.Text.Encoding.UTF8.GetString(packet.GetValueRaw(1));
-
-        Console.WriteLine($"SERVER: PlayerConnected id={ClientPlayer.Id} user={Username}");
-
-        // 1. Welcome — ТОЛЬКО новому
+        Username = packet.GetString(1);
         var welcome = XPacket.Create(XPacketType.Welcome);
-        welcome.SetValue(1, ClientPlayer.Id);
         QueuePacketSend(welcome.ToPacket());
-
-        // 2. PlayerJoined ПРО СЕБЯ — новому
-        var selfJoined = _server.MakePlayerJoinedPacket(this);
-        QueuePacketSend(selfJoined.ToPacket());
-
-        // 3. PlayerJoined ПРО ОСТАЛЬНЫХ — новому
-        foreach (var other in _server.ClientsSnapshot())
-        {
-            if (other == this) continue;
-            QueuePacketSend(_server.MakePlayerJoinedPacket(other).ToPacket());
-        }
-
-        // 4. PlayerJoined ПРО НЕГО — ВСЕМ ОСТАЛЬНЫМ
-        _server.BroadcastExcept(this, selfJoined);
-
-        Console.WriteLine($"SERVER: Broadcast PlayerJoined for id={ClientPlayer.Id}");
     }
+
 
 
     private void ProcessHandshake(XPacket packet)
@@ -272,7 +252,7 @@ public class ConnectedClient
                 continue;
             }
 
-            var packet = _packetSendingQueue.Dequeue();
+            var packet = _packetSendingQueue.Dequeue(); 
             Client.Send(packet);
 
             Thread.Sleep(100);

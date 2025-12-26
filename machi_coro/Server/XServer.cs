@@ -55,8 +55,7 @@ public class XServer
     public XPacket MakePlayerJoinedPacket(ConnectedClient c)
     {
         var p = XPacket.Create(XPacketType.PlayerJoined);
-        p.SetValue(1, c.ClientPlayer.Id);
-        p.SetValueRaw(2, System.Text.Encoding.UTF8.GetBytes(c.Username));
+        p.SetValueRaw(1, System.Text.Encoding.UTF8.GetBytes(c.Username));
         return p;
     }
 

@@ -1,0 +1,12 @@
+[
+  {
+    "Name": "server",
+    "Projects": [
+      {
+        "Path": "Server\\Server.csproj",
+        "Action": "Start",
+        "DebugTarget": "Server"
+      }
+    ]
+  }
+]

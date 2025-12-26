@@ -1,0 +1,12 @@
+C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\bin\Release\net8.0\ProtocolFramework.deps.json
+C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\bin\Release\net8.0\ProtocolFramework.dll
+C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\bin\Release\net8.0\ProtocolFramework.pdb
+C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\obj\Release\net8.0\ProtocolFramework.GeneratedMSBuildEditorConfig.editorconfig
+C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\obj\Release\net8.0\ProtocolFramework.AssemblyInfoInputs.cache
+C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\obj\Release\net8.0\ProtocolFramework.AssemblyInfo.cs
+C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\obj\Release\net8.0\ProtocolFramework.csproj.CoreCompileInputs.cache
+C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\obj\Release\net8.0\ProtocolFramework.sourcelink.json
+C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\obj\Release\net8.0\ProtocolFramework.dll
+C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\obj\Release\net8.0\refint\ProtocolFramework.dll
+C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\obj\Release\net8.0\ProtocolFramework.pdb
+C:\machi_coro\machi_coro\machi_coro\ProtocolFramework\obj\Release\net8.0\ref\ProtocolFramework.dll

@@ -1,14 +1,26 @@
 [
   {
-    "Name": "Новый профиль",
+    "Name": "ui",
     "Projects": [
       {
-        "Path": "GameAndDot.Server\\Server.csproj",
-        "Action": "Start"
+        "Path": "MachiCoroUI\\MachiCoroUI.csproj",
+        "Action": "Start",
+        "DebugTarget": "MachiCoroUI"
+      }
+    ]
+  },
+  {
+    "Name": "ui+Server",
+    "Projects": [
+      {
+        "Path": "Server\\Server.csproj",
+        "Action": "Start",
+        "DebugTarget": "Server"
       },
       {
-        "Path": "GameAndDot.GUI\\GameAndDot.GUI.csproj",
-        "Action": "Start"
+        "Path": "MachiCoroUI\\MachiCoroUI.csproj",
+        "Action": "Start",
+        "DebugTarget": "MachiCoroUI"
       }
     ]
   }
