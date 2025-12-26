@@ -11,7 +11,10 @@ public enum XPacketType : byte
     GameStart = 13,
     PlayerReady =14,
     LobbyState,
-    
+    YouArePlayer=18,
+
+
+
     Roll = 20,
     Reroll = 21,
     Build = 24,

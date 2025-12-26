@@ -1,13 +1,15 @@
-﻿using Game.Models;
+﻿using Game;
+using Game.Models;
 using Game.Models.Enterprises;
+using Game.Models.Sites;
 using ProtocolFramework;
 using ProtocolFramework.Serializator;
 using Server.Lobby;
 using Shared.Models;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System;
 using System.Text.Json;
 using System.Windows.Forms;
 
@@ -38,6 +40,7 @@ namespace MachiCoroUI
             XPacketTypeManager.RegisterType(XPacketType.PlayerReady, 1, 5);
             XPacketTypeManager.RegisterType(XPacketType.LobbyState, 1, 6);
             XPacketTypeManager.RegisterType(XPacketType.GameStart, 1, 7);
+            XPacketTypeManager.RegisterType(XPacketType.YouArePlayer, 1, 8);
             ConnectPanel.Visible = true;
             GamePanel.Visible = false;
             LobbyPanel.Visible = false;
@@ -130,16 +133,65 @@ namespace MachiCoroUI
                         if (serverMagic != _handshakeMagic - 15)
                         {
                             Console.WriteLine("Handshake failed");
-                            return;
                         }
                         break;
                     }
+
+                case XPacketType.GameStateUpdate:
+                    {
+                        var game = XPacketConverter.Deserialize<GameState>(packet);
+                        BeginInvoke(() => RenderGame(game));
+                        break;
+                    }
+                case XPacketType.YouArePlayer:
+                    {
+                        _myPlayerId = packet.GetValue<int>(1);
+                        break;
+                    }
+
+
 
 
             }
         }
 
 
+
+        void RenderGame(GameState game)
+        {
+            var me = _myPlayerId;
+
+            var left = (me + 1) % 4;
+            var top = (me + 2) % 4;
+            var right = (me + 3) % 4;
+            bool isMyTurn = game.CurrentPlayer.Name ==_username;
+            bool isChangePhase = game.Phase == Phase.Change;
+
+            changeButton.Visible = isMyTurn && isChangePhase;
+            skipChangeButton.Visible = isMyTurn && isChangePhase;
+
+
+            labelCurrentPlayer.Text = game.CurrentPlayer.Name;
+            labelDice.Text = game.DiceValue.ToString();
+            labelPhase.Text = game.Phase.ToString();
+            labelLastAction.Text = game.LastAction.ToString();
+            PlayerName.Text = _username;
+            playerMoney.Text = game.Players[me].Money.ToString();
+            RenderCity(playerEnterprices, game.Players[me].City);
+            RenderSites(playerSites, game.Players[me].Sites);
+            leftOppName.Text = game.Players[left].Name;
+            leftOppMoney.Text = game.Players[left].Money.ToString();
+            RenderCity(leftOppEnterprices, game.Players[left].City);
+            RenderSites(leftOppSites, game.Players[left].Sites);
+            rightOppName.Text = game.Players[right].Name;
+            rightOppMoney.Text = game.Players[right].Money.ToString();
+            RenderCity(rightOppEnterprices, game.Players[right].City);
+            RenderSites(rightOppSites, game.Players[right].Sites);
+            topOppName.Text = game.Players[top].Name;
+            topOppMoney.Text = game.Players[top].Money.ToString();
+            RenderCity(topOppEnterprices, game.Players[top].City);
+            RenderSites(topOppSites, game.Players[top].Sites);
+        }
 
 
 
@@ -159,6 +211,32 @@ namespace MachiCoroUI
             foreach (var p in lobby.Players)
                 playerList.Items.Add($"{p.Name} {(p.IsReady ? "✔" : "❌")}");
         }
+        private EnterpriseView MapLandmarkToView(Site l)
+        {
+            return new EnterpriseView
+            {
+                Name = l.Name,
+            };
+        }
+        private void RenderSites(FlowLayoutPanel panel, Dictionary<string, Site> da)
+        {
+            panel.SuspendLayout();
+            panel.Controls.Clear();
+
+            foreach (var landmark in da.Values)
+            {
+                var view = MapLandmarkToView(landmark);
+                var pb = CreateCard(view);
+
+                // 🔒 нельзя кликать, если уже построено
+                if (landmark.IsActivated)
+                    pb.Enabled = false;
+
+                panel.Controls.Add(pb);
+            }
+
+            panel.ResumeLayout();
+        }
 
 
 
@@ -169,7 +247,7 @@ namespace MachiCoroUI
             return JsonSerializer.Deserialize<List<EnterpriseView>>(json)!;
         }
 
-
+       
 
 
         private LobbyState DeserializeLobbyState(byte[] data)
@@ -193,10 +271,6 @@ namespace MachiCoroUI
             return new LobbyState { Players = players };
         }
 
-
-
-
-
         private void RenderMarket(List<EnterpriseView> marketCards)
         {
             flowMarket.SuspendLayout();
@@ -208,6 +282,48 @@ namespace MachiCoroUI
             }
 
             flowMarket.ResumeLayout();
+        }
+
+        private EnterpriseView MapToView(Enterprise e)
+        {
+            return new EnterpriseView
+            {
+                Name = e.Name,
+            };
+        }
+        private void RenderCity(FlowLayoutPanel panel, List<Enterprise> city)
+        {
+            panel.SuspendLayout();
+            panel.Controls.Clear();
+
+            foreach (var enterprise in city)
+            {
+                var view = MapToView(enterprise);
+                panel.Controls.Add(CreateCard(view));
+            }
+            panel.ResumeLayout();
+        }
+
+
+        PictureBox CreateCard(EnterpriseView card)
+        {
+            var path = $"Assets/Sites/{card.ImageName}";
+            if (!File.Exists(path))
+                throw new FileNotFoundException(path);
+
+            var pb = new PictureBox
+            {
+                Image = Image.FromFile(path),
+                SizeMode = PictureBoxSizeMode.Zoom,
+                Width = 90,
+                Height = 130,
+                Margin = new Padding(5),
+                Cursor = Cursors.Hand,
+                Tag = card
+            };
+
+            pb.Click += MarketCard_Click;
+            return pb;
         }
 
 
@@ -250,18 +366,6 @@ namespace MachiCoroUI
         }
 
 
-        //private void buyButton_Click(object sender, EventArgs e)
-        //{
-        //    if (_selectedMarketCard == null)
-        //        return;
-
-        //    _controller.ChooseBuild(new BuildChoice
-        //    {
-        //        Type = BuildChoiceType.Enterprise,
-        //        Enterprise = _selectedMarketCard
-        //    });
-        //}
-
         void HighlightSelected(PictureBox selected)
         {
             foreach (Control c in flowMarket.Controls)
@@ -273,34 +377,7 @@ namespace MachiCoroUI
             selected.BorderStyle = BorderStyle.Fixed3D;
         }
 
-        //private void buildButton_Click(object sender, EventArgs e)
-        //{
-        //    if (_selectedMarketCard == null)
-        //    {
-        //        labelLastAction.Text = "Сначала выберите карту";
-        //        return;
-        //    }
-
-
-        //    var choice = new BuildChoice
-        //    {
-        //        Type = BuildChoiceType.Enterprise,
-        //        EnterpriseName = _selectedMarketCard.Name
-        //    };
-
-        //    SendBuildChoice(choice);
-
-        //    _selectedMarketCard = null;
-        //    ClearMarketSelection();
-        //}
-
-        //private void SendBuildChoice(BuildChoice choice)
-        //{
-        //    var packet = XPacket.Create(XPacketType.BuyEnterprise);
-        //    packet.SetString(1, "BuyEnterprise");
-        //    packet.SetString(2, choice.EnterpriseName!);
-        //    client.QueuePacketSend(packet.ToPacket());
-        //}
+     
 
 
 
@@ -312,21 +389,6 @@ namespace MachiCoroUI
                 if (c is PictureBox pb)
                     pb.BorderStyle = BorderStyle.None;
             }
-        }
-
-        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void readyButton_Click(object sender, EventArgs e)
@@ -345,5 +407,59 @@ namespace MachiCoroUI
             var packet = XPacket.Create(XPacketType.GameStart);
             client.QueuePacketSend(packet.ToPacket());
         }
+
+        private void rollDice_Click(object sender, EventArgs e)
+        {
+            howdice.Visible = true;
+            roll1.Visible = true;
+            roll2.Visible = true;
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+
+        }
+
+        private void roll1_Click(object sender, EventArgs e)
+        {
+            var dice = 1;
+            var packet = XPacket.Create(XPacketType.Roll);
+            packet.SetValue(1, dice);
+            client.QueuePacketSend(packet.ToPacket());
+            howdice.Visible = false;
+            roll1.Visible = false;
+            roll2.Visible = false;
+        }
+
+        private void roll2_Click(object sender, EventArgs e)
+        {
+            var dice = 2;
+            var packet = XPacket.Create(XPacketType.Roll);
+            packet.SetValue(1, dice);
+            client.QueuePacketSend(packet.ToPacket());
+            howdice.Visible = false;
+            roll1.Visible = false;
+            roll2.Visible = false;
+
+        }
+
+        private void buildButton_Click(object sender, EventArgs e)
+        {
+            if (_selectedMarketCard == null)
+            {
+                labelLastAction.Text = "Сначала выбери карту";
+                return;
+            }
+
+            var packet = XPacket.Create(XPacketType.Build);
+            packet.SetString(1, _selectedMarketCard.Name);
+
+            client.QueuePacketSend(packet.ToPacket());
+
+            _selectedMarketCard = null;
+            ClearMarketSelection();
+        }
+
     }
 }

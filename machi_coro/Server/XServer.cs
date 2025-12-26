@@ -77,7 +77,7 @@ public class XServer
     public void BroadcastGameState(GameState state)
     {
         var packet = XPacket.Create(XPacketType.GameStateUpdate);
-        packet.SetValue(1, state.CurrentPlayer.Id);
+        packet.SetValue(1, state.CurrentPlayer.Name);
         packet.SetValue(2, (int)state.Phase);
         packet.SetValue(3, state.DiceValue);
         

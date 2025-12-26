@@ -128,6 +128,9 @@ public class ConnectedClient
         {
             clientsList[i].Game = game;
             clientsList[i].ClientPlayer = clientsList[i].Game.Instance.Players[i];
+            var packet = XPacket.Create(XPacketType.YouArePlayer);
+            packet.SetValue(1, i);
+            clientsList[i].QueuePacketSend(packet.ToPacket());
         }
         _server.BroadcastGameState(clientsList[0].Game.Instance); 
     }

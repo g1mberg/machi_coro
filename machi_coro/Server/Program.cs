@@ -1,6 +1,5 @@
 ﻿using Shared;
 using ProtocolFramework;
-using Game;
 
 namespace Server
 {
@@ -8,7 +7,6 @@ namespace Server
     {
         private static void Main()
         {
-            var game = new Game.Game();
             Console.Title = "XServer";
             Console.ForegroundColor = ConsoleColor.White;
             XPacketTypeManager.RegisterType(XPacketType.Handshake, 1, 0);
@@ -20,6 +18,7 @@ namespace Server
             XPacketTypeManager.RegisterType(XPacketType.GameStart, 1, 7);
             XPacketTypeManager.RegisterType(XPacketType.Error, 1, 8);
 
+            XPacketTypeManager.RegisterType(XPacketType.YouArePlayer, 1, 8);
 
 
             var server = new XServer();

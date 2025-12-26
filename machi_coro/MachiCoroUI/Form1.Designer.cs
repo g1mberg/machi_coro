@@ -69,11 +69,16 @@
             labelPhase = new Label();
             labelDice = new Label();
             labelLastAction = new Label();
+            howdice = new Label();
+            roll1 = new Button();
+            roll2 = new Button();
             rollDice = new Button();
             playerSites = new FlowLayoutPanel();
             playerEnterprises = new FlowLayoutPanel();
             playerMoney = new Label();
             PlayerName = new Label();
+            button1 = new Button();
+            button3 = new Button();
             ConnectPanel.SuspendLayout();
             LobbyPanel.SuspendLayout();
             GamePanel.SuspendLayout();
@@ -430,6 +435,7 @@
             buildButton.TabIndex = 8;
             buildButton.Text = "Построить";
             buildButton.UseVisualStyleBackColor = true;
+            buildButton.Click += buildButton_Click;
             // 
             // label2
             // 
@@ -454,6 +460,11 @@
             flowLayoutPanel2.Controls.Add(labelPhase);
             flowLayoutPanel2.Controls.Add(labelDice);
             flowLayoutPanel2.Controls.Add(labelLastAction);
+            flowLayoutPanel2.Controls.Add(howdice);
+            flowLayoutPanel2.Controls.Add(roll1);
+            flowLayoutPanel2.Controls.Add(roll2);
+            flowLayoutPanel2.Controls.Add(button1);
+            flowLayoutPanel2.Controls.Add(button3);
             flowLayoutPanel2.Location = new Point(0, 0);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
             flowLayoutPanel2.Size = new Size(328, 158);
@@ -496,6 +507,41 @@
             labelLastAction.TabIndex = 3;
             labelLastAction.Text = "\"Последнее: —\"";
             // 
+            // howdice
+            // 
+            howdice.AutoSize = true;
+            howdice.Location = new Point(3, 25);
+            howdice.Margin = new Padding(3, 10, 20, 0);
+            howdice.Name = "howdice";
+            howdice.Size = new Size(204, 15);
+            howdice.TabIndex = 4;
+            howdice.Text = "Сколько кубиков вы хотите кинуть?";
+            howdice.Visible = false;
+            howdice.Click += label5_Click;
+            // 
+            // roll1
+            // 
+            roll1.Location = new Point(230, 35);
+            roll1.Margin = new Padding(3, 20, 3, 3);
+            roll1.Name = "roll1";
+            roll1.Size = new Size(75, 23);
+            roll1.TabIndex = 5;
+            roll1.Text = "1";
+            roll1.UseVisualStyleBackColor = true;
+            roll1.Visible = false;
+            roll1.Click += roll1_Click;
+            // 
+            // roll2
+            // 
+            roll2.Location = new Point(230, 64);
+            roll2.Margin = new Padding(230, 3, 3, 3);
+            roll2.Name = "roll2";
+            roll2.Size = new Size(75, 23);
+            roll2.TabIndex = 6;
+            roll2.Text = "2";
+            roll2.UseVisualStyleBackColor = true;
+            roll2.Click += roll2_Click;
+            // 
             // rollDice
             // 
             rollDice.Location = new Point(6, 54);
@@ -504,6 +550,7 @@
             rollDice.TabIndex = 5;
             rollDice.Text = "Бросить кубик";
             rollDice.UseVisualStyleBackColor = true;
+            rollDice.Click += rollDice_Click;
             // 
             // playerSites
             // 
@@ -537,13 +584,31 @@
             PlayerName.TabIndex = 0;
             PlayerName.Text = "label2";
             // 
+            // button1
+            // 
+            button1.Location = new Point(3, 93);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 26);
+            button1.TabIndex = 7;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(84, 93);
+            button3.Name = "button3";
+            button3.Size = new Size(71, 33);
+            button3.TabIndex = 8;
+            button3.Text = "button3";
+            button3.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(1485, 673);
-            Controls.Add(LobbyPanel);
             Controls.Add(GamePanel);
             Controls.Add(ConnectPanel);
+            Controls.Add(LobbyPanel);
             Margin = new Padding(2, 1, 2, 1);
             Name = "Form1";
             Text = "Form1";
@@ -622,6 +687,12 @@
         private Button buildButton;
         private Button readyButton;
         private Label label4;
+        private TextBox textBox5;
+        private Label howdice;
+        private Button roll1;
+        private Button roll2;
+        private Button button1;
+        private Button button3;
         private TextBox NicknameBox;
         private Button Confirm;
     }
