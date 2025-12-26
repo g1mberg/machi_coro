@@ -132,6 +132,7 @@ public class ConnectedClient
             packet.SetValue(1, i);
             clientsList[i].QueuePacketSend(packet.ToPacket());
         }
+        _server.Broadcast(XPacket.Create(XPacketType.GameStart));
         _server.BroadcastGameState(clientsList[0].Game.Instance); 
     }
 
