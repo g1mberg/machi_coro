@@ -7,6 +7,7 @@ namespace Game.Models.Player;
 public class Player
 {
     public int Id { get; init; }
+    public string Name { get; init; }
     public int Money { get; private set; }
 
     public readonly Dictionary<string, Site> Sites;

@@ -15,7 +15,7 @@ namespace Server
             XPacketTypeManager.RegisterType(XPacketType.PlayerJoined, 1, 3);
             XPacketTypeManager.RegisterType(XPacketType.PlayerReady, 1, 5);
             XPacketTypeManager.RegisterType(XPacketType.LobbyState, 1, 6);
-
+            XPacketTypeManager.RegisterType(XPacketType.YouArePlayer, 1, 8);
 
 
             var server = new XServer();

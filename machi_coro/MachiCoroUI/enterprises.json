@@ -13,5 +13,9 @@
     { "Name": "supermarket" },
     { "Name": "tvcenter" },
     { "Name": "vegetable market" },
-    { "Name": "wheat field" }
+    { "Name": "wheat field" },
+    { "Name": "terminal" },
+    { "Name": "Mall" },
+    { "Name": "Park" },
+    { "Name": "TV" }
 ]
