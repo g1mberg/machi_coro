@@ -61,6 +61,7 @@
             label3 = new Label();
             leftOppName = new Label();
             player = new Panel();
+            rerollButton = new Button();
             buildButton = new Button();
             label2 = new Label();
             Status = new Panel();
@@ -81,7 +82,6 @@
             playerEnterprises = new FlowLayoutPanel();
             playerMoney = new Label();
             PlayerName = new Label();
-            rerollButton = new Button();
             ConnectPanel.SuspendLayout();
             LobbyPanel.SuspendLayout();
             GamePanel.SuspendLayout();
@@ -429,8 +429,20 @@
             player.Size = new Size(1353, 156);
             player.TabIndex = 0;
             // 
+            // rerollButton
+            // 
+            rerollButton.AutoSize = true;
+            rerollButton.Location = new Point(10, 99);
+            rerollButton.Name = "rerollButton";
+            rerollButton.Size = new Size(88, 28);
+            rerollButton.TabIndex = 9;
+            rerollButton.Text = "перебросить";
+            rerollButton.UseVisualStyleBackColor = true;
+            rerollButton.Visible = false;
+            // 
             // buildButton
             // 
+            buildButton.AutoSize = true;
             buildButton.Location = new Point(112, 57);
             buildButton.Name = "buildButton";
             buildButton.Size = new Size(82, 29);
@@ -525,10 +537,11 @@
             // 
             // roll1
             // 
+            roll1.AutoSize = true;
             roll1.Location = new Point(230, 35);
             roll1.Margin = new Padding(3, 20, 3, 3);
             roll1.Name = "roll1";
-            roll1.Size = new Size(75, 23);
+            roll1.Size = new Size(75, 25);
             roll1.TabIndex = 5;
             roll1.Text = "1";
             roll1.UseVisualStyleBackColor = true;
@@ -537,10 +550,11 @@
             // 
             // roll2
             // 
-            roll2.Location = new Point(230, 64);
+            roll2.AutoSize = true;
+            roll2.Location = new Point(230, 66);
             roll2.Margin = new Padding(230, 3, 3, 3);
             roll2.Name = "roll2";
-            roll2.Size = new Size(75, 23);
+            roll2.Size = new Size(75, 25);
             roll2.TabIndex = 6;
             roll2.Text = "2";
             roll2.UseVisualStyleBackColor = true;
@@ -548,9 +562,10 @@
             // 
             // changeButton
             // 
-            changeButton.Location = new Point(3, 93);
+            changeButton.AutoSize = true;
+            changeButton.Location = new Point(3, 97);
             changeButton.Name = "changeButton";
-            changeButton.Size = new Size(81, 33);
+            changeButton.Size = new Size(82, 33);
             changeButton.TabIndex = 7;
             changeButton.Text = "поменяться";
             changeButton.UseVisualStyleBackColor = true;
@@ -558,7 +573,8 @@
             // 
             // skipChangeButton
             // 
-            skipChangeButton.Location = new Point(90, 93);
+            skipChangeButton.AutoSize = true;
+            skipChangeButton.Location = new Point(91, 97);
             skipChangeButton.Name = "skipChangeButton";
             skipChangeButton.Size = new Size(83, 33);
             skipChangeButton.TabIndex = 8;
@@ -568,9 +584,10 @@
             // 
             // stealButton
             // 
-            stealButton.Location = new Point(179, 93);
+            stealButton.AutoSize = true;
+            stealButton.Location = new Point(180, 97);
             stealButton.Name = "stealButton";
-            stealButton.Size = new Size(57, 38);
+            stealButton.Size = new Size(59, 38);
             stealButton.TabIndex = 9;
             stealButton.Text = "украсть";
             stealButton.UseVisualStyleBackColor = true;
@@ -578,7 +595,8 @@
             // 
             // skip
             // 
-            skip.Location = new Point(242, 93);
+            skip.AutoSize = true;
+            skip.Location = new Point(245, 97);
             skip.Name = "skip";
             skip.Size = new Size(80, 36);
             skip.TabIndex = 10;
@@ -588,6 +606,7 @@
             // 
             // rollDice
             // 
+            rollDice.AutoSize = true;
             rollDice.Location = new Point(6, 57);
             rollDice.Name = "rollDice";
             rollDice.Size = new Size(100, 29);
@@ -627,16 +646,6 @@
             PlayerName.Size = new Size(38, 15);
             PlayerName.TabIndex = 0;
             PlayerName.Text = "label2";
-            // 
-            // rerollButton
-            // 
-            rerollButton.Location = new Point(10, 99);
-            rerollButton.Name = "rerollButton";
-            rerollButton.Size = new Size(87, 28);
-            rerollButton.TabIndex = 9;
-            rerollButton.Text = "перебросить";
-            rerollButton.UseVisualStyleBackColor = true;
-            rerollButton.Visible = false;
             // 
             // Form1
             // 
