@@ -6,14 +6,12 @@ namespace Game.Models;
 
 public class GameState
 {
-    public int GameId { get; init; }
+    public Player.Player CurrentPlayer { get; set; }
+    public CardsMart Mart { get; set; } = new CardsMart();
+    public Phase Phase { get; set; } = Phase.Roll; // "Roll", "Income", "Build"
 
-    public Player.Player CurrentPlayer { get; private set; }
-    public CardsMart Mart { get; set; }
-    public Phase Phase { get; set; }   // "Roll", "Income", "Build"
-
-    public DiceResult DiceValue { get; set; }
-    public string LastAction { get; set; }
+    public DiceResult DiceValue { get; set; } = new DiceResult(0, false);
+    public string LastAction { get; set; } = "";
 
     public Player.Player[] Players { get; init; } = new Player.Player[4];
 

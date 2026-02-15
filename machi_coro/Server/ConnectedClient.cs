@@ -1,9 +1,11 @@
-﻿using ProtocolFramework;
-using ProtocolFramework.Serializator;
-using System.Net.Sockets;
-using Game.Models;
+﻿using Game.Models;
 using Game.Models.Enterprises;
 using Game.Models.Player;
+using ProtocolFramework;
+using ProtocolFramework.Serializator;
+using Server;
+using System.Collections.Concurrent;
+using System.Net.Sockets;
 
 namespace Shared;
 
@@ -11,7 +13,7 @@ public class ConnectedClient
 {
     private Socket Client { get; }
 
-    private readonly Queue<byte[]> _packetSendingQueue = [];
+    private readonly ConcurrentQueue<byte[]> _packetSendingQueue = new();
 
     private readonly XServer _server;
 
@@ -35,7 +37,7 @@ public class ConnectedClient
         {
             while (true)
             {
-                var buff = new byte[256];
+                var buff = new byte[2048];
                 Client.Receive(buff);
 
                 buff = buff.TakeWhile((b, i) =>
@@ -128,6 +130,7 @@ public class ConnectedClient
         {
             clientsList[i].Game = game;
             clientsList[i].ClientPlayer = clientsList[i].Game.Instance.Players[i];
+            clientsList[i].ClientPlayer.Name = clientsList[i].Username;
             var packet = XPacket.Create(XPacketType.YouArePlayer);
             packet.SetValue(1, i);
             clientsList[i].QueuePacketSend(packet.ToPacket());
@@ -288,9 +291,9 @@ public class ConnectedClient
 
     public void QueuePacketSend(byte[] packet)
     {
-        if (packet.Length > 256)
+        if (packet.Length > 2048)
         {
-            throw new Exception("Max packet size is 256 bytes.");
+            throw new Exception("Max packet size is 2048 bytes.");
         }
 
         _packetSendingQueue.Enqueue(packet);
@@ -298,21 +301,27 @@ public class ConnectedClient
 
     private void SendPackets()
     {
-        while (true)
+        while (Client.Connected)
         {
-            if (_packetSendingQueue.Count == 0)
+            if (_packetSendingQueue.TryDequeue(out byte[] packet))
             {
-                Thread.Sleep(100);
-                continue;
+                try
+                {
+                    Client.Send(packet);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Send error {Username}: {ex.Message}");
+                    break;
+                }
             }
-
-            var packet = _packetSendingQueue.Dequeue(); 
-            Client.Send(packet);
-
-            Thread.Sleep(100);
+            else
+            {
+                Thread.Sleep(1);
+            }
         }
     }
-    
+
     private void SendError(string message)
     {
         var errorPacket = XPacket.Create(XPacketType.Error);

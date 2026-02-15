@@ -1,7 +1,10 @@
 ﻿using Game;
 using Game.Models;
+using Game.Models.Dice;
 using Game.Models.Enterprises;
+using Game.Models.Player;
 using Game.Models.Sites;
+using Game.Utils;
 using ProtocolFramework;
 using ProtocolFramework.Serializator;
 using Server.Lobby;
@@ -10,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System;
+using System.Drawing;
 using System.Text.Json;
 using System.Windows.Forms;
 
@@ -17,6 +21,7 @@ namespace MachiCoroUI
 {
     public partial class Form1 : Form
     {
+        private GameView _gameView;
         private static int _handshakeMagic;
         private int _myPlayerId;
 
@@ -38,20 +43,28 @@ namespace MachiCoroUI
         public Form1()
         {
             InitializeComponent();
+            _gameView = new GameView();
+            _gameView.Dock = DockStyle.Fill;
+            GamePanel.Controls.Clear();
+            GamePanel.Controls.Add(_gameView);
+
+            // Wire up GameView button handlers
+            _gameView.RollDiceButton.Click += rollDice_Click;
+            _gameView.BuildButton.Click += buildButton_Click;
+            _gameView.RerollButton.Click += rerollButton_Click;
+            _gameView.Roll1Button.Click += roll1_Click;
+            _gameView.Roll2Button.Click += roll2_Click;
+            _gameView.ChangeButton.Click += confirmChangeButton_Click;
+            _gameView.SkipChangeButton.Click += skipChangeButton_Click;
+            _gameView.StealButton.Click += stealButton_Click;
+            _gameView.SkipButton.Click += skip_Click;
+
             client.OnPacketRecieve += Client_OnPacketRecieve;
-            XPacketTypeManager.RegisterType(XPacketType.Handshake, 1, 0);
-            XPacketTypeManager.RegisterType(XPacketType.PlayerConnected, 1, 1);
-            XPacketTypeManager.RegisterType(XPacketType.Welcome, 1, 2);
-            XPacketTypeManager.RegisterType(XPacketType.PlayerJoined, 1, 3);
-            XPacketTypeManager.RegisterType(XPacketType.PlayerReady, 1, 5);
-            XPacketTypeManager.RegisterType(XPacketType.LobbyState, 1, 6);
-            XPacketTypeManager.RegisterType(XPacketType.GameStart, 1, 7);
-            XPacketTypeManager.RegisterType(XPacketType.YouArePlayer, 1, 8);
             ConnectPanel.Visible = true;
             GamePanel.Visible = false;
             LobbyPanel.Visible = false;
 
-
+            ProtocolFramework.Utils.Utils.RegisterAllTypes();
 
             try
             {
@@ -83,16 +96,13 @@ namespace MachiCoroUI
             client.QueuePacketSend(packet.ToPacket());
         }
 
-
-
         private void Client_OnPacketRecieve(byte[] raw)
         {
             var packet = XPacket.Parse(raw);
             if (packet == null) return;
 
             var type = XPacketTypeManager.GetTypeFromPacket(packet);
-            Console.WriteLine("PACKET RECEIVED");
-            Console.WriteLine(XPacketTypeManager.GetTypeFromPacket(packet).ToString());
+            Console.WriteLine("PACKET RECEIVED: " + type);
 
 
             switch (type)
@@ -125,9 +135,11 @@ namespace MachiCoroUI
                     {
                         BeginInvoke(() =>
                         {
+                            ConnectPanel.Visible = false;
                             LobbyPanel.Visible = false;
                             GamePanel.Visible = true;
                             GamePanel.BringToFront();
+
                         });
                         break;
                     }
@@ -145,7 +157,7 @@ namespace MachiCoroUI
 
                 case XPacketType.GameStateUpdate:
                     {
-                        var game = XPacketConverter.Deserialize<GameState>(packet);
+                        var game = DeserializeGameState(packet);
                         BeginInvoke(() => RenderGame(game));
                         break;
                     }
@@ -172,46 +184,74 @@ namespace MachiCoroUI
         void RenderGame(GameState game)
         {
             var me = _myPlayerId;
-
             var left = (me + 1) % 4;
             var top = (me + 2) % 4;
             var right = (me + 3) % 4;
-            bool isMyTurn = game.CurrentPlayer.Name ==_username;
-            bool isChangePhase = game.Phase == Phase.Change;
 
-            changeButton.Visible = isMyTurn && isChangePhase;
-            skipChangeButton.Visible = isMyTurn && isChangePhase;
+            var currentId = game.CurrentPlayer.Id;
+            bool isMyTurn = currentId == me;
+            bool isChangePhase = game.Phase == Phase.Change;
             bool isStealPhase = game.Phase == Phase.Steal;
 
-            stealButton.Visible = isMyTurn && isStealPhase;
-            skip.Visible = isMyTurn && isStealPhase;
+            // Show/hide action buttons based on phase
+            _gameView.RollDiceButton.Visible = isMyTurn && game.Phase == Phase.Roll;
+            _gameView.ChangeButton.Visible = isMyTurn && isChangePhase;
+            _gameView.SkipChangeButton.Visible = isMyTurn && isChangePhase;
+            _gameView.StealButton.Visible = isMyTurn && isStealPhase;
+            _gameView.SkipButton.Visible = isMyTurn && isStealPhase;
+            _gameView.BuildButton.Visible = isMyTurn && game.Phase == Phase.Build;
 
-            rerollButton.Visible = game.Phase == Phase.Roll && isMyTurn && game.CurrentPlayer.IsReroll;
+            _gameView.RerollButton.Visible = game.Phase == Phase.Roll &&
+                                             isMyTurn &&
+                                             game.CurrentPlayer.IsReroll;
 
+            // Hide dice choice after roll
+            _gameView.HowDiceLabel.Visible = false;
+            _gameView.Roll1Button.Visible = false;
+            _gameView.Roll2Button.Visible = false;
 
+            // Status labels
+            var turnText = isMyTurn ? ">>> ВАШ ХОД <<<" : $"Ход: {game.CurrentPlayer.Name}";
+            _gameView.CurrentPlayerLabel.Text = turnText;
+            _gameView.CurrentPlayerLabel.ForeColor = isMyTurn ? Color.DarkGreen : Color.Black;
+            _gameView.CurrentPlayerLabel.BackColor = isMyTurn ? Color.LightGreen : Color.LightYellow;
+            this.Text = "Machi Coro";
 
-            labelCurrentPlayer.Text = game.CurrentPlayer.Name;
-            labelDice.Text = game.DiceValue.Sum.ToString();
-            labelPhase.Text = game.Phase.ToString();
-            labelLastAction.Text = game.LastAction.ToString();
-            PlayerName.Text = _username;
-            playerMoney.Text = game.Players[me].Money.ToString();
-            RenderCity(playerEnterprices, game.Players[me].City);
-            RenderSites(playerSites, game.Players[me].Sites);
-            leftOppName.Text = game.Players[left].Name;
-            leftOppMoney.Text = game.Players[left].Money.ToString();
-            RenderCity(leftOppEnterprices, game.Players[left].City);
-            RenderSites(leftOppSites, game.Players[left].Sites);
-            rightOppName.Text = game.Players[right].Name;
-            rightOppMoney.Text = game.Players[right].Money.ToString();
-            RenderCity(rightOppEnterprices, game.Players[right].City);
-            RenderSites(rightOppSites, game.Players[right].Sites);
-            topOppName.Text = game.Players[top].Name;
-            topOppMoney.Text = game.Players[top].Money.ToString();
-            RenderCity(topOppEnterprices, game.Players[top].City);
-            RenderSites(topOppSites, game.Players[top].Sites);
+            _gameView.DiceLabel.Text = $"Кубик: {game.DiceValue.Sum}";
+            _gameView.PhaseLabel.Text = $"Фаза: {game.Phase}";
+            _gameView.LastActionLabel.Text = game.LastAction;
+
+            // Player info
+            _gameView.PlayerNameLabel.Text = isMyTurn ? $"* {_username} *" : _username;
+            _gameView.PlayerNameLabel.ForeColor = isMyTurn ? Color.Green : Color.Black;
+            _gameView.PlayerMoneyLabel.Text = game.Players[me].Money.ToString();
+            RenderCity(_gameView.PlayerEnterprisesPanel, game.Players[me].City);
+            RenderSites(_gameView.PlayerSitesPanel, game.Players[me].Sites);
+
+            // Left opponent
+            bool isLeftTurn = currentId == left;
+            _gameView.LeftNameLabel.Text = isLeftTurn ? $">> {game.Players[left].Name}" : game.Players[left].Name;
+            _gameView.LeftNameLabel.ForeColor = isLeftTurn ? Color.OrangeRed : Color.Black;
+            _gameView.LeftMoneyLabel.Text = game.Players[left].Money.ToString();
+            RenderCity(_gameView.LeftEnterprisesPanel, game.Players[left].City);
+            RenderSites(_gameView.LeftSitesPanel, game.Players[left].Sites);
+
+            // Right opponent
+            bool isRightTurn = currentId == right;
+            _gameView.RightNameLabel.Text = isRightTurn ? $">> {game.Players[right].Name}" : game.Players[right].Name;
+            _gameView.RightNameLabel.ForeColor = isRightTurn ? Color.OrangeRed : Color.Black;
+            _gameView.RightMoneyLabel.Text = game.Players[right].Money.ToString();
+            RenderCity(_gameView.RightEnterprisesPanel, game.Players[right].City);
+            RenderSites(_gameView.RightSitesPanel, game.Players[right].Sites);
+
+            // Top opponent
+            bool isTopTurn = currentId == top;
+            _gameView.TopNameLabel.Text = isTopTurn ? $">> {game.Players[top].Name}" : game.Players[top].Name;
+            _gameView.TopNameLabel.ForeColor = isTopTurn ? Color.OrangeRed : Color.Black;
+            _gameView.TopMoneyLabel.Text = game.Players[top].Money.ToString();
+            RenderCity(_gameView.TopEnterprisesPanel, game.Players[top].City);
+            RenderSites(_gameView.TopSitesPanel, game.Players[top].Sites);
         }
-
 
 
         private void Form1_Load(object sender, EventArgs e)
@@ -256,6 +296,21 @@ namespace MachiCoroUI
 
             panel.ResumeLayout();
         }
+        private void stealButton_Click(object sender, EventArgs e)
+        {
+            if (_stealTargetPlayerId == null)
+            {
+                _gameView.LastActionLabel.Text = "Сначала выбери цель";
+                return;
+            }
+
+            var packet = XPacket.Create(XPacketType.Steal);
+            packet.SetValue(1, _stealTargetPlayerId.Value);
+            packet.SetValue(2, _stealAmount);
+            client.QueuePacketSend(packet.ToPacket());
+            _stealTargetPlayerId = null;
+        }
+
         private void skip_Click(object sender, EventArgs e)
         {
             var packet = XPacket.Create(XPacketType.Steal);
@@ -268,19 +323,16 @@ namespace MachiCoroUI
 
         private List<EnterpriseView> LoadMarket()
         {
-            var json = File.ReadAllText("enterprises.json");
+            var json = File.ReadAllText("market_cards.json");
 
             return JsonSerializer.Deserialize<List<EnterpriseView>>(json)!;
         }
 
-        void OnOpponentClicked(int playerId,GameState game)
+        void OnOpponentClicked(int playerId, GameState game)
         {
             _stealTargetPlayerId = playerId;
-            labelLastAction.Text = $"Цель выбрана: {game.Players[playerId].Name}";
+            _gameView.LastActionLabel.Text = $"Цель выбрана: {game.Players[playerId].Name}";
         }
-
-
-
 
         private LobbyState DeserializeLobbyState(byte[] data)
         {
@@ -305,15 +357,14 @@ namespace MachiCoroUI
 
         private void RenderMarket(List<EnterpriseView> marketCards)
         {
-            flowMarket.SuspendLayout();
-            flowMarket.Controls.Clear();
+            var panel = _gameView.MarketPanel;
+            panel.SuspendLayout();
+            panel.Controls.Clear();
 
             foreach (var card in marketCards)
-            {
-                flowMarket.Controls.Add(CreateMarketCard(card));
-            }
+                panel.Controls.Add(CreateMarketCard(card));
 
-            flowMarket.ResumeLayout();
+            panel.ResumeLayout();
         }
 
         private EnterpriseView MapToView(Enterprise e)
@@ -323,6 +374,7 @@ namespace MachiCoroUI
                 Name = e.Name,
             };
         }
+
         private void RenderCity(FlowLayoutPanel panel, List<Enterprise> city)
         {
             panel.SuspendLayout();
@@ -336,29 +388,45 @@ namespace MachiCoroUI
             panel.ResumeLayout();
         }
 
-
-        PictureBox CreateCard(EnterpriseView card)
+        Control CreateCard(EnterpriseView card)
         {
+            // Try Sites first, then Enterprises
             var path = $"Assets/Sites/{card.ImageName}";
             if (!File.Exists(path))
-                throw new FileNotFoundException(path);
+                path = $"Assets/Enterprises/{card.ImageName}";
 
-            var pb = new PictureBox
+            if (File.Exists(path))
             {
-                Image = Image.FromFile(path),
-                SizeMode = PictureBoxSizeMode.Zoom,
+                var pb = new PictureBox
+                {
+                    Image = Image.FromFile(path),
+                    SizeMode = PictureBoxSizeMode.Zoom,
+                    Width = 90,
+                    Height = 130,
+                    Margin = new Padding(5),
+                    Cursor = Cursors.Hand,
+                    Tag = card
+                };
+                pb.Click += MarketCard_Click;
+                return pb;
+            }
+
+            // Fallback: text label when image not found
+            var lbl = new Label
+            {
+                Text = card.Name,
                 Width = 90,
                 Height = 130,
                 Margin = new Padding(5),
-                Cursor = Cursors.Hand,
+                TextAlign = ContentAlignment.MiddleCenter,
+                BorderStyle = BorderStyle.FixedSingle,
+                BackColor = Color.LightGray,
+                Font = new Font("Segoe UI", 7F),
                 Tag = card
             };
-
-            pb.Click += MarketCard_Click;
-            return pb;
+            lbl.Click += MarketCard_Click;
+            return lbl;
         }
-
-
 
         PictureBox CreateMarketCard(EnterpriseView card)
         {
@@ -391,8 +459,11 @@ namespace MachiCoroUI
 
             _selectedMarketCard = (EnterpriseView)pb.Tag;
 
-            foreach (PictureBox c in flowMarket.Controls)
-                c.BorderStyle = BorderStyle.None;
+            foreach (Control c in _gameView.MarketPanel.Controls)
+            {
+                if (c is PictureBox p)
+                    p.BorderStyle = BorderStyle.None;
+            }
 
             pb.BorderStyle = BorderStyle.Fixed3D;
         }
@@ -400,7 +471,7 @@ namespace MachiCoroUI
 
         void HighlightSelected(PictureBox selected)
         {
-            foreach (Control c in flowMarket.Controls)
+            foreach (Control c in _gameView.MarketPanel.Controls)
             {
                 if (c is PictureBox pb)
                     pb.BorderStyle = BorderStyle.None;
@@ -409,14 +480,9 @@ namespace MachiCoroUI
             selected.BorderStyle = BorderStyle.Fixed3D;
         }
 
-     
-
-
-
-
         private void ClearMarketSelection()
         {
-            foreach (Control c in flowMarket.Controls)
+            foreach (Control c in _gameView.MarketPanel.Controls)
             {
                 if (c is PictureBox pb)
                     pb.BorderStyle = BorderStyle.None;
@@ -442,9 +508,9 @@ namespace MachiCoroUI
 
         private void rollDice_Click(object sender, EventArgs e)
         {
-            howdice.Visible = true;
-            roll1.Visible = true;
-            roll2.Visible = true;
+            _gameView.HowDiceLabel.Visible = true;
+            _gameView.Roll1Button.Visible = true;
+            _gameView.Roll2Button.Visible = true;
         }
 
         private void label5_Click(object sender, EventArgs e)
@@ -455,33 +521,32 @@ namespace MachiCoroUI
 
         private void roll1_Click(object sender, EventArgs e)
         {
-          _lastDiceCount = 1;
+            _lastDiceCount = 1;
 
-        var packet = XPacket.Create(XPacketType.Roll);
+            var packet = XPacket.Create(XPacketType.Roll);
             packet.SetValue(1, _lastDiceCount);
             client.QueuePacketSend(packet.ToPacket());
-            howdice.Visible = false;
-            roll1.Visible = false;
-            roll2.Visible = false;
+            _gameView.HowDiceLabel.Visible = false;
+            _gameView.Roll1Button.Visible = false;
+            _gameView.Roll2Button.Visible = false;
         }
 
         private void roll2_Click(object sender, EventArgs e)
         {
-            var dice = 2;
+            _lastDiceCount = 2;
             var packet = XPacket.Create(XPacketType.Roll);
             packet.SetValue(1, _lastDiceCount);
             client.QueuePacketSend(packet.ToPacket());
-            howdice.Visible = false;
-            roll1.Visible = false;
-            roll2.Visible = false;
-
+            _gameView.HowDiceLabel.Visible = false;
+            _gameView.Roll1Button.Visible = false;
+            _gameView.Roll2Button.Visible = false;
         }
 
         private void buildButton_Click(object sender, EventArgs e)
         {
             if (_selectedMarketCard == null)
             {
-                labelLastAction.Text = "Сначала выбери карту";
+                _gameView.LastActionLabel.Text = "Сначала выбери карту";
                 return;
             }
 
@@ -507,7 +572,7 @@ namespace MachiCoroUI
                 _targetPlayerId == null ||
                 _targetBuilding == null)
             {
-                labelLastAction.Text = "Выбери здания для обмена";
+                _gameView.LastActionLabel.Text = "Выбери здания для обмена";
                 return;
             }
 
@@ -525,7 +590,67 @@ namespace MachiCoroUI
             _targetBuilding = null;
         }
 
+        private GameState DeserializeGameState(XPacket packet)
+        {
+            var currentPlayerId = packet.GetValue<int>(1);
+            var phase = (Phase)packet.GetValue<int>(2);
 
+            var diceField = packet.GetField(3);
+            var diceValue = (diceField?.Contents != null && diceField.FieldSize >= 5)
+                ? DiceResult.DeserializeDice(diceField.Contents)
+                : new DiceResult(0, false);
 
+            var lastAction = packet.GetString(4);
+
+            var players = new Game.Models.Player.Player[4];
+            for (int i = 0; i < 4; i++)
+            {
+                var money = packet.GetValue<int>((byte)(10 + i));
+                var name = packet.GetString((byte)(20 + i));
+                var cityStr = packet.GetString((byte)(30 + i));
+                var sitesStr = packet.GetString((byte)(40 + i));
+
+                var player = new Game.Models.Player.Player(i, name);
+
+                // Set money: player starts with 3, adjust to match server value
+                player.AddMoney(money - 3);
+
+                // Rebuild city from comma-separated enterprise names
+                player.City.Clear();
+                if (!string.IsNullOrEmpty(cityStr))
+                {
+                    foreach (var eName in cityStr.Split(','))
+                    {
+                        if (!string.IsNullOrEmpty(eName))
+                            player.City.Add(new Enterprise { Name = eName });
+                    }
+                }
+
+                // Rebuild sites activation state
+                if (!string.IsNullOrEmpty(sitesStr))
+                {
+                    foreach (var pair in sitesStr.Split(','))
+                    {
+                        var parts = pair.Split(':');
+                        if (parts.Length == 2 && parts[1] == "1")
+                        {
+                            if (player.Sites.ContainsKey(parts[0]))
+                                player.Sites[parts[0]].Activate();
+                        }
+                    }
+                }
+
+                players[i] = player;
+            }
+
+            return new GameState
+            {
+                CurrentPlayer = players[currentPlayerId],
+                Phase = phase,
+                DiceValue = diceValue,
+                LastAction = lastAction,
+                Players = players
+            };
+        }
     }
 }

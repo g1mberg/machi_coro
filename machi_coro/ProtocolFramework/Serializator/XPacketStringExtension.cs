@@ -12,7 +12,9 @@ public static class XPacketStringExtensions
 
     public static string GetString(this XPacket p, byte fieldId)
     {
-        var bytes = p.GetValueRaw(fieldId);
-        return Encoding.UTF8.GetString(bytes);
+        var field = p.GetField(fieldId);
+        if (field == null || field.Contents == null || field.FieldSize == 0)
+            return "";
+        return Encoding.UTF8.GetString(field.Contents);
     }
 }

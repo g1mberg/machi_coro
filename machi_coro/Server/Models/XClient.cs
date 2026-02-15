@@ -33,9 +33,9 @@ public class XClient
 
     public void QueuePacketSend(byte[] packet)
     {
-        if (packet.Length > 256)
+        if (packet.Length > 2048)
         {
-            throw new Exception("Max packet size is 256 bytes.");
+            throw new Exception("Max packet size is 2048 bytes.");
         }
 
         _packetSendingQueue.Enqueue(packet);
@@ -45,7 +45,7 @@ public class XClient
     {
         while (true)
         {
-            var buff = new byte[256];
+            var buff = new byte[2048];
             _socket.Receive(buff);
 
             buff = buff.TakeWhile((b, i) =>

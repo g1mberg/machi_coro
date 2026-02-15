@@ -6,8 +6,8 @@ namespace Game.Models.Player;
 
 public class Player
 {
-    public int Id { get; init; }
-    public string Name { get; init; }
+    public int Id { get; set; }
+    public string Name { get; set; }
     public int Money { get; private set; }
 
     public readonly Dictionary<string, Site> Sites;
@@ -24,8 +24,10 @@ public class Player
     public bool HasWon() => Sites.Values.All(s => s.IsActivated);
 
 
-    public Player()
+    public Player(int id, string name)
     {
+        Id = id;
+        Name = name;
         Money = 3;
         City.Add(JsonRepository<Enterprise>.Get("WheatField"));
         City.Add(JsonRepository<Enterprise>.Get("Bakery"));

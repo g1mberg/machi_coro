@@ -1,16 +1,14 @@
-﻿using Game;
-using Game.Models;
+﻿using Game.Models;
+using Game.Models.Dice;
 using ProtocolFramework;
 using ProtocolFramework.Serializator;
 using Server.Lobby;
+using Shared;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Text.Json;
-using System.Threading.Channels;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Shared;
+namespace Server;
 
 public class XServer
 {
@@ -73,17 +71,37 @@ public class XServer
             c.QueuePacketSend(bytes);
         Console.WriteLine($"SERVER: Broadcast {XPacketTypeManager.GetTypeFromPacket(packet)}");
     }
-    
+
     public void BroadcastGameState(GameState state)
     {
+        if (state == null)
+            throw new ArgumentNullException(nameof(state));
+
         var packet = XPacket.Create(XPacketType.GameStateUpdate);
-        packet.SetValue(1, state.CurrentPlayer.Name);
+
+        // Core state
+        packet.SetValue(1, state.CurrentPlayer?.Id ?? 0);
         packet.SetValue(2, (int)state.Phase);
-        packet.SetValue(3, state.DiceValue);
-        
-        Console.WriteLine($"BROADCAST: Player={state.CurrentPlayer.Id} Phase={state.Phase}");
+        packet.SetValueRaw(3, DiceResult.SerializeDice(state.DiceValue));
+        packet.SetString(4, state.LastAction ?? "");
+
+        // Per-player data (4 players)
+        for (int i = 0; i < 4; i++)
+        {
+            var p = state.Players[i];
+            packet.SetValue((byte)(10 + i), p.Money);
+            packet.SetString((byte)(20 + i), p.Name ?? "");
+            packet.SetString((byte)(30 + i), string.Join(",", p.City.Select(e => e.Name)));
+
+            // Sites: serialize as comma-separated "name:activated" pairs
+            var sitesData = string.Join(",", p.Sites.Select(s => $"{s.Key}:{(s.Value.IsActivated ? 1 : 0)}"));
+            packet.SetString((byte)(40 + i), sitesData);
+        }
+
+        Console.WriteLine($"BROADCAST: Player={state.CurrentPlayer?.Id} Phase={state.Phase}");
         Broadcast(packet);
     }
+
 
     public void BroadcastLobbyState()
     {
@@ -107,13 +125,13 @@ public class XServer
         using var ms = new MemoryStream();
         using var bw = new BinaryWriter(ms);
 
-        bw.Write((byte)players.Count);  // количество игроков (0-255)
+        bw.Write((byte)players.Count); 
 
         foreach (var player in players)
         {
-            bw.Write((byte)(player.Name.Length)); // длина имени
-            bw.Write(Encoding.UTF8.GetBytes(player.Name)); // имя
-            bw.Write(player.IsReady);            // bool (1 байт)
+            bw.Write((byte)(player.Name.Length));
+            bw.Write(Encoding.UTF8.GetBytes(player.Name)); 
+            bw.Write(player.IsReady);         
         }
 
         return ms.ToArray();
