@@ -259,6 +259,32 @@ namespace MachiCoroUI
             this.StartPosition = FormStartPosition.CenterScreen;
             _allMarketCards = LoadMarket();
             RenderMarket(_allMarketCards);
+
+            ConnectPanel.Resize += (_, _) => CenterConnectControls();
+            LobbyPanel.Resize += (_, _) => CenterLobbyControls();
+            CenterConnectControls();
+            CenterLobbyControls();
+        }
+
+        private void CenterConnectControls()
+        {
+            int cx = ConnectPanel.ClientSize.Width / 2;
+            int cy = ConnectPanel.ClientSize.Height / 2;
+
+            label4.Location = new Point(cx - label4.Width - 10, cy - 15);
+            NicknameBox.Location = new Point(cx - label4.Width - 10 + label4.Width + 20, cy - 15);
+            button2.Location = new Point(cx - button2.Width / 2, cy + 30);
+        }
+
+        private void CenterLobbyControls()
+        {
+            int cx = LobbyPanel.ClientSize.Width / 2;
+            int cy = LobbyPanel.ClientSize.Height / 2;
+
+            label1.Location = new Point(cx - label1.Width / 2, cy - 120);
+            playerList.Location = new Point(cx - playerList.Width / 2, cy - 80);
+            readyButton.Location = new Point(cx - readyButton.Width / 2, cy + 90);
+            Confirm.Location = new Point(cx - Confirm.Width / 2, cy + 90);
         }
 
         private void RenderLobby(LobbyState lobby)

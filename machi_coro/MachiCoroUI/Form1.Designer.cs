@@ -98,10 +98,10 @@
             Status.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
             SuspendLayout();
-            // 
+            //
             // button2
-            // 
-            button2.Location = new Point(669, 137);
+            //
+            button2.Anchor = AnchorStyles.None;
             button2.Margin = new Padding(2, 1, 2, 1);
             button2.Name = "button2";
             button2.Size = new Size(390, 75);
@@ -109,68 +109,64 @@
             button2.Text = "Подключиться";
             button2.UseVisualStyleBackColor = true;
             button2.Click += Sign_in_button_Click;
-            // 
+            //
             // playerList
-            // 
+            //
             playerList.FormattingEnabled = true;
             playerList.ItemHeight = 15;
-            playerList.Location = new Point(538, 98);
+            playerList.Anchor = AnchorStyles.None;
             playerList.Margin = new Padding(2, 1, 2, 1);
             playerList.Name = "playerList";
-            playerList.Size = new Size(184, 154);
+            playerList.Size = new Size(250, 154);
             playerList.TabIndex = 12;
-            // 
+            //
             // label1
-            // 
+            //
             label1.AutoSize = true;
+            label1.Anchor = AnchorStyles.None;
             label1.Font = new Font("Segoe UI", 15F);
-            label1.Location = new Point(488, 40);
             label1.Name = "label1";
-            label1.Size = new Size(289, 28);
             label1.TabIndex = 13;
             label1.Text = "\"Ожидание других игроков…\"";
-            // 
+            //
             // ConnectPanel
-            // 
+            //
             ConnectPanel.Controls.Add(label4);
             ConnectPanel.Controls.Add(NicknameBox);
             ConnectPanel.Controls.Add(button2);
-            ConnectPanel.Location = new Point(138, 54);
+            ConnectPanel.Dock = DockStyle.Fill;
             ConnectPanel.Name = "ConnectPanel";
-            ConnectPanel.Size = new Size(1344, 596);
             ConnectPanel.TabIndex = 14;
-            // 
+            //
             // label4
-            // 
+            //
             label4.AutoSize = true;
-            label4.Location = new Point(47, 166);
+            label4.Anchor = AnchorStyles.None;
             label4.Name = "label4";
-            label4.Size = new Size(128, 15);
             label4.TabIndex = 3;
             label4.Text = "Введите ваш никнейм";
-            // 
+            //
             // NicknameBox
-            // 
-            NicknameBox.Location = new Point(203, 163);
+            //
+            NicknameBox.Anchor = AnchorStyles.None;
             NicknameBox.Name = "NicknameBox";
             NicknameBox.Size = new Size(339, 23);
             NicknameBox.TabIndex = 2;
-            // 
+            //
             // LobbyPanel
-            // 
+            //
             LobbyPanel.Controls.Add(Confirm);
             LobbyPanel.Controls.Add(readyButton);
             LobbyPanel.Controls.Add(playerList);
             LobbyPanel.Controls.Add(label1);
-            LobbyPanel.Location = new Point(30, 57);
+            LobbyPanel.Dock = DockStyle.Fill;
             LobbyPanel.Name = "LobbyPanel";
-            LobbyPanel.Size = new Size(1316, 566);
             LobbyPanel.TabIndex = 15;
-            // 
+            //
             // Confirm
-            // 
+            //
             Confirm.Enabled = false;
-            Confirm.Location = new Point(538, 331);
+            Confirm.Anchor = AnchorStyles.None;
             Confirm.Name = "Confirm";
             Confirm.Size = new Size(186, 60);
             Confirm.TabIndex = 15;
@@ -178,23 +174,22 @@
             Confirm.UseVisualStyleBackColor = false;
             Confirm.Visible = false;
             Confirm.Click += Confirm_Click;
-            // 
+            //
             // readyButton
-            // 
-            readyButton.Location = new Point(538, 331);
+            //
+            readyButton.Anchor = AnchorStyles.None;
             readyButton.Name = "readyButton";
             readyButton.Size = new Size(186, 60);
             readyButton.TabIndex = 14;
             readyButton.Text = "Готов";
             readyButton.UseVisualStyleBackColor = true;
             readyButton.Click += readyButton_Click;
-            // 
+            //
             // GamePanel
-            // 
+            //
             GamePanel.Controls.Add(splitContainer1);
-            GamePanel.Location = new Point(61, 26);
+            GamePanel.Dock = DockStyle.Fill;
             GamePanel.Name = "GamePanel";
-            GamePanel.Size = new Size(1353, 611);
             GamePanel.TabIndex = 16;
             // 
             // splitContainer1
