@@ -1,4 +1,5 @@
 ﻿using Game.Models;
+using Game.Models.Dice;
 using Game.Models.Enterprises;
 using Game.Models.Player;
 using ProtocolFramework;
@@ -191,6 +192,12 @@ public class ConnectedClient
             return;
         }
 
+        if (dices == 2 && !ClientPlayer.IsTwoDices)
+        {
+            SendError("Нужен Вокзал для двух кубиков");
+            return;
+        }
+
         Game.Instance.DiceValue = PlayerAction.Roll(ClientPlayer, dices);
         _server.BroadcastGameState(instance);
     }
@@ -202,13 +209,24 @@ public class ConnectedClient
 
         if (instance.CurrentPlayer != ClientPlayer || instance.Phase != Phase.Build)
         {
-           SendError("сейчас нельзя строить");
+           SendError("Сейчас нельзя строить");
            return;
+        }
+
+        // Пропуск строительства
+        if (string.IsNullOrEmpty(enterpriseName))
+        {
+            instance.NextPhase();
+            if (!(ClientPlayer.IsDoubleCheck && instance.DiceValue.IsDouble))
+                instance.NextPlayer();
+            instance.DiceValue = new DiceResult(0, false);
+            _server.BroadcastGameState(instance);
+            return;
         }
 
         if (!PlayerAction.TryBuild(ClientPlayer, enterpriseName, Game))
         {
-            SendError("брут нельзя");
+            SendError("Не удалось построить");
             return;
         }
 
@@ -221,6 +239,7 @@ public class ConnectedClient
 
         if (!(ClientPlayer.IsDoubleCheck && instance.DiceValue.IsDouble))
             instance.NextPlayer();
+        instance.DiceValue = new DiceResult(0, false);
         _server.BroadcastGameState(instance);
     }
 
@@ -254,15 +273,26 @@ public class ConnectedClient
 
     private void ProcessConfirm()
     {
-        if (Game.Instance.Phase != Phase.Roll)
+        var instance = Game.Instance;
+        if (instance.CurrentPlayer != ClientPlayer || instance.Phase != Phase.Roll)
         {
-            SendError("lol");
+            SendError("Сейчас нельзя подтвердить");
             return;
         }
-        
-        Game.Instance.NextPhase();
-        PlayerAction.Income(ClientPlayer, Game.Instance);
-        Game.Instance.NextPhase();
+
+        instance.NextPhase();              // Roll → Income
+        PlayerAction.Income(ClientPlayer, instance);
+        instance.NextPhase();              // Income → Steal
+
+        // Auto-skip Steal if player doesn't have the ability
+        if (!ClientPlayer.IsStealer && instance.Phase == Phase.Steal)
+            instance.NextPhase();          // Steal → Change
+
+        // Auto-skip Change if player doesn't have the ability
+        if (!ClientPlayer.IsChangeable && instance.Phase == Phase.Change)
+            instance.NextPhase();          // Change → Build
+
+        _server.BroadcastGameState(instance);
     }
 
 

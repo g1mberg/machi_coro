@@ -82,6 +82,8 @@ namespace MachiCoroUI
         private Button skipChangeButton;
         private Button stealButton;
         private Button skipButton;
+        private Button confirmPhaseButton;
+        private Button skipBuildButton;
 
         // Helper panels for opponent layout (name+money strip)
         private Panel leftOppHeader;
@@ -139,6 +141,8 @@ namespace MachiCoroUI
             skipChangeButton = new Button();
             stealButton = new Button();
             skipButton = new Button();
+            confirmPhaseButton = new Button();
+            skipBuildButton = new Button();
             mainTable.SuspendLayout();
             topTable.SuspendLayout();
             leftOppPanel.SuspendLayout();
@@ -205,36 +209,27 @@ namespace MachiCoroUI
             // leftOppHeader — top strip with name + money
             //
             leftOppHeader.Controls.Add(leftOppName);
-            leftOppHeader.Controls.Add(leftOppMoneyCaption);
             leftOppHeader.Controls.Add(leftOppMoney);
             leftOppHeader.Dock = DockStyle.Top;
-            leftOppHeader.Height = 30;
+            leftOppHeader.Height = 36;
             leftOppHeader.Name = "leftOppHeader";
             //
             // leftOppName
             //
             leftOppName.AutoSize = true;
             leftOppName.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            leftOppName.Location = new Point(2, 4);
+            leftOppName.Location = new Point(4, 4);
             leftOppName.Name = "leftOppName";
             leftOppName.Text = "Игрок L";
             leftOppName.TabIndex = 0;
-            //
-            // leftOppMoneyCaption
-            //
-            leftOppMoneyCaption.AutoSize = true;
-            leftOppMoneyCaption.Location = new Point(120, 4);
-            leftOppMoneyCaption.Name = "leftOppMoneyCaption";
-            leftOppMoneyCaption.Text = "Монет:";
-            leftOppMoneyCaption.TabIndex = 1;
             //
             // leftOppMoney
             //
             leftOppMoney.AutoSize = true;
             leftOppMoney.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            leftOppMoney.Location = new Point(175, 4);
+            leftOppMoney.Location = new Point(4, 16);
             leftOppMoney.Name = "leftOppMoney";
-            leftOppMoney.Text = "0";
+            leftOppMoney.Text = "Монет: 0";
             leftOppMoney.TabIndex = 2;
             //
             // leftOppEnterprises — fills remaining space
@@ -284,36 +279,27 @@ namespace MachiCoroUI
             // topOppHeader — top strip with name + money
             //
             topOppHeader.Controls.Add(topOppName);
-            topOppHeader.Controls.Add(topOppMoneyCaption);
             topOppHeader.Controls.Add(topOppMoney);
             topOppHeader.Dock = DockStyle.Top;
-            topOppHeader.Height = 30;
+            topOppHeader.Height = 36;
             topOppHeader.Name = "topOppHeader";
             //
             // topOppName
             //
             topOppName.AutoSize = true;
             topOppName.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            topOppName.Location = new Point(2, 4);
+            topOppName.Location = new Point(4, 4);
             topOppName.Name = "topOppName";
             topOppName.Text = "Игрок T";
             topOppName.TabIndex = 0;
-            //
-            // topOppMoneyCaption
-            //
-            topOppMoneyCaption.AutoSize = true;
-            topOppMoneyCaption.Location = new Point(120, 4);
-            topOppMoneyCaption.Name = "topOppMoneyCaption";
-            topOppMoneyCaption.Text = "Монет:";
-            topOppMoneyCaption.TabIndex = 1;
             //
             // topOppMoney
             //
             topOppMoney.AutoSize = true;
             topOppMoney.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            topOppMoney.Location = new Point(175, 4);
+            topOppMoney.Location = new Point(4, 16);
             topOppMoney.Name = "topOppMoney";
-            topOppMoney.Text = "0";
+            topOppMoney.Text = "Монет: 0";
             topOppMoney.TabIndex = 2;
             //
             // topOppEnterprises — fills remaining space
@@ -358,36 +344,27 @@ namespace MachiCoroUI
             // rightOppHeader — top strip with name + money
             //
             rightOppHeader.Controls.Add(rightOppName);
-            rightOppHeader.Controls.Add(rightOppMoneyCaption);
             rightOppHeader.Controls.Add(rightOppMoney);
             rightOppHeader.Dock = DockStyle.Top;
-            rightOppHeader.Height = 30;
+            rightOppHeader.Height = 36;
             rightOppHeader.Name = "rightOppHeader";
             //
             // rightOppName
             //
             rightOppName.AutoSize = true;
             rightOppName.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            rightOppName.Location = new Point(2, 4);
+            rightOppName.Location = new Point(4, 4);
             rightOppName.Name = "rightOppName";
             rightOppName.Text = "Игрок R";
             rightOppName.TabIndex = 0;
-            //
-            // rightOppMoneyCaption
-            //
-            rightOppMoneyCaption.AutoSize = true;
-            rightOppMoneyCaption.Location = new Point(120, 4);
-            rightOppMoneyCaption.Name = "rightOppMoneyCaption";
-            rightOppMoneyCaption.Text = "Монет:";
-            rightOppMoneyCaption.TabIndex = 1;
             //
             // rightOppMoney
             //
             rightOppMoney.AutoSize = true;
             rightOppMoney.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            rightOppMoney.Location = new Point(175, 4);
+            rightOppMoney.Location = new Point(4, 16);
             rightOppMoney.Name = "rightOppMoney";
-            rightOppMoney.Text = "0";
+            rightOppMoney.Text = "Монет: 0";
             rightOppMoney.TabIndex = 2;
             //
             // rightOppEnterprises — fills remaining space
@@ -453,16 +430,17 @@ namespace MachiCoroUI
             playerMoneyCaption.AutoSize = true;
             playerMoneyCaption.Location = new Point(8, 38);
             playerMoneyCaption.Name = "playerMoneyCaption";
-            playerMoneyCaption.Text = "Монет:";
+            playerMoneyCaption.Text = "";
+            playerMoneyCaption.Visible = false;
             playerMoneyCaption.TabIndex = 1;
             //
             // playerMoney
             //
             playerMoney.AutoSize = true;
-            playerMoney.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            playerMoney.Location = new Point(75, 38);
+            playerMoney.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            playerMoney.Location = new Point(8, 34);
             playerMoney.Name = "playerMoney";
-            playerMoney.Text = "0";
+            playerMoney.Text = "Монет: 0";
             playerMoney.TabIndex = 2;
             //
             // rollDiceButton
@@ -548,6 +526,8 @@ namespace MachiCoroUI
             statusFlow.Controls.Add(skipChangeButton);
             statusFlow.Controls.Add(stealButton);
             statusFlow.Controls.Add(skipButton);
+            statusFlow.Controls.Add(confirmPhaseButton);
+            statusFlow.Controls.Add(skipBuildButton);
             statusFlow.Dock = DockStyle.Fill;
             statusFlow.FlowDirection = FlowDirection.TopDown;
             statusFlow.WrapContents = false;
@@ -659,6 +639,24 @@ namespace MachiCoroUI
             skipButton.TabIndex = 10;
             skipButton.Text = "Пропустить";
             skipButton.Visible = false;
+            //
+            // confirmPhaseButton
+            //
+            confirmPhaseButton.Margin = new Padding(3, 8, 3, 2);
+            confirmPhaseButton.Name = "confirmPhaseButton";
+            confirmPhaseButton.Size = new Size(140, 28);
+            confirmPhaseButton.TabIndex = 11;
+            confirmPhaseButton.Text = "Подтвердить";
+            confirmPhaseButton.Visible = false;
+            //
+            // skipBuildButton
+            //
+            skipBuildButton.Margin = new Padding(3, 2, 3, 2);
+            skipBuildButton.Name = "skipBuildButton";
+            skipBuildButton.Size = new Size(140, 28);
+            skipBuildButton.TabIndex = 12;
+            skipBuildButton.Text = "Пропустить";
+            skipBuildButton.Visible = false;
             //
             // GameView
             //

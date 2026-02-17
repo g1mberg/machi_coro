@@ -16,7 +16,7 @@ public class Player
 
     public bool IsTwoDices => Sites["Terminal"].IsActivated;
     public bool IsMall => Sites["Mall"].IsActivated;
-    public bool IsDoubleCheck => Sites["tvTower"].IsActivated;
+    public bool IsDoubleCheck => Sites["TvTower"].IsActivated;
     public bool IsReroll => Sites["Park"].IsActivated;
     public bool IsChangeable { get; set; } = false;
     public bool IsStealer { get; set; } = false;
@@ -31,7 +31,8 @@ public class Player
         Money = 3;
         City.Add(JsonRepository<Enterprise>.Get("WheatField"));
         City.Add(JsonRepository<Enterprise>.Get("Bakery"));
-        Sites = JsonRepository<Site>.GetDict();
+        Sites = JsonRepository<Site>.GetDict()
+            .ToDictionary(kvp => kvp.Key, kvp => new Site { Name = kvp.Value.Name, Cost = kvp.Value.Cost });
     }
     
     public int TakeMoney(int amount)

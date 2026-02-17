@@ -34,6 +34,7 @@ namespace MachiCoroUI
         int? _stealTargetPlayerId;
         int _stealAmount = 1;
         private int _lastDiceCount = 1;
+        private bool _canRollTwoDice = false;
 
 
 
@@ -58,6 +59,8 @@ namespace MachiCoroUI
             _gameView.SkipChangeButton.Click += skipChangeButton_Click;
             _gameView.StealButton.Click += stealButton_Click;
             _gameView.SkipButton.Click += skip_Click;
+            _gameView.ConfirmPhaseButton.Click += confirmPhase_Click;
+            _gameView.SkipBuildButton.Click += skipBuild_Click;
 
             client.OnPacketRecieve += Client_OnPacketRecieve;
             ConnectPanel.Visible = true;
@@ -167,6 +170,13 @@ namespace MachiCoroUI
                         break;
                     }
 
+                case XPacketType.Error:
+                    {
+                        var msg = packet.GetString(1);
+                        BeginInvoke(() => _gameView.LastActionLabel.Text = $"Ошибка: {msg}");
+                        break;
+                    }
+
 
 
 
@@ -193,17 +203,27 @@ namespace MachiCoroUI
             bool isChangePhase = game.Phase == Phase.Change;
             bool isStealPhase = game.Phase == Phase.Steal;
 
+            // Track two-dice ability
+            _canRollTwoDice = game.Players[me].IsTwoDices;
+
             // Show/hide action buttons based on phase
-            _gameView.RollDiceButton.Visible = isMyTurn && game.Phase == Phase.Roll;
+            bool isRollPhase = game.Phase == Phase.Roll;
+            bool diceNotRolled = game.DiceValue.Sum == 0;
+            _gameView.RollDiceButton.Visible = isMyTurn && isRollPhase && diceNotRolled;
             _gameView.ChangeButton.Visible = isMyTurn && isChangePhase;
             _gameView.SkipChangeButton.Visible = isMyTurn && isChangePhase;
             _gameView.StealButton.Visible = isMyTurn && isStealPhase;
             _gameView.SkipButton.Visible = isMyTurn && isStealPhase;
             _gameView.BuildButton.Visible = isMyTurn && game.Phase == Phase.Build;
+            _gameView.SkipBuildButton.Visible = isMyTurn && game.Phase == Phase.Build;
 
             _gameView.RerollButton.Visible = game.Phase == Phase.Roll &&
                                              isMyTurn &&
                                              game.CurrentPlayer.IsReroll;
+
+            // Show confirm button after dice have been rolled
+            bool diceRolled = isRollPhase && !diceNotRolled;
+            _gameView.ConfirmPhaseButton.Visible = isMyTurn && diceRolled;
 
             // Hide dice choice after roll
             _gameView.HowDiceLabel.Visible = false;
@@ -224,7 +244,7 @@ namespace MachiCoroUI
             // Player info
             _gameView.PlayerNameLabel.Text = isMyTurn ? $"* {_username} *" : _username;
             _gameView.PlayerNameLabel.ForeColor = isMyTurn ? Color.Green : Color.Black;
-            _gameView.PlayerMoneyLabel.Text = game.Players[me].Money.ToString();
+            _gameView.PlayerMoneyLabel.Text = $"Монет: {game.Players[me].Money}";
             RenderCity(_gameView.PlayerEnterprisesPanel, game.Players[me].City);
             RenderSites(_gameView.PlayerSitesPanel, game.Players[me].Sites);
 
@@ -232,7 +252,7 @@ namespace MachiCoroUI
             bool isLeftTurn = currentId == left;
             _gameView.LeftNameLabel.Text = isLeftTurn ? $">> {game.Players[left].Name}" : game.Players[left].Name;
             _gameView.LeftNameLabel.ForeColor = isLeftTurn ? Color.OrangeRed : Color.Black;
-            _gameView.LeftMoneyLabel.Text = game.Players[left].Money.ToString();
+            _gameView.LeftMoneyLabel.Text = $"Монет: {game.Players[left].Money}";
             RenderCity(_gameView.LeftEnterprisesPanel, game.Players[left].City);
             RenderSites(_gameView.LeftSitesPanel, game.Players[left].Sites);
 
@@ -240,7 +260,7 @@ namespace MachiCoroUI
             bool isRightTurn = currentId == right;
             _gameView.RightNameLabel.Text = isRightTurn ? $">> {game.Players[right].Name}" : game.Players[right].Name;
             _gameView.RightNameLabel.ForeColor = isRightTurn ? Color.OrangeRed : Color.Black;
-            _gameView.RightMoneyLabel.Text = game.Players[right].Money.ToString();
+            _gameView.RightMoneyLabel.Text = $"Монет: {game.Players[right].Money}";
             RenderCity(_gameView.RightEnterprisesPanel, game.Players[right].City);
             RenderSites(_gameView.RightSitesPanel, game.Players[right].Sites);
 
@@ -248,7 +268,7 @@ namespace MachiCoroUI
             bool isTopTurn = currentId == top;
             _gameView.TopNameLabel.Text = isTopTurn ? $">> {game.Players[top].Name}" : game.Players[top].Name;
             _gameView.TopNameLabel.ForeColor = isTopTurn ? Color.OrangeRed : Color.Black;
-            _gameView.TopMoneyLabel.Text = game.Players[top].Money.ToString();
+            _gameView.TopMoneyLabel.Text = $"Монет: {game.Players[top].Money}";
             RenderCity(_gameView.TopEnterprisesPanel, game.Players[top].City);
             RenderSites(_gameView.TopSitesPanel, game.Players[top].Sites);
         }
@@ -296,25 +316,17 @@ namespace MachiCoroUI
             foreach (var p in lobby.Players)
                 playerList.Items.Add($"{p.Name} {(p.IsReady ? "✔" : "❌")}");
         }
-        private EnterpriseView MapLandmarkToView(Site l)
-        {
-            return new EnterpriseView
-            {
-                Name = l.Name,
-            };
-        }
         private void RenderSites(FlowLayoutPanel panel, Dictionary<string, Site> da)
         {
             panel.SuspendLayout();
             panel.Controls.Clear();
 
-            foreach (var landmark in da.Values)
+            foreach (var kvp in da)
             {
-                var view = MapLandmarkToView(landmark);
+                var view = new EnterpriseView { Name = kvp.Key };
                 var pb = CreateCard(view);
 
-                // 🔒 нельзя кликать, если уже построено
-                if (landmark.IsActivated)
+                if (kvp.Value.IsActivated)
                     pb.Enabled = false;
 
                 panel.Controls.Add(pb);
@@ -335,6 +347,19 @@ namespace MachiCoroUI
             packet.SetValue(2, _stealAmount);
             client.QueuePacketSend(packet.ToPacket());
             _stealTargetPlayerId = null;
+        }
+
+        private void skipBuild_Click(object sender, EventArgs e)
+        {
+            var packet = XPacket.Create(XPacketType.Build);
+            packet.SetString(1, "");
+            client.QueuePacketSend(packet.ToPacket());
+        }
+
+        private void confirmPhase_Click(object sender, EventArgs e)
+        {
+            var packet = XPacket.Create(XPacketType.Confirm);
+            client.QueuePacketSend(packet.ToPacket());
         }
 
         private void skip_Click(object sender, EventArgs e)
@@ -534,9 +559,20 @@ namespace MachiCoroUI
 
         private void rollDice_Click(object sender, EventArgs e)
         {
-            _gameView.HowDiceLabel.Visible = true;
-            _gameView.Roll1Button.Visible = true;
-            _gameView.Roll2Button.Visible = true;
+            if (_canRollTwoDice)
+            {
+                _gameView.HowDiceLabel.Visible = true;
+                _gameView.Roll1Button.Visible = true;
+                _gameView.Roll2Button.Visible = true;
+            }
+            else
+            {
+                // Без Вокзала — сразу кидаем 1 кубик
+                _lastDiceCount = 1;
+                var packet = XPacket.Create(XPacketType.Roll);
+                packet.SetValue(1, 1);
+                client.QueuePacketSend(packet.ToPacket());
+            }
         }
 
         private void label5_Click(object sender, EventArgs e)

@@ -58,6 +58,8 @@ namespace MachiCoroUI
         public Button SkipChangeButton => skipChangeButton;
         public Button StealButton => stealButton;
         public Button SkipButton => skipButton;
+        public Button ConfirmPhaseButton => confirmPhaseButton;
+        public Button SkipBuildButton => skipBuildButton;
     }
 
 }
