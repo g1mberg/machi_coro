@@ -79,13 +79,13 @@ public class XServer
 
         var packet = XPacket.Create(XPacketType.GameStateUpdate);
 
-        // Core state
+   
         packet.SetValue(1, state.CurrentPlayer?.Id ?? 0);
         packet.SetValue(2, (int)state.Phase);
         packet.SetValueRaw(3, DiceResult.SerializeDice(state.DiceValue));
         packet.SetString(4, state.LastAction ?? "");
 
-        // Per-player data (4 players)
+  
         for (int i = 0; i < 4; i++)
         {
             var p = state.Players[i];
@@ -93,7 +93,7 @@ public class XServer
             packet.SetString((byte)(20 + i), p.Name ?? "");
             packet.SetString((byte)(30 + i), string.Join(",", p.City.Select(e => e.Name)));
 
-            // Sites: serialize as comma-separated "name:activated" pairs
+     
             var sitesData = string.Join(",", p.Sites.Select(s => $"{s.Key}:{(s.Value.IsActivated ? 1 : 0)}"));
             packet.SetString((byte)(40 + i), sitesData);
         }

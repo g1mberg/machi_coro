@@ -174,6 +174,7 @@ namespace MachiCoroUI
                     {
                         var msg = packet.GetString(1);
                         BeginInvoke(() => _gameView.LastActionLabel.Text = $"Ошибка: {msg}");
+                        ShakeForm();
                         break;
                     }
 
@@ -189,7 +190,20 @@ namespace MachiCoroUI
             packet.SetValue(1, _lastDiceCount); // 1 или 2
             client.QueuePacketSend(packet.ToPacket());
         }
-
+        private void ShakeForm()
+        {
+            var originalLocation = this.Location;
+            var rnd = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                this.Location = new Point(
+                    originalLocation.X + rnd.Next(-5, 5),
+                    originalLocation.Y + rnd.Next(-5, 5)
+                );
+                System.Threading.Thread.Sleep(20); // Маленькая пауза
+            }
+            this.Location = originalLocation; // Возвращаем на место
+        }
 
         void RenderGame(GameState game)
         {
@@ -324,16 +338,56 @@ namespace MachiCoroUI
             foreach (var kvp in da)
             {
                 var view = new EnterpriseView { Name = kvp.Key };
-                var pb = CreateCard(view);
+                var pb = (PictureBox)CreateCard(view); // Приводим к PictureBox
 
                 if (kvp.Value.IsActivated)
-                    pb.Enabled = false;
+                {
+                    // АКТИВИРОВАНА: делаем яркую рамку и обычный цвет
+                    pb.BorderStyle = BorderStyle.FixedSingle;
+                    pb.BackColor = Color.Gold;
+                    pb.Padding = new Padding(3);
+                }
+                else
+                {
+                    // НЕ АКТИВИРОВАНА: делаем полупрозрачной/серой
+                    pb.Image = CreateGrayscaleImage(pb.Image);
+                    pb.Enabled = true; // Оставляем включенной, чтобы можно было кликнуть и купить
+                    pb.BackColor = Color.Gray;
+                }
 
                 panel.Controls.Add(pb);
             }
 
             panel.ResumeLayout();
         }
+
+        // Вспомогательный метод для создания "серой" картинки (проще всего)
+        private Image CreateGrayscaleImage(Image original)
+        {
+            Bitmap newBitmap = new Bitmap(original.Width, original.Height);
+            using (Graphics g = Graphics.FromImage(newBitmap))
+            {
+                // Матрица для перевода в ч/б и прозрачность 50%
+                System.Drawing.Imaging.ColorMatrix colorMatrix = new System.Drawing.Imaging.ColorMatrix(
+                    new float[][]
+                    {
+                new float[] {.3f, .3f, .3f, 0, 0},
+                new float[] {.59f, .59f, .59f, 0, 0},
+                new float[] {.11f, .11f, .11f, 0, 0},
+                new float[] {0, 0, 0, 0.5f, 0}, // 0.5f — это прозрачность
+                new float[] {0, 0, 0, 0, 1}
+                    });
+
+                using (var attributes = new System.Drawing.Imaging.ImageAttributes())
+                {
+                    attributes.SetColorMatrix(colorMatrix);
+                    g.DrawImage(original, new Rectangle(0, 0, original.Width, original.Height),
+                        0, 0, original.Width, original.Height, GraphicsUnit.Pixel, attributes);
+                }
+            }
+            return newBitmap;
+        }
+
         private void stealButton_Click(object sender, EventArgs e)
         {
             if (_stealTargetPlayerId == null)
@@ -375,8 +429,20 @@ namespace MachiCoroUI
         private List<EnterpriseView> LoadMarket()
         {
             var json = File.ReadAllText("market_cards.json");
+            var allCards = JsonSerializer.Deserialize<List<EnterpriseView>>(json)!;
 
-            return JsonSerializer.Deserialize<List<EnterpriseView>>(json)!;
+
+            var excludedNames = new HashSet<string>
+            {
+                "Пшеничное поле",
+                "Пекарня",
+               "Terminal",
+               "Mall",
+                "Park",
+                "TvTower"
+            };
+
+            return allCards.Where(c => !excludedNames.Contains(c.Name)).ToList();
         }
 
         void OnOpponentClicked(int playerId, GameState game)
@@ -505,18 +571,19 @@ namespace MachiCoroUI
 
         private void MarketCard_Click(object? sender, EventArgs e)
         {
-            if (sender is not PictureBox pb)
-                return;
+            if (sender is not PictureBox pb) return;
 
-            _selectedMarketCard = (EnterpriseView)pb.Tag;
 
             foreach (Control c in _gameView.MarketPanel.Controls)
             {
-                if (c is PictureBox p)
-                    p.BorderStyle = BorderStyle.None;
+                c.Size = new Size(90, 130);
+                c.BackColor = Color.Transparent;
             }
 
-            pb.BorderStyle = BorderStyle.Fixed3D;
+
+            _selectedMarketCard = (EnterpriseView)pb.Tag;
+            pb.Size = new Size(100, 145);
+            pb.BackColor = Color.Gold;
         }
 
 
@@ -713,6 +780,16 @@ namespace MachiCoroUI
                 LastAction = lastAction,
                 Players = players
             };
+        }
+
+        private void skip_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void stealButton_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

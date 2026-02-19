@@ -284,11 +284,11 @@ public class ConnectedClient
         PlayerAction.Income(ClientPlayer, instance);
         instance.NextPhase();              // Income → Steal
 
-        // Auto-skip Steal if player doesn't have the ability
+     
         if (!ClientPlayer.IsStealer && instance.Phase == Phase.Steal)
             instance.NextPhase();          // Steal → Change
 
-        // Auto-skip Change if player doesn't have the ability
+     
         if (!ClientPlayer.IsChangeable && instance.Phase == Phase.Change)
             instance.NextPhase();          // Change → Build
 
