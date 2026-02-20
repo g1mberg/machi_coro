@@ -6,6 +6,7 @@ namespace Game.Models.Player;
 
 public class Player
 {
+    public const int StartMoney = 100;
     public int Id { get; set; }
     public string Name { get; set; }
     public int Money { get; private set; }
@@ -28,7 +29,7 @@ public class Player
     {
         Id = id;
         Name = name;
-        Money = 3;
+        Money = StartMoney;
         City.Add(JsonRepository<Enterprise>.Get("WheatField"));
         City.Add(JsonRepository<Enterprise>.Get("Bakery"));
         Sites = JsonRepository<Site>.GetDict()

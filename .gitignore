@@ -55,3 +55,9 @@ publish/
 coverage/
 *.coverage
 *.coveragexml
+
+# ======================
+# Claude Code
+# ======================
+CLAUDE.md
+.claude/

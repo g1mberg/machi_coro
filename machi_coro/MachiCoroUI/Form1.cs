@@ -32,9 +32,10 @@ namespace MachiCoroUI
         int? _targetPlayerId;
         string? _targetBuilding;
         int? _stealTargetPlayerId;
-        int _stealAmount = 1;
+        int _stealAmount = 5;
         private int _lastDiceCount = 1;
         private bool _canRollTwoDice = false;
+        private GameState? _lastGameState;
 
 
 
@@ -207,6 +208,7 @@ namespace MachiCoroUI
 
         void RenderGame(GameState game)
         {
+            _lastGameState = game;
             var me = _myPlayerId;
             var left = (me + 1) % 4;
             var top = (me + 2) % 4;
@@ -251,7 +253,11 @@ namespace MachiCoroUI
             _gameView.CurrentPlayerLabel.BackColor = isMyTurn ? Color.LightGreen : Color.LightYellow;
             this.Text = "Machi Coro";
 
-            _gameView.DiceLabel.Text = $"Кубик: {game.DiceValue.Sum}";
+            _gameView.DiceLabel.Text = game.DiceValue.Sum == 0
+                ? "Кубик: —"
+                : game.DiceValue.Die2 == 0
+                    ? $"Кубик: {game.DiceValue.Die1}"
+                    : $"Кубики: {game.DiceValue.Die1} + {game.DiceValue.Die2} = {game.DiceValue.Sum}";
             _gameView.PhaseLabel.Text = $"Фаза: {game.Phase}";
             _gameView.LastActionLabel.Text = game.LastAction;
 
@@ -390,11 +396,51 @@ namespace MachiCoroUI
 
         private void stealButton_Click(object sender, EventArgs e)
         {
-            if (_stealTargetPlayerId == null)
+            if (_lastGameState == null) return;
+
+            var dialog = new Form
             {
-                _gameView.LastActionLabel.Text = "Сначала выбери цель";
-                return;
+                Text = "Выбери цель для кражи",
+                Width = 300,
+                Height = 80,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                StartPosition = FormStartPosition.CenterParent,
+                MaximizeBox = false,
+                MinimizeBox = false
+            };
+
+            var flow = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                Padding = new Padding(10),
+                FlowDirection = FlowDirection.TopDown,
+                AutoSize = true
+            };
+            dialog.Controls.Add(flow);
+
+            foreach (var player in _lastGameState.Players)
+            {
+                if (player.Id == _myPlayerId) continue;
+
+                var btn = new Button
+                {
+                    Text = $"{player.Name}  ({player.Money} монет)",
+                    Width = 260,
+                    Height = 36,
+                    Tag = player.Id
+                };
+                btn.Click += (_, _) =>
+                {
+                    _stealTargetPlayerId = (int)btn.Tag;
+                    dialog.DialogResult = DialogResult.OK;
+                    dialog.Close();
+                };
+                flow.Controls.Add(btn);
+                dialog.Height += 46;
             }
+
+            if (dialog.ShowDialog(this) != DialogResult.OK || _stealTargetPlayerId == null)
+                return;
 
             var packet = XPacket.Create(XPacketType.Steal);
             packet.SetValue(1, _stealTargetPlayerId.Value);
@@ -731,7 +777,7 @@ namespace MachiCoroUI
 
             var lastAction = packet.GetString(4);
 
-            var players = new Game.Models.Player.Player[4];
+            var players = new Player[4];
             for (int i = 0; i < 4; i++)
             {
                 var money = packet.GetValue<int>((byte)(10 + i));
@@ -739,10 +785,10 @@ namespace MachiCoroUI
                 var cityStr = packet.GetString((byte)(30 + i));
                 var sitesStr = packet.GetString((byte)(40 + i));
 
-                var player = new Game.Models.Player.Player(i, name);
+                var player = new Player(i, name);
 
                 // Set money: player starts with 3, adjust to match server value
-                player.AddMoney(money - 3);
+                player.AddMoney(money - Player.StartMoney);
 
                 // Rebuild city from comma-separated enterprise names
                 player.City.Clear();

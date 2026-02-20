@@ -10,13 +10,12 @@ public static class Dice
         if (diceCount == 1)
         {
             var res = Random.Next(1, 7);
-            return new DiceResult(res, false);
+            return new DiceResult(res, false, res, 0);
         }
 
         var res1 = Random.Next(1, 7);
         var res2 = Random.Next(1, 7);
-        var isDouble = res1 == res2;
 
-        return new DiceResult(res1 + res2, isDouble);
+        return new DiceResult(res1 + res2, res1 == res2, res1, res2);
     }
 }
