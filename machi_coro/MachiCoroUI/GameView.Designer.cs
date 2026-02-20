@@ -71,7 +71,7 @@ namespace MachiCoroUI
         private FlowLayoutPanel playerSites;
 
         private Panel statusPanel;
-        private FlowLayoutPanel statusFlow;
+        private TableLayoutPanel statusTable;
         private Label labelCurrentPlayer;
         private Label labelPhase;
         private Label labelDice;
@@ -131,7 +131,7 @@ namespace MachiCoroUI
             playerEnterprises = new FlowLayoutPanel();
             playerSites = new FlowLayoutPanel();
             statusPanel = new Panel();
-            statusFlow = new FlowLayoutPanel();
+            statusTable = new TableLayoutPanel();
             labelCurrentPlayer = new Label();
             labelPhase = new Label();
             labelDice = new Label();
@@ -158,7 +158,7 @@ namespace MachiCoroUI
             buttonFlow.SuspendLayout();
             playerCardsTable.SuspendLayout();
             statusPanel.SuspendLayout();
-            statusFlow.SuspendLayout();
+            statusTable.SuspendLayout();
             SuspendLayout();
             //
             // mainTable — two rows: 60% top (opponents+market), 40% bottom (player)
@@ -213,7 +213,7 @@ namespace MachiCoroUI
             leftOppHeader.Controls.Add(leftOppName);
             leftOppHeader.Controls.Add(leftOppMoney);
             leftOppHeader.Dock = DockStyle.Top;
-            leftOppHeader.Height = 36;
+            leftOppHeader.Height = 50;
             leftOppHeader.Name = "leftOppHeader";
             //
             // leftOppName
@@ -229,7 +229,7 @@ namespace MachiCoroUI
             //
             leftOppMoney.AutoSize = true;
             leftOppMoney.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            leftOppMoney.Location = new Point(4, 16);
+            leftOppMoney.Location = new Point(4, 28);
             leftOppMoney.Name = "leftOppMoney";
             leftOppMoney.Text = "Монет: 0";
             leftOppMoney.TabIndex = 2;
@@ -266,7 +266,7 @@ namespace MachiCoroUI
             topOppHeader.Controls.Add(topOppName);
             topOppHeader.Controls.Add(topOppMoney);
             topOppHeader.Dock = DockStyle.Top;
-            topOppHeader.Height = 36;
+            topOppHeader.Height = 50;
             topOppHeader.Name = "topOppHeader";
             //
             // topOppName
@@ -282,7 +282,7 @@ namespace MachiCoroUI
             //
             topOppMoney.AutoSize = true;
             topOppMoney.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            topOppMoney.Location = new Point(4, 16);
+            topOppMoney.Location = new Point(4, 28);
             topOppMoney.Name = "topOppMoney";
             topOppMoney.Text = "Монет: 0";
             topOppMoney.TabIndex = 2;
@@ -331,7 +331,7 @@ namespace MachiCoroUI
             rightOppHeader.Controls.Add(rightOppName);
             rightOppHeader.Controls.Add(rightOppMoney);
             rightOppHeader.Dock = DockStyle.Top;
-            rightOppHeader.Height = 36;
+            rightOppHeader.Height = 50;
             rightOppHeader.Name = "rightOppHeader";
             //
             // rightOppName
@@ -347,7 +347,7 @@ namespace MachiCoroUI
             //
             rightOppMoney.AutoSize = true;
             rightOppMoney.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            rightOppMoney.Location = new Point(4, 16);
+            rightOppMoney.Location = new Point(4, 28);
             rightOppMoney.Name = "rightOppMoney";
             rightOppMoney.Text = "Монет: 0";
             rightOppMoney.TabIndex = 2;
@@ -516,32 +516,35 @@ namespace MachiCoroUI
             // statusPanel
             //
             statusPanel.BorderStyle = BorderStyle.FixedSingle;
-            statusPanel.Controls.Add(statusFlow);
+            statusPanel.Controls.Add(statusTable);
             statusPanel.Dock = DockStyle.Fill;
             statusPanel.Name = "statusPanel";
             statusPanel.Padding = new Padding(5);
             statusPanel.Size = new Size(530, 338);
             statusPanel.TabIndex = 2;
             //
-            // statusFlow — vertical top-down flow
+            // statusTable — 4-row table, labels fill column width
             //
-            statusFlow.AutoScroll = false;
-            statusFlow.Controls.Add(labelCurrentPlayer);
-            statusFlow.Controls.Add(labelPhase);
-            statusFlow.Controls.Add(labelDice);
-            statusFlow.Controls.Add(labelLastAction);
-            statusFlow.Dock = DockStyle.Fill;
-            statusFlow.FlowDirection = FlowDirection.TopDown;
-            statusFlow.WrapContents = false;
-            statusFlow.Name = "statusFlow";
-            statusFlow.Size = new Size(518, 326);
-            statusFlow.TabIndex = 0;
+            statusTable.ColumnCount = 1;
+            statusTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            statusTable.Controls.Add(labelCurrentPlayer, 0, 0);
+            statusTable.Controls.Add(labelPhase, 0, 1);
+            statusTable.Controls.Add(labelDice, 0, 2);
+            statusTable.Controls.Add(labelLastAction, 0, 3);
+            statusTable.Dock = DockStyle.Fill;
+            statusTable.RowCount = 4;
+            statusTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
+            statusTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
+            statusTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
+            statusTable.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            statusTable.Name = "statusTable";
+            statusTable.TabIndex = 0;
             //
             // labelCurrentPlayer
             //
             labelCurrentPlayer.AutoSize = false;
+            labelCurrentPlayer.Dock = DockStyle.Fill;
             labelCurrentPlayer.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            labelCurrentPlayer.Size = new Size(500, 36);
             labelCurrentPlayer.BackColor = Color.LightYellow;
             labelCurrentPlayer.Margin = new Padding(3, 4, 3, 4);
             labelCurrentPlayer.Padding = new Padding(4, 4, 0, 0);
@@ -552,8 +555,8 @@ namespace MachiCoroUI
             // labelPhase
             //
             labelPhase.AutoSize = false;
+            labelPhase.Dock = DockStyle.Fill;
             labelPhase.Font = new Font("Segoe UI", 10F);
-            labelPhase.Size = new Size(500, 28);
             labelPhase.Margin = new Padding(3, 2, 3, 2);
             labelPhase.Name = "labelPhase";
             labelPhase.Text = "Фаза: —";
@@ -562,8 +565,8 @@ namespace MachiCoroUI
             // labelDice
             //
             labelDice.AutoSize = false;
+            labelDice.Dock = DockStyle.Fill;
             labelDice.Font = new Font("Segoe UI", 10F);
-            labelDice.Size = new Size(500, 28);
             labelDice.Margin = new Padding(3, 2, 3, 2);
             labelDice.Name = "labelDice";
             labelDice.Text = "Кубик: —";
@@ -572,8 +575,8 @@ namespace MachiCoroUI
             // labelLastAction
             //
             labelLastAction.AutoSize = false;
+            labelLastAction.Dock = DockStyle.Fill;
             labelLastAction.Font = new Font("Segoe UI", 10F);
-            labelLastAction.Size = new Size(500, 28);
             labelLastAction.Margin = new Padding(3, 2, 3, 6);
             labelLastAction.Name = "labelLastAction";
             labelLastAction.Text = "Последнее: —";
@@ -683,8 +686,7 @@ namespace MachiCoroUI
             buttonFlow.ResumeLayout(false);
             playerCardsTable.ResumeLayout(false);
             statusPanel.ResumeLayout(false);
-            statusFlow.ResumeLayout(false);
-            statusFlow.PerformLayout();
+            statusTable.ResumeLayout(false);
             ResumeLayout(false);
         }
 
