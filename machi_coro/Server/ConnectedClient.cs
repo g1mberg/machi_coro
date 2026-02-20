@@ -267,7 +267,12 @@ public class ConnectedClient
             gameOver.SetString(1, ClientPlayer.Name);
             gameOver.SetValue(2, ClientPlayer.Id);
             _server.Broadcast(gameOver);
-            _server.Stop();
+            Console.WriteLine($"🏆 Победитель: {ClientPlayer.Name}. Сервер завершает работу...");
+            Task.Delay(1500).ContinueWith(_ =>
+            {
+                _server.Stop();
+                Environment.Exit(0);
+            });
             return;
         }
         instance.NextPhase();

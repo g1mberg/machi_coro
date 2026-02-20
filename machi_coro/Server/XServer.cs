@@ -38,8 +38,9 @@ public class XServer
     {
         while (true)
         {
-            if (_stopListening || _clients.Count >= 4) continue;
-            
+            if (_stopListening) return;
+            if (_clients.Count >= 4) { Thread.Sleep(50); continue; }
+
             Socket client;
             try { client = _socket.Accept(); }
             catch { return; }
