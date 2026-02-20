@@ -21,7 +21,9 @@ public enum XPacketType : byte
     Change = 25,
     Confirm = 26,
     Steal = 27,
-    
+    TradeProposal = 28,
+    TradeResponse = 29,
+
     GameStateUpdate = 30,
     
     Error = 40

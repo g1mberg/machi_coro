@@ -87,6 +87,13 @@ public class ConnectedClient
             case XPacketType.Change:
                 ProcessChange(packet);
                 break;
+
+            case XPacketType.TradeResponse:
+                ProcessTradeResponse(packet);
+                break;
+
+            case XPacketType.TradeProposal:
+                break;
             
             case XPacketType.Steal:
                 ProcessSteal(packet);
@@ -153,7 +160,9 @@ public class ConnectedClient
         var targetPlayerId = packet.GetValue<int>(1);
         if (targetPlayerId == -1)
         {
-            instance.NextPhase();
+            instance.NextPhase(); // Steal → Change
+            if (!ClientPlayer.IsChangeable && instance.Phase == Phase.Change)
+                instance.NextPhase(); // Change → Build
             _server.BroadcastGameState(instance);
             return;
         }
@@ -163,8 +172,8 @@ public class ConnectedClient
             SendError("Сейчас нельзя воровать");
             return;
         }
-                     
-        var amount = packet.GetValue<int>(2);                        
+
+        var amount = packet.GetValue<int>(2);
 
         var target = instance.Players.FirstOrDefault(p => p.Id == targetPlayerId);
         if (target is null)
@@ -178,7 +187,9 @@ public class ConnectedClient
             SendError("Украсть не получилось");
             return;
         }
-        instance.NextPhase();
+        instance.NextPhase(); // Steal → Change
+        if (!ClientPlayer.IsChangeable && instance.Phase == Phase.Change)
+            instance.NextPhase(); // Change → Build
         _server.BroadcastGameState(instance);
     }
 
@@ -186,10 +197,24 @@ public class ConnectedClient
     {
         var instance = Game.Instance;
         var dices = packet.GetValue<int>(1);
-        if (instance.CurrentPlayer != ClientPlayer || instance.Phase != Phase.Roll || (isReroll && !ClientPlayer.IsReroll))
+
+        if (instance.CurrentPlayer != ClientPlayer || instance.Phase != Phase.Roll)
         {
             SendError("Сейчас нельзя кидать кубик");
             return;
+        }
+
+        if (isReroll)
+        {
+            if (!ClientPlayer.IsReroll)  { SendError("Нет возможности перебросить"); return; }
+            if (ClientPlayer.IsRerollUsed) { SendError("Переброс уже использован"); return; }
+            if (instance.DiceValue.Sum == 0) { SendError("Сначала брось кубик"); return; }
+            ClientPlayer.IsRerollUsed = true;
+        }
+        else
+        {
+            // Новый ход — сбрасываем флаг
+            ClientPlayer.IsRerollUsed = false;
         }
 
         if (dices == 2 && !ClientPlayer.IsTwoDices)
@@ -198,7 +223,7 @@ public class ConnectedClient
             return;
         }
 
-        Game.Instance.DiceValue = PlayerAction.Roll(ClientPlayer, dices);
+        instance.DiceValue = PlayerAction.Roll(ClientPlayer, dices);
         _server.BroadcastGameState(instance);
     }
 
@@ -246,7 +271,7 @@ public class ConnectedClient
     private void ProcessChange(XPacket packet)
     {
         var instance = Game.Instance;
-    
+
         if (instance.CurrentPlayer != ClientPlayer || instance.Phase != Phase.Change)
         {
             SendError("Сейчас нельзя обмениваться");
@@ -254,20 +279,65 @@ public class ConnectedClient
         }
 
         var wants = packet.GetValue<bool>(1);
-        if (wants)
+        if (!wants)
         {
-            var fromBuilding = packet.GetString(2);
-            var toPlayerId = packet.GetValue<int>(3);
-            var toBuilding = packet.GetString(4);
-
-            if (!PlayerAction.TryChange(ClientPlayer, Game.Instance.Players[toPlayerId], fromBuilding, toBuilding))
-            {
-                SendError("Обмен невозможен");
-                return;
-            }
+            instance.PendingTradeFromPlayerId = -1;
+            instance.NextPhase();
+            _server.BroadcastGameState(instance);
+            return;
         }
 
-        Game.Instance.NextPhase();
+        var fromBuilding = packet.GetString(2);
+        var toPlayerId = packet.GetValue<int>(3);
+        var toBuilding = packet.GetString(4);
+
+        var toPlayer = instance.Players.FirstOrDefault(p => p.Id == toPlayerId);
+        if (toPlayer == null) { SendError("Игрок не найден"); return; }
+        if (!ClientPlayer.City.Any(e => e.Name == fromBuilding)) { SendError("У тебя нет такого здания"); return; }
+        if (!toPlayer.City.Any(e => e.Name == toBuilding)) { SendError("У игрока нет такого здания"); return; }
+
+        var targetClient = _server.ClientsSnapshot().FirstOrDefault(c => c.ClientPlayer?.Id == toPlayerId);
+        if (targetClient == null) { SendError("Игрок не в сети"); return; }
+
+        instance.PendingTradeFromPlayerId = ClientPlayer.Id;
+        instance.PendingTradeFromBuilding = fromBuilding;
+        instance.PendingTradeToPlayerId = toPlayerId;
+        instance.PendingTradeToBuilding = toBuilding;
+
+        var proposal = XPacket.Create(XPacketType.TradeProposal);
+        proposal.SetString(1, toBuilding);    // что цель отдаёт
+        proposal.SetString(2, fromBuilding);  // что цель получает
+        proposal.SetValue(3, ClientPlayer.Id);
+        targetClient.QueuePacketSend(proposal.ToPacket());
+
+        instance.LastAction = $"{ClientPlayer.Name} предлагает обмен {toPlayer.Name}...";
+        _server.BroadcastGameState(instance);
+    }
+
+    private void ProcessTradeResponse(XPacket packet)
+    {
+        var instance = Game.Instance;
+
+        if (instance.PendingTradeFromPlayerId == -1 || instance.Phase != Phase.Change)
+            return;
+
+        if (instance.PendingTradeToPlayerId != ClientPlayer.Id)
+            return;
+
+        var accepted = packet.GetValue<bool>(1);
+        if (accepted)
+        {
+            var fromPlayer = instance.Players[instance.PendingTradeFromPlayerId];
+            PlayerAction.TryChange(fromPlayer, ClientPlayer,
+                instance.PendingTradeFromBuilding!, instance.PendingTradeToBuilding!);
+        }
+
+        instance.PendingTradeFromPlayerId = -1;
+        instance.PendingTradeFromBuilding = null;
+        instance.PendingTradeToPlayerId = -1;
+        instance.PendingTradeToBuilding = null;
+
+        instance.NextPhase(); // Change → Build
         _server.BroadcastGameState(instance);
     }
 
@@ -281,6 +351,8 @@ public class ConnectedClient
         }
 
         instance.NextPhase();              // Roll → Income
+        ClientPlayer.IsStealer = false;
+        ClientPlayer.IsChangeable = false;
         PlayerAction.Income(ClientPlayer, instance);
         instance.NextPhase();              // Income → Steal
 

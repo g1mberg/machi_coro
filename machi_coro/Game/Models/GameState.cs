@@ -15,6 +15,11 @@ public class GameState
 
     public Player.Player[] Players { get; init; } = new Player.Player[4];
 
+    public int PendingTradeFromPlayerId { get; set; } = -1;
+    public string? PendingTradeFromBuilding { get; set; }
+    public int PendingTradeToPlayerId { get; set; } = -1;
+    public string? PendingTradeToBuilding { get; set; }
+
     public void NextPlayer() => CurrentPlayer = Players[(CurrentPlayer.Id + 1) % Players.Length];
 
     public void NextPhase()

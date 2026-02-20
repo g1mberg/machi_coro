@@ -21,6 +21,7 @@ public class Player
     public bool IsReroll => Sites["Park"].IsActivated;
     public bool IsChangeable { get; set; } = false;
     public bool IsStealer { get; set; } = false;
+    public bool IsRerollUsed { get; set; } = false;
 
     public bool HasWon() => Sites.Values.All(s => s.IsActivated);
 
