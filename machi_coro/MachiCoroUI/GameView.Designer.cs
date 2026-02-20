@@ -57,6 +57,8 @@ namespace MachiCoroUI
         private FlowLayoutPanel marketPanel;
 
         private Panel playerInfoPanel;
+        private Panel playerHeader;
+        private FlowLayoutPanel buttonFlow;
         private Label playerName;
         private Label playerMoneyCaption;
         private Label playerMoney;
@@ -117,6 +119,8 @@ namespace MachiCoroUI
             rightOppName = new Label();
             bottomTable = new TableLayoutPanel();
             playerInfoPanel = new Panel();
+            playerHeader = new Panel();
+            buttonFlow = new FlowLayoutPanel();
             playerName = new Label();
             playerMoneyCaption = new Label();
             playerMoney = new Label();
@@ -151,6 +155,7 @@ namespace MachiCoroUI
             rightOppHeader.SuspendLayout();
             bottomTable.SuspendLayout();
             playerInfoPanel.SuspendLayout();
+            buttonFlow.SuspendLayout();
             playerCardsTable.SuspendLayout();
             statusPanel.SuspendLayout();
             statusFlow.SuspendLayout();
@@ -384,28 +389,33 @@ namespace MachiCoroUI
             // playerInfoPanel
             //
             playerInfoPanel.BorderStyle = BorderStyle.FixedSingle;
-            playerInfoPanel.Controls.Add(playerName);
-            playerInfoPanel.Controls.Add(playerMoneyCaption);
-            playerInfoPanel.Controls.Add(playerMoney);
-            playerInfoPanel.Controls.Add(rollDiceButton);
-            playerInfoPanel.Controls.Add(buildButton);
-            playerInfoPanel.Controls.Add(rerollButton);
+            playerInfoPanel.Controls.Add(buttonFlow);   // Fill — добавлен первым (обрабатывается последним)
+            playerInfoPanel.Controls.Add(playerHeader); // Top — добавлен последним (обрабатывается первым)
             playerInfoPanel.Dock = DockStyle.Fill;
             playerInfoPanel.Name = "playerInfoPanel";
-            playerInfoPanel.Padding = new Padding(8);
+            playerInfoPanel.Padding = new Padding(0);
             playerInfoPanel.Size = new Size(350, 338);
             playerInfoPanel.TabIndex = 0;
+            //
+            // playerHeader — шапка с именем и монетами
+            //
+            playerHeader.Controls.Add(playerName);
+            playerHeader.Controls.Add(playerMoney);
+            playerHeader.Dock = DockStyle.Top;
+            playerHeader.Height = 52;
+            playerHeader.Name = "playerHeader";
+            playerHeader.Padding = new Padding(8, 6, 8, 4);
             //
             // playerName
             //
             playerName.AutoSize = true;
             playerName.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            playerName.Location = new Point(8, 8);
+            playerName.Location = new Point(8, 6);
             playerName.Name = "playerName";
             playerName.Text = "Вы";
             playerName.TabIndex = 0;
             //
-            // playerMoneyCaption
+            // playerMoneyCaption (не используется, скрыт)
             //
             playerMoneyCaption.AutoSize = true;
             playerMoneyCaption.Location = new Point(8, 38);
@@ -418,32 +428,53 @@ namespace MachiCoroUI
             //
             playerMoney.AutoSize = true;
             playerMoney.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            playerMoney.Location = new Point(8, 34);
+            playerMoney.Location = new Point(8, 28);
             playerMoney.Name = "playerMoney";
             playerMoney.Text = "Монет: 0";
             playerMoney.TabIndex = 2;
             //
+            // buttonFlow — все кнопки действий
+            //
+            buttonFlow.AutoScroll = false;
+            buttonFlow.Dock = DockStyle.Fill;
+            buttonFlow.FlowDirection = FlowDirection.TopDown;
+            buttonFlow.WrapContents = false;
+            buttonFlow.Padding = new Padding(6, 4, 6, 4);
+            buttonFlow.Name = "buttonFlow";
+            buttonFlow.Controls.Add(rollDiceButton);
+            buttonFlow.Controls.Add(howdice);
+            buttonFlow.Controls.Add(roll1);
+            buttonFlow.Controls.Add(roll2);
+            buttonFlow.Controls.Add(confirmPhaseButton);
+            buttonFlow.Controls.Add(buildButton);
+            buttonFlow.Controls.Add(skipBuildButton);
+            buttonFlow.Controls.Add(rerollButton);
+            buttonFlow.Controls.Add(stealButton);
+            buttonFlow.Controls.Add(skipButton);
+            buttonFlow.Controls.Add(changeButton);
+            buttonFlow.Controls.Add(skipChangeButton);
+            //
             // rollDiceButton
             //
-            rollDiceButton.Location = new Point(8, 70);
+            rollDiceButton.Margin = new Padding(0, 4, 0, 2);
             rollDiceButton.Name = "rollDiceButton";
-            rollDiceButton.Size = new Size(140, 32);
+            rollDiceButton.Size = new Size(200, 34);
             rollDiceButton.TabIndex = 3;
-            rollDiceButton.Text = "Бросить";
+            rollDiceButton.Text = "Бросить кубик";
             //
             // buildButton
             //
-            buildButton.Location = new Point(8, 108);
+            buildButton.Margin = new Padding(0, 2, 0, 2);
             buildButton.Name = "buildButton";
-            buildButton.Size = new Size(140, 32);
+            buildButton.Size = new Size(200, 34);
             buildButton.TabIndex = 4;
             buildButton.Text = "Построить";
             //
             // rerollButton
             //
-            rerollButton.Location = new Point(8, 146);
+            rerollButton.Margin = new Padding(0, 2, 0, 2);
             rerollButton.Name = "rerollButton";
-            rerollButton.Size = new Size(140, 32);
+            rerollButton.Size = new Size(200, 34);
             rerollButton.TabIndex = 5;
             rerollButton.Text = "Перебросить";
             rerollButton.Visible = false;
@@ -494,20 +525,11 @@ namespace MachiCoroUI
             //
             // statusFlow — vertical top-down flow
             //
-            statusFlow.AutoScroll = true;
+            statusFlow.AutoScroll = false;
             statusFlow.Controls.Add(labelCurrentPlayer);
             statusFlow.Controls.Add(labelPhase);
             statusFlow.Controls.Add(labelDice);
             statusFlow.Controls.Add(labelLastAction);
-            statusFlow.Controls.Add(howdice);
-            statusFlow.Controls.Add(roll1);
-            statusFlow.Controls.Add(roll2);
-            statusFlow.Controls.Add(changeButton);
-            statusFlow.Controls.Add(skipChangeButton);
-            statusFlow.Controls.Add(stealButton);
-            statusFlow.Controls.Add(skipButton);
-            statusFlow.Controls.Add(confirmPhaseButton);
-            statusFlow.Controls.Add(skipBuildButton);
             statusFlow.Dock = DockStyle.Fill;
             statusFlow.FlowDirection = FlowDirection.TopDown;
             statusFlow.WrapContents = false;
@@ -559,84 +581,85 @@ namespace MachiCoroUI
             //
             // howdice
             //
-            howdice.AutoSize = true;
-            howdice.Margin = new Padding(3, 8, 3, 2);
+            howdice.AutoSize = false;
+            howdice.Size = new Size(200, 22);
+            howdice.Margin = new Padding(0, 6, 0, 2);
             howdice.Name = "howdice";
-            howdice.Text = "Сколько кубиков кинуть?";
+            howdice.Text = "Сколько кубиков?";
             howdice.Visible = false;
             howdice.TabIndex = 4;
             //
             // roll1
             //
-            roll1.Margin = new Padding(3, 2, 3, 2);
+            roll1.Margin = new Padding(0, 2, 0, 2);
             roll1.Name = "roll1";
-            roll1.Size = new Size(100, 28);
+            roll1.Size = new Size(200, 34);
             roll1.TabIndex = 5;
             roll1.Text = "1 кубик";
             roll1.Visible = false;
             //
             // roll2
             //
-            roll2.Margin = new Padding(3, 2, 3, 2);
+            roll2.Margin = new Padding(0, 2, 0, 2);
             roll2.Name = "roll2";
-            roll2.Size = new Size(100, 28);
+            roll2.Size = new Size(200, 34);
             roll2.TabIndex = 6;
             roll2.Text = "2 кубика";
             roll2.Visible = false;
             //
-            // changeButton
+            // confirmPhaseButton
             //
-            changeButton.Margin = new Padding(3, 8, 3, 2);
-            changeButton.Name = "changeButton";
-            changeButton.Size = new Size(140, 28);
-            changeButton.TabIndex = 7;
-            changeButton.Text = "Обмен";
-            changeButton.Visible = false;
+            confirmPhaseButton.Margin = new Padding(0, 2, 0, 2);
+            confirmPhaseButton.Name = "confirmPhaseButton";
+            confirmPhaseButton.Size = new Size(200, 34);
+            confirmPhaseButton.TabIndex = 11;
+            confirmPhaseButton.Text = "Подтвердить бросок";
+            confirmPhaseButton.Visible = false;
             //
-            // skipChangeButton
+            // skipBuildButton
             //
-            skipChangeButton.Margin = new Padding(3, 2, 3, 2);
-            skipChangeButton.Name = "skipChangeButton";
-            skipChangeButton.Size = new Size(180, 28);
-            skipChangeButton.TabIndex = 8;
-            skipChangeButton.Text = "Пропустить обмен";
-            skipChangeButton.Visible = false;
+            skipBuildButton.Margin = new Padding(0, 2, 0, 2);
+            skipBuildButton.Name = "skipBuildButton";
+            skipBuildButton.Size = new Size(200, 34);
+            skipBuildButton.TabIndex = 12;
+            skipBuildButton.Text = "Пропустить постройку";
+            skipBuildButton.Visible = false;
             //
             // stealButton
             //
-            stealButton.Margin = new Padding(3, 2, 3, 2);
+            stealButton.Margin = new Padding(0, 2, 0, 2);
             stealButton.Name = "stealButton";
-            stealButton.Size = new Size(140, 28);
+            stealButton.Size = new Size(200, 34);
             stealButton.TabIndex = 9;
             stealButton.Text = "Украсть";
             stealButton.Visible = false;
             //
             // skipButton
             //
-            skipButton.Margin = new Padding(3, 2, 3, 2);
+            skipButton.Margin = new Padding(0, 2, 0, 2);
             skipButton.Name = "skipButton";
-            skipButton.Size = new Size(140, 28);
+            skipButton.Size = new Size(200, 34);
             skipButton.TabIndex = 10;
-            skipButton.Text = "Пропустить";
+            skipButton.Text = "Пропустить кражу";
             skipButton.Visible = false;
             //
-            // confirmPhaseButton
+            // changeButton
             //
-            confirmPhaseButton.Margin = new Padding(3, 8, 3, 2);
-            confirmPhaseButton.Name = "confirmPhaseButton";
-            confirmPhaseButton.Size = new Size(140, 28);
-            confirmPhaseButton.TabIndex = 11;
-            confirmPhaseButton.Text = "Подтвердить";
-            confirmPhaseButton.Visible = false;
+            changeButton.Margin = new Padding(0, 2, 0, 2);
+            changeButton.Name = "changeButton";
+            changeButton.Size = new Size(200, 34);
+            changeButton.TabIndex = 7;
+            changeButton.Text = "Обмен зданиями";
+            changeButton.Visible = false;
             //
-            // skipBuildButton
+            // skipChangeButton
             //
-            skipBuildButton.Margin = new Padding(3, 2, 3, 2);
-            skipBuildButton.Name = "skipBuildButton";
-            skipBuildButton.Size = new Size(140, 28);
-            skipBuildButton.TabIndex = 12;
-            skipBuildButton.Text = "Пропустить";
-            skipBuildButton.Visible = false;
+            skipChangeButton.Margin = new Padding(0, 2, 0, 2);
+            skipChangeButton.Name = "skipChangeButton";
+            skipChangeButton.Size = new Size(200, 34);
+            skipChangeButton.TabIndex = 8;
+            skipChangeButton.Text = "Пропустить обмен";
+            skipChangeButton.Visible = false;
             //
             // GameView
             //
@@ -657,7 +680,7 @@ namespace MachiCoroUI
             rightOppHeader.PerformLayout();
             bottomTable.ResumeLayout(false);
             playerInfoPanel.ResumeLayout(false);
-            playerInfoPanel.PerformLayout();
+            buttonFlow.ResumeLayout(false);
             playerCardsTable.ResumeLayout(false);
             statusPanel.ResumeLayout(false);
             statusFlow.ResumeLayout(false);
