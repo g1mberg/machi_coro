@@ -124,15 +124,21 @@ public class ConnectedClient
     
     private void ProcessGameStart()
     {
-        if (_server.ClientsSnapshot().Count() != 4)
+        var clients = _server.ClientsSnapshot().ToList();
+        if (clients.Count != 4)
         {
             SendError("Нужно 4 игрока!");
+            return;
+        }
+        if (!clients.All(c => c.IsReady))
+        {
+            SendError("Не все игроки нажали готов!");
             return;
         }
     
         Console.WriteLine($"🚀 Игрок {Username} начал игру!");
 
-        var clientsList = _server.ClientsSnapshot().ToList();
+        var clientsList = clients;
         var game = new Game.Game();
         for (var i = 0; i < 4; i++)
         {

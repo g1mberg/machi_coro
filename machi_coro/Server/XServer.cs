@@ -129,9 +129,10 @@ public class XServer
 
         foreach (var player in players)
         {
-            bw.Write((byte)(player.Name.Length));
-            bw.Write(Encoding.UTF8.GetBytes(player.Name)); 
-            bw.Write(player.IsReady);         
+            var nameBytes = Encoding.UTF8.GetBytes(player.Name);
+            bw.Write((byte)nameBytes.Length);
+            bw.Write(nameBytes);
+            bw.Write(player.IsReady);
         }
 
         return ms.ToArray();
