@@ -667,6 +667,7 @@
             // 
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(1485, 673);
+            MinimumSize = new Size(1200, 750);
             Controls.Add(GamePanel);
             Controls.Add(ConnectPanel);
             Controls.Add(LobbyPanel);

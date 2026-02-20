@@ -456,27 +456,42 @@ namespace MachiCoroUI
             panel.SuspendLayout();
             panel.Controls.Clear();
 
+            const int count = 4;
+            const int margin = 4;
+            int panelW = panel.ClientSize.Width > 0 ? panel.ClientSize.Width : panel.Width;
+            int panelH = panel.ClientSize.Height > 0 ? panel.ClientSize.Height : panel.Height;
+
+            // Вписываем 4 карточки по ширине
+            int cardW = Math.Max(20, (panelW - count * margin * 2) / count);
+            int cardH = cardW * 130 / 90;
+
+            // Если не влазят по высоте — масштабируем по высоте
+            if (cardH > panelH - margin * 2)
+            {
+                cardH = Math.Max(20, panelH - margin * 2);
+                cardW = cardH * 90 / 130;
+            }
+
             foreach (var kvp in da)
             {
                 var view = new EnterpriseView { Name = kvp.Key };
-                var pb = (PictureBox)CreateCard(view); // Приводим к PictureBox
+                var ctrl = CreateCard(view, cardW, cardH);
 
-                if (kvp.Value.IsActivated)
+                if (ctrl is PictureBox pb)
                 {
-                    // АКТИВИРОВАНА: делаем яркую рамку и обычный цвет
-                    pb.BorderStyle = BorderStyle.FixedSingle;
-                    pb.BackColor = Color.Gold;
-                    pb.Padding = new Padding(3);
-                }
-                else
-                {
-                    // НЕ АКТИВИРОВАНА: делаем полупрозрачной/серой
-                    pb.Image = CreateGrayscaleImage(pb.Image);
-                    pb.Enabled = true; // Оставляем включенной, чтобы можно было кликнуть и купить
-                    pb.BackColor = Color.Gray;
+                    if (kvp.Value.IsActivated)
+                    {
+                        pb.BackColor = Color.Gold;
+                        pb.Padding = new Padding(2);
+                    }
+                    else
+                    {
+                        pb.Image = CreateGrayscaleImage(pb.Image);
+                        pb.BackColor = Color.Gray;
+                    }
                 }
 
-                panel.Controls.Add(pb);
+                panel.Controls.Add(ctrl);
             }
 
             panel.ResumeLayout();
@@ -646,15 +661,30 @@ namespace MachiCoroUI
             panel.SuspendLayout();
             panel.Controls.Clear();
 
+            const int perRow = 4;
+            const int margin = 4;
+            int panelW = panel.ClientSize.Width > 0 ? panel.ClientSize.Width : panel.Width;
+            int panelH = panel.ClientSize.Height > 0 ? panel.ClientSize.Height : panel.Height;
+
+            int cardW = Math.Max(40, (panelW - perRow * margin * 2) / perRow);
+            int cardH = cardW * 130 / 90;
+
+            // Если карточки выше панели — масштабируем по высоте, иначе залезают на имя игрока
+            if (panelH > margin * 2 && cardH > panelH - margin * 2)
+            {
+                cardH = panelH - margin * 2;
+                cardW = cardH * 90 / 130;
+            }
+
             foreach (var enterprise in city)
             {
                 var view = MapToView(enterprise);
-                panel.Controls.Add(CreateCard(view));
+                panel.Controls.Add(CreateCard(view, cardW, cardH));
             }
             panel.ResumeLayout();
         }
 
-        Control CreateCard(EnterpriseView card)
+        Control CreateCard(EnterpriseView card, int w = 90, int h = 130)
         {
             // Try Sites first, then Enterprises
             var path = $"Assets/Sites/{card.ImageName}";
@@ -667,9 +697,9 @@ namespace MachiCoroUI
                 {
                     Image = Image.FromFile(path),
                     SizeMode = PictureBoxSizeMode.Zoom,
-                    Width = 90,
-                    Height = 130,
-                    Margin = new Padding(5),
+                    Width = w,
+                    Height = h,
+                    Margin = new Padding(4),
                     Tag = card
                 };
             }
@@ -678,9 +708,9 @@ namespace MachiCoroUI
             return new Label
             {
                 Text = card.Name,
-                Width = 90,
-                Height = 130,
-                Margin = new Padding(5),
+                Width = w,
+                Height = h,
+                Margin = new Padding(4),
                 TextAlign = ContentAlignment.MiddleCenter,
                 BorderStyle = BorderStyle.FixedSingle,
                 BackColor = Color.LightGray,

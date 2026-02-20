@@ -240,7 +240,7 @@ namespace MachiCoroUI
             //
             leftOppSites.AutoScroll = true;
             leftOppSites.Dock = DockStyle.Bottom;
-            leftOppSites.Height = 90;
+            leftOppSites.Height = 140;
             leftOppSites.Name = "leftOppSites";
             leftOppSites.TabIndex = 4;
             //
@@ -293,7 +293,7 @@ namespace MachiCoroUI
             //
             topOppSites.AutoScroll = true;
             topOppSites.Dock = DockStyle.Bottom;
-            topOppSites.Height = 50;
+            topOppSites.Height = 140;
             topOppSites.Name = "topOppSites";
             topOppSites.TabIndex = 4;
             //
@@ -358,7 +358,7 @@ namespace MachiCoroUI
             //
             rightOppSites.AutoScroll = true;
             rightOppSites.Dock = DockStyle.Bottom;
-            rightOppSites.Height = 90;
+            rightOppSites.Height = 140;
             rightOppSites.Name = "rightOppSites";
             rightOppSites.TabIndex = 4;
             //
