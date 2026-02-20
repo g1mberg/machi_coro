@@ -26,5 +26,6 @@ public enum XPacketType : byte
 
     GameStateUpdate = 30,
     
-    Error = 40
+    Error = 40,
+    GameOver = 41
 }

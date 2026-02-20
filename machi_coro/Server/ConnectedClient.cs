@@ -263,7 +263,11 @@ public class ConnectedClient
 
         if (ClientPlayer.HasWon())
         {
-            _server.Stop(); //TODO: нормально надо реализовать победу
+            var gameOver = XPacket.Create(XPacketType.GameOver);
+            gameOver.SetString(1, ClientPlayer.Name);
+            gameOver.SetValue(2, ClientPlayer.Id);
+            _server.Broadcast(gameOver);
+            _server.Stop();
             return;
         }
         instance.NextPhase();

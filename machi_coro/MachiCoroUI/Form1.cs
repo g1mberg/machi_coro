@@ -183,6 +183,14 @@ namespace MachiCoroUI
                 case XPacketType.TradeResponse:
                     break;
 
+                case XPacketType.GameOver:
+                    {
+                        var winnerName = packet.GetString(1);
+                        var winnerId = packet.GetValue<int>(2);
+                        BeginInvoke(() => ShowGameOver(winnerName, winnerId));
+                        break;
+                    }
+
                 case XPacketType.Error:
                     {
                         var msg = packet.GetString(1);
@@ -205,6 +213,73 @@ namespace MachiCoroUI
             packet.SetValue(1, _lastDiceCount);
             client.QueuePacketSend(packet.ToPacket());
         }
+        private void ShowGameOver(string winnerName, int winnerId)
+        {
+            bool isMe = winnerId == _myPlayerId;
+
+            var dialog = new Form
+            {
+                Text = "Игра окончена!",
+                Width = 420,
+                Height = 280,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                StartPosition = FormStartPosition.CenterParent,
+                MaximizeBox = false,
+                MinimizeBox = false,
+                BackColor = isMe ? Color.Gold : Color.FromArgb(30, 30, 60)
+            };
+
+            var panel = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                RowCount = 3,
+                ColumnCount = 1,
+                Padding = new Padding(20)
+            };
+            panel.RowStyles.Add(new RowStyle(SizeType.Percent, 40));
+            panel.RowStyles.Add(new RowStyle(SizeType.Percent, 40));
+            panel.RowStyles.Add(new RowStyle(SizeType.Percent, 20));
+            panel.BackColor = Color.Transparent;
+            dialog.Controls.Add(panel);
+
+            var trophy = new Label
+            {
+                Text = isMe ? "🏆" : "🥈",
+                Font = new Font("Segoe UI Emoji", 48F),
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleCenter,
+                BackColor = Color.Transparent,
+                ForeColor = Color.White
+            };
+
+            var mainLabel = new Label
+            {
+                Text = isMe
+                    ? "ВЫ ПОБЕДИЛИ!"
+                    : $"Победил {winnerName}",
+                Font = new Font("Segoe UI", isMe ? 22F : 16F, FontStyle.Bold),
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleCenter,
+                BackColor = Color.Transparent,
+                ForeColor = isMe ? Color.DarkRed : Color.White
+            };
+
+            var closeBtn = new Button
+            {
+                Text = "Закрыть",
+                Width = 120,
+                Height = 36,
+                Anchor = AnchorStyles.None
+            };
+            closeBtn.Click += (_, _) => { dialog.Close(); Application.Exit(); };
+
+            panel.Controls.Add(trophy, 0, 0);
+            panel.Controls.Add(mainLabel, 0, 1);
+            panel.Controls.Add(closeBtn, 0, 2);
+
+            dialog.ShowDialog(this);
+        }
+
         private void ShakeForm()
         {
             var originalLocation = this.Location;
