@@ -30,7 +30,6 @@ namespace MachiCoroUI
         #endregion
         private TableLayoutPanel mainTable;
         private TableLayoutPanel topTable;
-        private TableLayoutPanel centerTopTable;
         private TableLayoutPanel bottomTable;
 
         private Panel leftOppPanel;
@@ -101,7 +100,6 @@ namespace MachiCoroUI
             leftOppMoney = new Label();
             leftOppMoneyCaption = new Label();
             leftOppName = new Label();
-            centerTopTable = new TableLayoutPanel();
             topOppPanel = new Panel();
             topOppHeader = new Panel();
             topOppSites = new FlowLayoutPanel();
@@ -147,7 +145,6 @@ namespace MachiCoroUI
             topTable.SuspendLayout();
             leftOppPanel.SuspendLayout();
             leftOppHeader.SuspendLayout();
-            centerTopTable.SuspendLayout();
             topOppPanel.SuspendLayout();
             topOppHeader.SuspendLayout();
             rightOppPanel.SuspendLayout();
@@ -175,14 +172,14 @@ namespace MachiCoroUI
             mainTable.Size = new Size(1789, 864);
             mainTable.TabIndex = 0;
             //
-            // topTable — 3 columns: left opp 25%, center 50%, right opp 25%
+            // topTable — 3 columns equal width
             //
             topTable.ColumnCount = 3;
-            topTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            topTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            topTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            topTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+            topTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.34F));
+            topTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
             topTable.Controls.Add(leftOppPanel, 0, 0);
-            topTable.Controls.Add(centerTopTable, 1, 0);
+            topTable.Controls.Add(topOppPanel, 1, 0);
             topTable.Controls.Add(rightOppPanel, 2, 0);
             topTable.Dock = DockStyle.Fill;
             topTable.Margin = new Padding(0);
@@ -246,21 +243,6 @@ namespace MachiCoroUI
             leftOppSites.Height = 90;
             leftOppSites.Name = "leftOppSites";
             leftOppSites.TabIndex = 4;
-            //
-            // ===== CENTER (top opponent + market) =====
-            //
-            // centerTopTable
-            //
-            centerTopTable.ColumnCount = 1;
-            centerTopTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            centerTopTable.Controls.Add(topOppPanel, 0, 0);
-            centerTopTable.Dock = DockStyle.Fill;
-            centerTopTable.Margin = new Padding(0);
-            centerTopTable.Name = "centerTopTable";
-            centerTopTable.RowCount = 1;
-            centerTopTable.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            centerTopTable.Size = new Size(885, 508);
-            centerTopTable.TabIndex = 1;
             //
             // topOppPanel — uses Dock layout: header Top, sites Bottom, enterprises Fill
             //
@@ -667,7 +649,6 @@ namespace MachiCoroUI
             leftOppPanel.ResumeLayout(false);
             leftOppHeader.ResumeLayout(false);
             leftOppHeader.PerformLayout();
-            centerTopTable.ResumeLayout(false);
             topOppPanel.ResumeLayout(false);
             topOppHeader.ResumeLayout(false);
             topOppHeader.PerformLayout();
