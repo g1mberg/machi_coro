@@ -254,13 +254,11 @@ namespace MachiCoroUI
             centerTopTable.ColumnCount = 1;
             centerTopTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             centerTopTable.Controls.Add(topOppPanel, 0, 0);
-            centerTopTable.Controls.Add(marketPanel, 0, 1);
             centerTopTable.Dock = DockStyle.Fill;
             centerTopTable.Margin = new Padding(0);
             centerTopTable.Name = "centerTopTable";
-            centerTopTable.RowCount = 2;
-            centerTopTable.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
-            centerTopTable.RowStyles.Add(new RowStyle(SizeType.Percent, 70F));
+            centerTopTable.RowCount = 1;
+            centerTopTable.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             centerTopTable.Size = new Size(885, 508);
             centerTopTable.TabIndex = 1;
             //

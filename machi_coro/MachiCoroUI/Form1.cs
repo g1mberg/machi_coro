@@ -27,6 +27,7 @@ namespace MachiCoroUI
 
         private Dictionary<int, string> PlayerNameById = new Dictionary<int, string>();
         private List<EnterpriseView> _allMarketCards;
+        private Dictionary<string, int> _cardCosts = new();
 
         string? _myBuildingToGive;
         int? _targetPlayerId;
@@ -389,12 +390,35 @@ namespace MachiCoroUI
         {
             this.StartPosition = FormStartPosition.CenterScreen;
             _allMarketCards = LoadMarket();
-            RenderMarket(_allMarketCards);
+            LoadCardCosts();
 
             ConnectPanel.Resize += (_, _) => CenterConnectControls();
             LobbyPanel.Resize += (_, _) => CenterLobbyControls();
             CenterConnectControls();
             CenterLobbyControls();
+        }
+
+        private void LoadCardCosts()
+        {
+            if (File.Exists("enterprises.json"))
+            {
+                using var doc = JsonDocument.Parse(File.ReadAllText("enterprises.json"));
+                foreach (var prop in doc.RootElement.EnumerateObject())
+                {
+                    var name = prop.Value.GetProperty("Name").GetString() ?? "";
+                    var cost = prop.Value.GetProperty("Cost").GetInt32();
+                    _cardCosts[name] = cost;
+                }
+            }
+            if (File.Exists("sites.json"))
+            {
+                using var doc = JsonDocument.Parse(File.ReadAllText("sites.json"));
+                foreach (var prop in doc.RootElement.EnumerateObject())
+                {
+                    var cost = prop.Value.GetProperty("Cost").GetInt32();
+                    _cardCosts[prop.Name] = cost; // ключ = "Terminal", "Mall", etc.
+                }
+            }
         }
 
         private void CenterConnectControls()
@@ -609,18 +633,6 @@ namespace MachiCoroUI
             return new LobbyState { Players = players };
         }
 
-        private void RenderMarket(List<EnterpriseView> marketCards)
-        {
-            var panel = _gameView.MarketPanel;
-            panel.SuspendLayout();
-            panel.Controls.Clear();
-
-            foreach (var card in marketCards)
-                panel.Controls.Add(CreateMarketCard(card));
-
-            panel.ResumeLayout();
-        }
-
         private EnterpriseView MapToView(Enterprise e)
         {
             return new EnterpriseView
@@ -651,22 +663,19 @@ namespace MachiCoroUI
 
             if (File.Exists(path))
             {
-                var pb = new PictureBox
+                return new PictureBox
                 {
                     Image = Image.FromFile(path),
                     SizeMode = PictureBoxSizeMode.Zoom,
                     Width = 90,
                     Height = 130,
                     Margin = new Padding(5),
-                    Cursor = Cursors.Hand,
                     Tag = card
                 };
-                pb.Click += MarketCard_Click;
-                return pb;
             }
 
             // Fallback: text label when image not found
-            var lbl = new Label
+            return new Label
             {
                 Text = card.Name,
                 Width = 90,
@@ -678,70 +687,6 @@ namespace MachiCoroUI
                 Font = new Font("Segoe UI", 7F),
                 Tag = card
             };
-            lbl.Click += MarketCard_Click;
-            return lbl;
-        }
-
-        PictureBox CreateMarketCard(EnterpriseView card)
-        {
-            var path = $"Assets/Enterprises/{card.ImageName}";
-            if (!File.Exists(path))
-                throw new FileNotFoundException(path);
-
-            var pb = new PictureBox
-            {
-                Image = Image.FromFile(path),
-                SizeMode = PictureBoxSizeMode.Zoom,
-                Width = 90,
-                Height = 130,
-                Margin = new Padding(5),
-                Cursor = Cursors.Hand,
-                Tag = card
-            };
-
-            pb.Click += MarketCard_Click;
-            return pb;
-        }
-
-
-        private EnterpriseView? _selectedMarketCard;
-
-        private void MarketCard_Click(object? sender, EventArgs e)
-        {
-            if (sender is not PictureBox pb) return;
-
-
-            foreach (Control c in _gameView.MarketPanel.Controls)
-            {
-                c.Size = new Size(90, 130);
-                c.BackColor = Color.Transparent;
-            }
-
-
-            _selectedMarketCard = (EnterpriseView)pb.Tag;
-            pb.Size = new Size(100, 145);
-            pb.BackColor = Color.Gold;
-        }
-
-
-        void HighlightSelected(PictureBox selected)
-        {
-            foreach (Control c in _gameView.MarketPanel.Controls)
-            {
-                if (c is PictureBox pb)
-                    pb.BorderStyle = BorderStyle.None;
-            }
-
-            selected.BorderStyle = BorderStyle.Fixed3D;
-        }
-
-        private void ClearMarketSelection()
-        {
-            foreach (Control c in _gameView.MarketPanel.Controls)
-            {
-                if (c is PictureBox pb)
-                    pb.BorderStyle = BorderStyle.None;
-            }
         }
 
         private void readyButton_Click(object sender, EventArgs e)
@@ -812,19 +757,154 @@ namespace MachiCoroUI
 
         private void buildButton_Click(object sender, EventArgs e)
         {
-            if (_selectedMarketCard == null)
+            ShowBuildDialog();
+        }
+
+        private void ShowBuildDialog()
+        {
+            if (_lastGameState == null) return;
+
+            var me = _lastGameState.Players[_myPlayerId];
+            var myMoney = me.Money;
+            var purpleNames = new HashSet<string> { "Стадион", "Телецентр", "Бизнес-центр" };
+            var myPurples = me.City
+                .Where(e => purpleNames.Contains(e.Name))
+                .Select(e => e.Name)
+                .ToHashSet();
+
+            var dialog = new Form
             {
-                _gameView.LastActionLabel.Text = "Сначала выбери карту";
-                return;
+                Text = $"Построить здание  (у вас {myMoney} монет)",
+                Width = 1100,
+                Height = 620,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                StartPosition = FormStartPosition.CenterParent,
+                MaximizeBox = false,
+                MinimizeBox = false
+            };
+
+            var mainLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                RowCount = 2,
+                ColumnCount = 1,
+                Padding = new Padding(8)
+            };
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 52));
+            dialog.Controls.Add(mainLayout);
+
+            var cardsFlow = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                AutoScroll = true,
+                WrapContents = true,
+                BackColor = Color.White
+            };
+            mainLayout.Controls.Add(cardsFlow, 0, 0);
+
+            string? selectedName = null;
+            Panel? selectedPanel = null;
+
+            void SelectCard(Panel p, string name)
+            {
+                if (selectedPanel != null) selectedPanel.BackColor = Color.Transparent;
+                selectedPanel = p;
+                selectedName = name;
+                p.BackColor = Color.Gold;
             }
 
-            var packet = XPacket.Create(XPacketType.Build);
-            packet.SetString(1, _selectedMarketCard.Name);
+            Panel MakeCardPanel(string name, bool disabled)
+            {
+                var view = new EnterpriseView { Name = name };
+                var path = $"Assets/Sites/{view.ImageName}";
+                if (!File.Exists(path)) path = $"Assets/Enterprises/{view.ImageName}";
 
-            client.QueuePacketSend(packet.ToPacket());
+                Image? img = File.Exists(path) ? Image.FromFile(path) : null;
+                if (disabled && img != null)
+                    img = CreateGrayscaleImage(img);
 
-            _selectedMarketCard = null;
-            ClearMarketSelection();
+                var panel = new Panel
+                {
+                    Width = 155,
+                    Height = 220,
+                    Margin = new Padding(6),
+                    Cursor = disabled ? Cursors.Default : Cursors.Hand,
+                    BackColor = Color.Transparent
+                };
+
+                var pb = new PictureBox
+                {
+                    Image = img,
+                    SizeMode = PictureBoxSizeMode.Zoom,
+                    Width = 155,
+                    Height = 220,
+                    Location = new Point(0, 0),
+                    BackColor = Color.Transparent
+                };
+
+                panel.Controls.Add(pb);
+
+                if (!disabled)
+                {
+                    EventHandler onClick = (_, _) => SelectCard(panel, name);
+                    panel.Click += onClick;
+                    pb.Click += onClick;
+                }
+
+                return panel;
+            }
+
+            // Предприятия из маркета
+            foreach (var card in _allMarketCards)
+            {
+                var cost = _cardCosts.GetValueOrDefault(card.Name, 0);
+                bool alreadyHavePurple = purpleNames.Contains(card.Name) && myPurples.Contains(card.Name);
+                bool cantAfford = myMoney < cost;
+                bool disabled = cantAfford || alreadyHavePurple;
+
+                cardsFlow.Controls.Add(MakeCardPanel(card.Name, disabled));
+            }
+
+            // Незастроенные ландмарки
+            foreach (var kvp in me.Sites)
+            {
+                if (kvp.Value.IsActivated) continue;
+
+                var cost = _cardCosts.GetValueOrDefault(kvp.Key, 0);
+                bool cantAfford = myMoney < cost;
+
+                cardsFlow.Controls.Add(MakeCardPanel(kvp.Key, cantAfford));
+            }
+
+            // Кнопки
+            var btnFlow = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.RightToLeft,
+                Padding = new Padding(4)
+            };
+            var btnCancel = new Button { Text = "Отмена", Width = 110, Height = 36 };
+            var btnBuild = new Button { Text = "Построить", Width = 120, Height = 36, BackColor = Color.LightGreen };
+
+            btnCancel.Click += (_, _) => { dialog.DialogResult = DialogResult.Cancel; dialog.Close(); };
+            btnBuild.Click += (_, _) =>
+            {
+                if (selectedName == null) return;
+                dialog.DialogResult = DialogResult.OK;
+                dialog.Close();
+            };
+
+            btnFlow.Controls.Add(btnCancel);
+            btnFlow.Controls.Add(btnBuild);
+            mainLayout.Controls.Add(btnFlow, 0, 1);
+
+            if (dialog.ShowDialog(this) == DialogResult.OK && selectedName != null)
+            {
+                var packet = XPacket.Create(XPacketType.Build);
+                packet.SetString(1, selectedName);
+                client.QueuePacketSend(packet.ToPacket());
+            }
         }
 
         private void skipChangeButton_Click(object sender, EventArgs e)

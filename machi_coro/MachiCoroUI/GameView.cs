@@ -17,9 +17,6 @@ namespace MachiCoroUI
             InitializeComponent();
         }
 
-        // Маркет
-        public FlowLayoutPanel MarketPanel => marketPanel;
-
         // Игрок
         public Label PlayerNameLabel => playerName;
         public Label PlayerMoneyLabel => playerMoney;
