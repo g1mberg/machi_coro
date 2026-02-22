@@ -166,10 +166,7 @@ public class ConnectedClient
         var targetPlayerId = packet.GetValue<int>(1);
         if (targetPlayerId == -1)
         {
-            ClientPlayer.Revoke(TurnEffect.CanSteal);
-            instance.NextPhase(); // Steal → Change
-            if (!ClientPlayer.HasEffect(TurnEffect.CanChange) && instance.Phase == Phase.Change)
-                instance.NextPhase(); // Change → Build
+            instance.NextPhase();
             _server.BroadcastGameState(instance);
             return;
         }
@@ -194,10 +191,7 @@ public class ConnectedClient
             SendError("Украсть не получилось");
             return;
         }
-        ClientPlayer.Revoke(TurnEffect.CanSteal);
-        instance.NextPhase(); // Steal → Change
-        if (!ClientPlayer.HasEffect(TurnEffect.CanChange) && instance.Phase == Phase.Change)
-            instance.NextPhase(); // Change → Build
+        instance.NextPhase();
         _server.BroadcastGameState(instance);
     }
 
@@ -297,7 +291,6 @@ public class ConnectedClient
         var wants = packet.GetValue<bool>(1);
         if (!wants)
         {
-            ClientPlayer.Revoke(TurnEffect.CanChange);
             instance.PendingTradeFromPlayerId = -1;
             instance.NextPhase();
             _server.BroadcastGameState(instance);
@@ -349,9 +342,6 @@ public class ConnectedClient
                 instance.PendingTradeFromBuilding!, instance.PendingTradeToBuilding!);
         }
 
-        var initiator = instance.Players[instance.PendingTradeFromPlayerId];
-        initiator.Revoke(TurnEffect.CanChange);
-
         instance.PendingTradeFromPlayerId = -1;
         instance.PendingTradeFromBuilding = null;
         instance.PendingTradeToPlayerId = -1;
@@ -373,13 +363,7 @@ public class ConnectedClient
         instance.NextPhase();              // Roll → Income
         ClientPlayer.Revoke(TurnEffect.RerollUsed);
         PlayerAction.Income(ClientPlayer, instance);
-        instance.NextPhase();              // Income → Steal
-
-        if (!ClientPlayer.HasEffect(TurnEffect.CanSteal) && instance.Phase == Phase.Steal)
-            instance.NextPhase();          // Steal → Change
-
-        if (!ClientPlayer.HasEffect(TurnEffect.CanChange) && instance.Phase == Phase.Change)
-            instance.NextPhase();          // Change → Build
+        instance.NextPhase();              // Income → Steal/Change/Build (автоскип)
 
         _server.BroadcastGameState(instance);
     }

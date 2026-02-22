@@ -15,11 +15,20 @@ public static class PlayerAction
 
     public static bool TryBuild(Player player, string building, Game game)
     {
-        if (player.Sites.TryGetValue(building, out var site)) return TryBuild(player, site);
+        if (player.Sites.TryGetValue(building, out var site))
+        {
+            if (!TryBuild(player, site)) return false;
+            player.GrantSiteEffect(building);
+            return true;
+        }
         var enterprise = game.Instance.Mart.GetByName(building);
-        if (enterprise is null || enterprise.Color is EnterpriseColors.Purple && player.City.Any(x => x.Name.Equals(enterprise.Name))) 
+        if (enterprise is null || enterprise.Color is EnterpriseColors.Purple && player.City.Any(x => x.Name.Equals(enterprise.Name)))
             return false;
-        return player.Money >= enterprise.Cost && game.Instance.Mart.BuyEnterprise(player, enterprise);
+        if (player.Money < enterprise.Cost || !game.Instance.Mart.BuyEnterprise(player, enterprise))
+            return false;
+        if (enterprise is PurpleCard pc && pc.GrantedEffect.HasValue)
+            player.Grant(pc.GrantedEffect.Value);
+        return true;
     }
 
     public static bool TryBuild(Player player, Site site)
@@ -28,7 +37,6 @@ public static class PlayerAction
         if (player.Money < site.Cost || site.IsActivated) return false;
         player.TakeMoney(site.Cost);
         site.Activate();
-        player.GrantSiteEffect(site.Name);
         return true;
     }
 
