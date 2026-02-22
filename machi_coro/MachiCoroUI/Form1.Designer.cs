@@ -102,7 +102,7 @@
             // button2
             // 
             button2.Anchor = AnchorStyles.None;
-            button2.Location = new Point(642, 286);
+            button2.Location = new Point(642, 289);
             button2.Margin = new Padding(2, 1, 2, 1);
             button2.Name = "button2";
             button2.Size = new Size(390, 75);
@@ -115,11 +115,10 @@
             // 
             playerList.Anchor = AnchorStyles.None;
             playerList.FormattingEnabled = true;
-            playerList.ItemHeight = 15;
-            playerList.Location = new Point(642, 286);
+            playerList.Location = new Point(642, 289);
             playerList.Margin = new Padding(2, 1, 2, 1);
             playerList.Name = "playerList";
-            playerList.Size = new Size(250, 154);
+            playerList.Size = new Size(250, 132);
             playerList.TabIndex = 12;
             // 
             // label1
@@ -127,9 +126,9 @@
             label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 15F);
-            label1.Location = new Point(642, 286);
+            label1.Location = new Point(642, 289);
             label1.Name = "label1";
-            label1.Size = new Size(289, 28);
+            label1.Size = new Size(568, 54);
             label1.TabIndex = 13;
             label1.Text = "\"Ожидание других игроков…\"";
             // 
@@ -141,25 +140,25 @@
             ConnectPanel.Dock = DockStyle.Fill;
             ConnectPanel.Location = new Point(0, 0);
             ConnectPanel.Name = "ConnectPanel";
-            ConnectPanel.Size = new Size(1485, 673);
+            ConnectPanel.Size = new Size(1485, 679);
             ConnectPanel.TabIndex = 14;
             // 
             // label4
             // 
             label4.Anchor = AnchorStyles.None;
             label4.AutoSize = true;
-            label4.Location = new Point(642, 286);
+            label4.Location = new Point(642, 289);
             label4.Name = "label4";
-            label4.Size = new Size(128, 15);
+            label4.Size = new Size(260, 32);
             label4.TabIndex = 3;
             label4.Text = "Введите ваш никнейм";
             // 
             // NicknameBox
             // 
             NicknameBox.Anchor = AnchorStyles.None;
-            NicknameBox.Location = new Point(642, 286);
+            NicknameBox.Location = new Point(642, 289);
             NicknameBox.Name = "NicknameBox";
-            NicknameBox.Size = new Size(339, 23);
+            NicknameBox.Size = new Size(339, 39);
             NicknameBox.TabIndex = 2;
             // 
             // LobbyPanel
@@ -171,14 +170,14 @@
             LobbyPanel.Dock = DockStyle.Fill;
             LobbyPanel.Location = new Point(0, 0);
             LobbyPanel.Name = "LobbyPanel";
-            LobbyPanel.Size = new Size(1485, 673);
+            LobbyPanel.Size = new Size(1485, 679);
             LobbyPanel.TabIndex = 15;
             // 
             // Confirm
             // 
             Confirm.Anchor = AnchorStyles.None;
             Confirm.Enabled = false;
-            Confirm.Location = new Point(642, 286);
+            Confirm.Location = new Point(642, 289);
             Confirm.Name = "Confirm";
             Confirm.Size = new Size(186, 60);
             Confirm.TabIndex = 15;
@@ -190,7 +189,7 @@
             // readyButton
             // 
             readyButton.Anchor = AnchorStyles.None;
-            readyButton.Location = new Point(642, 286);
+            readyButton.Location = new Point(642, 289);
             readyButton.Name = "readyButton";
             readyButton.Size = new Size(186, 60);
             readyButton.TabIndex = 14;
@@ -204,7 +203,7 @@
             GamePanel.Dock = DockStyle.Fill;
             GamePanel.Location = new Point(0, 0);
             GamePanel.Name = "GamePanel";
-            GamePanel.Size = new Size(1485, 673);
+            GamePanel.Size = new Size(1485, 679);
             GamePanel.TabIndex = 16;
             // 
             // splitContainer1
@@ -221,8 +220,8 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(player);
-            splitContainer1.Size = new Size(1485, 673);
-            splitContainer1.SplitterDistance = 496;
+            splitContainer1.Size = new Size(1485, 679);
+            splitContainer1.SplitterDistance = 500;
             splitContainer1.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -292,7 +291,7 @@
             topOppMoney.AutoSize = true;
             topOppMoney.Location = new Point(50, 42);
             topOppMoney.Name = "topOppMoney";
-            topOppMoney.Size = new Size(38, 15);
+            topOppMoney.Size = new Size(78, 32);
             topOppMoney.TabIndex = 5;
             topOppMoney.Text = "label2";
             // 
@@ -301,7 +300,7 @@
             label10.AutoSize = true;
             label10.Location = new Point(2, 42);
             label10.Name = "label10";
-            label10.Size = new Size(42, 15);
+            label10.Size = new Size(85, 32);
             label10.TabIndex = 4;
             label10.Text = "Денег:";
             // 
@@ -310,7 +309,7 @@
             topOppName.AutoSize = true;
             topOppName.Location = new Point(3, 15);
             topOppName.Name = "topOppName";
-            topOppName.Size = new Size(38, 15);
+            topOppName.Size = new Size(78, 32);
             topOppName.TabIndex = 3;
             topOppName.Text = "label2";
             // 
@@ -346,7 +345,7 @@
             rightOppMoney.AutoSize = true;
             rightOppMoney.Location = new Point(50, 42);
             rightOppMoney.Name = "rightOppMoney";
-            rightOppMoney.Size = new Size(38, 15);
+            rightOppMoney.Size = new Size(78, 32);
             rightOppMoney.TabIndex = 5;
             rightOppMoney.Text = "label2";
             // 
@@ -355,7 +354,7 @@
             label7.AutoSize = true;
             label7.Location = new Point(2, 42);
             label7.Name = "label7";
-            label7.Size = new Size(42, 15);
+            label7.Size = new Size(85, 32);
             label7.TabIndex = 4;
             label7.Text = "Денег:";
             // 
@@ -364,7 +363,7 @@
             rightOppName.AutoSize = true;
             rightOppName.Location = new Point(3, 15);
             rightOppName.Name = "rightOppName";
-            rightOppName.Size = new Size(38, 15);
+            rightOppName.Size = new Size(78, 32);
             rightOppName.TabIndex = 3;
             rightOppName.Text = "label2";
             // 
@@ -400,7 +399,7 @@
             leftOppMoney.AutoSize = true;
             leftOppMoney.Location = new Point(57, 42);
             leftOppMoney.Name = "leftOppMoney";
-            leftOppMoney.Size = new Size(38, 15);
+            leftOppMoney.Size = new Size(78, 32);
             leftOppMoney.TabIndex = 5;
             leftOppMoney.Text = "label2";
             // 
@@ -409,7 +408,7 @@
             label3.AutoSize = true;
             label3.Location = new Point(9, 42);
             label3.Name = "label3";
-            label3.Size = new Size(42, 15);
+            label3.Size = new Size(85, 32);
             label3.TabIndex = 4;
             label3.Text = "Денег:";
             // 
@@ -418,7 +417,7 @@
             leftOppName.AutoSize = true;
             leftOppName.Location = new Point(10, 15);
             leftOppName.Name = "leftOppName";
-            leftOppName.Size = new Size(38, 15);
+            leftOppName.Size = new Size(78, 32);
             leftOppName.TabIndex = 3;
             leftOppName.Text = "label2";
             // 
@@ -436,7 +435,7 @@
             player.Dock = DockStyle.Fill;
             player.Location = new Point(0, 0);
             player.Name = "player";
-            player.Size = new Size(1485, 173);
+            player.Size = new Size(1485, 175);
             player.TabIndex = 0;
             // 
             // rerollButton
@@ -444,7 +443,7 @@
             rerollButton.AutoSize = true;
             rerollButton.Location = new Point(10, 99);
             rerollButton.Name = "rerollButton";
-            rerollButton.Size = new Size(88, 28);
+            rerollButton.Size = new Size(167, 42);
             rerollButton.TabIndex = 9;
             rerollButton.Text = "перебросить";
             rerollButton.UseVisualStyleBackColor = true;
@@ -455,7 +454,7 @@
             buildButton.AutoSize = true;
             buildButton.Location = new Point(112, 57);
             buildButton.Name = "buildButton";
-            buildButton.Size = new Size(82, 29);
+            buildButton.Size = new Size(140, 42);
             buildButton.TabIndex = 8;
             buildButton.Text = "Построить";
             buildButton.UseVisualStyleBackColor = true;
@@ -466,7 +465,7 @@
             label2.AutoSize = true;
             label2.Location = new Point(10, 36);
             label2.Name = "label2";
-            label2.Size = new Size(42, 15);
+            label2.Size = new Size(85, 32);
             label2.TabIndex = 7;
             label2.Text = "Денег:";
             // 
@@ -501,45 +500,45 @@
             labelCurrentPlayer.AutoSize = true;
             labelCurrentPlayer.Location = new Point(3, 0);
             labelCurrentPlayer.Name = "labelCurrentPlayer";
-            labelCurrentPlayer.Size = new Size(55, 15);
+            labelCurrentPlayer.Size = new Size(109, 32);
             labelCurrentPlayer.TabIndex = 0;
             labelCurrentPlayer.Text = "\"Ход: —\"";
             // 
             // labelPhase
             // 
             labelPhase.AutoSize = true;
-            labelPhase.Location = new Point(64, 0);
+            labelPhase.Location = new Point(118, 0);
             labelPhase.Name = "labelPhase";
-            labelPhase.Size = new Size(61, 15);
+            labelPhase.Size = new Size(120, 32);
             labelPhase.TabIndex = 1;
             labelPhase.Text = "\"Фаза: —\"";
             // 
             // labelDice
             // 
             labelDice.AutoSize = true;
-            labelDice.Location = new Point(131, 0);
+            labelDice.Location = new Point(3, 32);
             labelDice.Name = "labelDice";
-            labelDice.Size = new Size(63, 15);
+            labelDice.Size = new Size(125, 32);
             labelDice.TabIndex = 2;
             labelDice.Text = "Кубик: —\"";
             // 
             // labelLastAction
             // 
             labelLastAction.AutoSize = true;
-            labelLastAction.Location = new Point(217, 0);
+            labelLastAction.Location = new Point(20, 64);
             labelLastAction.Margin = new Padding(20, 0, 3, 0);
             labelLastAction.Name = "labelLastAction";
-            labelLastAction.Size = new Size(95, 15);
+            labelLastAction.Size = new Size(189, 32);
             labelLastAction.TabIndex = 3;
             labelLastAction.Text = "\"Последнее: —\"";
             // 
             // howdice
             // 
             howdice.AutoSize = true;
-            howdice.Location = new Point(3, 25);
+            howdice.Location = new Point(3, 106);
             howdice.Margin = new Padding(3, 10, 20, 0);
             howdice.Name = "howdice";
-            howdice.Size = new Size(204, 15);
+            howdice.Size = new Size(248, 64);
             howdice.TabIndex = 4;
             howdice.Text = "Сколько кубиков вы хотите кинуть?";
             howdice.Visible = false;
@@ -548,10 +547,10 @@
             // roll1
             // 
             roll1.AutoSize = true;
-            roll1.Location = new Point(230, 35);
+            roll1.Location = new Point(3, 190);
             roll1.Margin = new Padding(3, 20, 3, 3);
             roll1.Name = "roll1";
-            roll1.Size = new Size(75, 25);
+            roll1.Size = new Size(75, 42);
             roll1.TabIndex = 5;
             roll1.Text = "1";
             roll1.UseVisualStyleBackColor = true;
@@ -561,10 +560,10 @@
             // roll2
             // 
             roll2.AutoSize = true;
-            roll2.Location = new Point(230, 66);
+            roll2.Location = new Point(230, 238);
             roll2.Margin = new Padding(230, 3, 3, 3);
             roll2.Name = "roll2";
-            roll2.Size = new Size(75, 25);
+            roll2.Size = new Size(75, 42);
             roll2.TabIndex = 6;
             roll2.Text = "2";
             roll2.UseVisualStyleBackColor = true;
@@ -574,9 +573,9 @@
             // 
             changeButton.AutoSize = true;
             changeButton.Dock = DockStyle.Top;
-            changeButton.Location = new Point(3, 97);
+            changeButton.Location = new Point(3, 286);
             changeButton.Name = "changeButton";
-            changeButton.Size = new Size(82, 38);
+            changeButton.Size = new Size(153, 42);
             changeButton.TabIndex = 7;
             changeButton.Text = "поменяться";
             changeButton.UseVisualStyleBackColor = true;
@@ -586,9 +585,9 @@
             // 
             skipChangeButton.AutoSize = true;
             skipChangeButton.Dock = DockStyle.Top;
-            skipChangeButton.Location = new Point(91, 97);
+            skipChangeButton.Location = new Point(162, 286);
             skipChangeButton.Name = "skipChangeButton";
-            skipChangeButton.Size = new Size(83, 38);
+            skipChangeButton.Size = new Size(149, 42);
             skipChangeButton.TabIndex = 8;
             skipChangeButton.Text = "пропустить";
             skipChangeButton.UseVisualStyleBackColor = true;
@@ -598,9 +597,9 @@
             // 
             stealButton.AutoSize = true;
             stealButton.Dock = DockStyle.Top;
-            stealButton.Location = new Point(180, 97);
+            stealButton.Location = new Point(3, 334);
             stealButton.Name = "stealButton";
-            stealButton.Size = new Size(59, 38);
+            stealButton.Size = new Size(107, 42);
             stealButton.TabIndex = 9;
             stealButton.Text = "украсть";
             stealButton.UseVisualStyleBackColor = true;
@@ -611,9 +610,9 @@
             // 
             skip.AutoSize = true;
             skip.Dock = DockStyle.Top;
-            skip.Location = new Point(245, 97);
+            skip.Location = new Point(116, 334);
             skip.Name = "skip";
-            skip.Size = new Size(80, 38);
+            skip.Size = new Size(149, 42);
             skip.TabIndex = 10;
             skip.Text = "пропустить";
             skip.UseVisualStyleBackColor = true;
@@ -625,7 +624,7 @@
             rollDice.AutoSize = true;
             rollDice.Location = new Point(6, 57);
             rollDice.Name = "rollDice";
-            rollDice.Size = new Size(100, 29);
+            rollDice.Size = new Size(184, 42);
             rollDice.TabIndex = 5;
             rollDice.Text = "Бросить кубик";
             rollDice.UseVisualStyleBackColor = true;
@@ -650,7 +649,7 @@
             playerMoney.AutoSize = true;
             playerMoney.Location = new Point(57, 36);
             playerMoney.Name = "playerMoney";
-            playerMoney.Size = new Size(38, 15);
+            playerMoney.Size = new Size(78, 32);
             playerMoney.TabIndex = 2;
             playerMoney.Text = "label2";
             // 
@@ -659,19 +658,19 @@
             PlayerName.AutoSize = true;
             PlayerName.Location = new Point(10, 9);
             PlayerName.Name = "PlayerName";
-            PlayerName.Size = new Size(38, 15);
+            PlayerName.Size = new Size(78, 32);
             PlayerName.TabIndex = 0;
             PlayerName.Text = "label2";
             // 
             // Form1
             // 
             AutoScaleMode = AutoScaleMode.None;
-            ClientSize = new Size(1485, 673);
-            MinimumSize = new Size(1200, 750);
+            ClientSize = new Size(1485, 679);
             Controls.Add(GamePanel);
             Controls.Add(ConnectPanel);
             Controls.Add(LobbyPanel);
             Margin = new Padding(2, 1, 2, 1);
+            MinimumSize = new Size(1200, 750);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;

@@ -29,9 +29,6 @@ namespace MachiCoroUI
         private List<EnterpriseView> _allMarketCards;
         private Dictionary<string, int> _cardCosts = new();
 
-        string? _myBuildingToGive;
-        int? _targetPlayerId;
-        string? _targetBuilding;
         int? _stealTargetPlayerId;
         int _stealAmount = 5;
         private int _lastDiceCount = 1;
@@ -52,7 +49,6 @@ namespace MachiCoroUI
             GamePanel.Controls.Clear();
             GamePanel.Controls.Add(_gameView);
 
-            // Wire up GameView button handlers
             _gameView.RollDiceButton.Click += rollDice_Click;
             _gameView.BuildButton.Click += buildButton_Click;
             _gameView.RerollButton.Click += rerollButton_Click;
@@ -497,7 +493,7 @@ namespace MachiCoroUI
             panel.ResumeLayout();
         }
 
-        // Вспомогательный метод для создания "серой" картинки (проще всего)
+       
         private Image CreateGrayscaleImage(Image original)
         {
             Bitmap newBitmap = new Bitmap(original.Width, original.Height);
@@ -982,7 +978,7 @@ namespace MachiCoroUI
             layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 52));
             dialog.Controls.Add(layout);
 
-            // ComboBox выбора игрока (верхняя строка, обе колонки)
+            // ComboBox выбора игрока
             var combo = new ComboBox
             {
                 Dock = DockStyle.Fill,
@@ -1186,10 +1182,10 @@ namespace MachiCoroUI
 
                 var player = new Player(i, name);
 
-                // Set money: player starts with 3, adjust to match server value
+             
                 player.AddMoney(money - Player.StartMoney);
 
-                // Rebuild city from comma-separated enterprise names
+                
                 player.City.Clear();
                 if (!string.IsNullOrEmpty(cityStr))
                 {
@@ -1200,7 +1196,7 @@ namespace MachiCoroUI
                     }
                 }
 
-                // Rebuild sites activation state
+              
                 if (!string.IsNullOrEmpty(sitesStr))
                 {
                     foreach (var pair in sitesStr.Split(','))

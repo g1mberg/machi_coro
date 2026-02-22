@@ -1,17 +1,9 @@
-﻿using Game.Models.Enterprises;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MachiCoroUI
+﻿namespace MachiCoroUI
 {
     public class EnterpriseView
     {
         private static readonly Dictionary<string, string> NameToImage = new(StringComparer.OrdinalIgnoreCase)
         {
-            // Enterprises
             ["Пшеничное поле"] = "wheat field",
             ["Яблочный Сад"] = "apple",
             ["Ферма"] = "farm",
@@ -27,12 +19,10 @@ namespace MachiCoroUI
             ["Стадион"] = "stadium",
             ["Телецентр"] = "tvcenter",
             ["Бизнес-центр"] = "business",
-            // Sites (Russian names from server state)
             ["Парк развлечений"] = "Park",
             ["Вокзал"] = "terminal",
             ["Торговый центр"] = "Mall",
             ["Телебашня"] = "TV",
-            // Sites (dictionary keys from market/build)
             ["Park"] = "Park",
             ["Terminal"] = "terminal",
             ["Mall"] = "Mall",
