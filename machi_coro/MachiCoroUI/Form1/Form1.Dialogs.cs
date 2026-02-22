@@ -168,9 +168,9 @@ namespace MachiCoroUI
 
             foreach (var kvp in me.Sites)
             {
-                if (kvp.Value.IsActivated) continue;
                 var cost = _cardCosts.GetValueOrDefault(kvp.Key, 0);
-                cardsFlow.Controls.Add(MakeCardPanel(kvp.Key, myMoney < cost));
+                bool disabled = kvp.Value.IsActivated || myMoney < cost;
+                cardsFlow.Controls.Add(MakeCardPanel(kvp.Key, disabled));
             }
 
             var btnFlow = new FlowLayoutPanel
