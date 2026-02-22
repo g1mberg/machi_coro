@@ -250,6 +250,8 @@ public class ConnectedClient
             return;
         }
 
+        bool hadDoubleCheck = ClientPlayer.HasEffect(TurnEffect.DoubleCheck);
+
         if (!PlayerAction.TryBuild(ClientPlayer, enterpriseName, Game))
         {
             SendError("Не удалось построить");
@@ -272,7 +274,7 @@ public class ConnectedClient
         }
         instance.NextPhase();
 
-        if (!(ClientPlayer.HasEffect(TurnEffect.DoubleCheck) && instance.DiceValue.IsDouble))
+        if (!(hadDoubleCheck && instance.DiceValue.IsDouble))
             instance.NextPlayer();
         instance.DiceValue = new DiceResult(0, false);
         _server.BroadcastGameState(instance);
