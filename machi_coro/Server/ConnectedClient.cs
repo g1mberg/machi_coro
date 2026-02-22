@@ -166,8 +166,9 @@ public class ConnectedClient
         var targetPlayerId = packet.GetValue<int>(1);
         if (targetPlayerId == -1)
         {
+            ClientPlayer.Revoke(TurnEffect.CanSteal);
             instance.NextPhase(); // Steal → Change
-            if (!ClientPlayer.IsChangeable && instance.Phase == Phase.Change)
+            if (!ClientPlayer.HasEffect(TurnEffect.CanChange) && instance.Phase == Phase.Change)
                 instance.NextPhase(); // Change → Build
             _server.BroadcastGameState(instance);
             return;
@@ -193,8 +194,9 @@ public class ConnectedClient
             SendError("Украсть не получилось");
             return;
         }
+        ClientPlayer.Revoke(TurnEffect.CanSteal);
         instance.NextPhase(); // Steal → Change
-        if (!ClientPlayer.IsChangeable && instance.Phase == Phase.Change)
+        if (!ClientPlayer.HasEffect(TurnEffect.CanChange) && instance.Phase == Phase.Change)
             instance.NextPhase(); // Change → Build
         _server.BroadcastGameState(instance);
     }
@@ -212,18 +214,17 @@ public class ConnectedClient
 
         if (isReroll)
         {
-            if (!ClientPlayer.IsReroll)  { SendError("Нет возможности перебросить"); return; }
-            if (ClientPlayer.IsRerollUsed) { SendError("Переброс уже использован"); return; }
+            if (!ClientPlayer.HasEffect(TurnEffect.Reroll)) { SendError("Нет возможности перебросить"); return; }
+            if (ClientPlayer.HasEffect(TurnEffect.RerollUsed)) { SendError("Переброс уже использован"); return; }
             if (instance.DiceValue.Sum == 0) { SendError("Сначала брось кубик"); return; }
-            ClientPlayer.IsRerollUsed = true;
+            ClientPlayer.Grant(TurnEffect.RerollUsed);
         }
         else
         {
-            // Новый ход — сбрасываем флаг
-            ClientPlayer.IsRerollUsed = false;
+            ClientPlayer.Revoke(TurnEffect.RerollUsed);
         }
 
-        if (dices == 2 && !ClientPlayer.IsTwoDices)
+        if (dices == 2 && !ClientPlayer.HasEffect(TurnEffect.TwoDice))
         {
             SendError("Нужен Вокзал для двух кубиков");
             return;
@@ -248,7 +249,7 @@ public class ConnectedClient
         if (string.IsNullOrEmpty(enterpriseName))
         {
             instance.NextPhase();
-            if (!(ClientPlayer.IsDoubleCheck && instance.DiceValue.IsDouble))
+            if (!(ClientPlayer.HasEffect(TurnEffect.DoubleCheck) && instance.DiceValue.IsDouble))
                 instance.NextPlayer();
             instance.DiceValue = new DiceResult(0, false);
             _server.BroadcastGameState(instance);
@@ -277,7 +278,7 @@ public class ConnectedClient
         }
         instance.NextPhase();
 
-        if (!(ClientPlayer.IsDoubleCheck && instance.DiceValue.IsDouble))
+        if (!(ClientPlayer.HasEffect(TurnEffect.DoubleCheck) && instance.DiceValue.IsDouble))
             instance.NextPlayer();
         instance.DiceValue = new DiceResult(0, false);
         _server.BroadcastGameState(instance);
@@ -296,6 +297,7 @@ public class ConnectedClient
         var wants = packet.GetValue<bool>(1);
         if (!wants)
         {
+            ClientPlayer.Revoke(TurnEffect.CanChange);
             instance.PendingTradeFromPlayerId = -1;
             instance.NextPhase();
             _server.BroadcastGameState(instance);
@@ -347,6 +349,9 @@ public class ConnectedClient
                 instance.PendingTradeFromBuilding!, instance.PendingTradeToBuilding!);
         }
 
+        var initiator = instance.Players[instance.PendingTradeFromPlayerId];
+        initiator.Revoke(TurnEffect.CanChange);
+
         instance.PendingTradeFromPlayerId = -1;
         instance.PendingTradeFromBuilding = null;
         instance.PendingTradeToPlayerId = -1;
@@ -366,17 +371,14 @@ public class ConnectedClient
         }
 
         instance.NextPhase();              // Roll → Income
-        ClientPlayer.IsStealer = false;
-        ClientPlayer.IsChangeable = false;
+        ClientPlayer.Revoke(TurnEffect.RerollUsed);
         PlayerAction.Income(ClientPlayer, instance);
         instance.NextPhase();              // Income → Steal
 
-     
-        if (!ClientPlayer.IsStealer && instance.Phase == Phase.Steal)
+        if (!ClientPlayer.HasEffect(TurnEffect.CanSteal) && instance.Phase == Phase.Steal)
             instance.NextPhase();          // Steal → Change
 
-     
-        if (!ClientPlayer.IsChangeable && instance.Phase == Phase.Change)
+        if (!ClientPlayer.HasEffect(TurnEffect.CanChange) && instance.Phase == Phase.Change)
             instance.NextPhase();          // Change → Build
 
         _server.BroadcastGameState(instance);

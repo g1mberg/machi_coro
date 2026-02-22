@@ -1,4 +1,6 @@
-﻿namespace Game.Models.Enterprises;
+﻿using Game.Models.Player;
+
+namespace Game.Models.Enterprises;
 
 public class Enterprise
 {
@@ -27,7 +29,7 @@ public class Enterprise
     {
         var count = IncomeType != null ? enterprises.Count(x => x.EType == IncomeType) : 1;
 
-        if (owner.IsMall && EType is EnterpriseType.Shop or EnterpriseType.Cafe)
+        if (owner.HasEffect(TurnEffect.Mall) && EType is EnterpriseType.Shop or EnterpriseType.Cafe)
             return Income * count + 1;
 
         return count * Income;

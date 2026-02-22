@@ -15,13 +15,23 @@ public class Player
 
     public readonly List<Enterprise> City = [];
 
-    public bool IsTwoDices => Sites["Terminal"].IsActivated;
-    public bool IsMall => Sites["Mall"].IsActivated;
-    public bool IsDoubleCheck => Sites["TvTower"].IsActivated;
-    public bool IsReroll => Sites["Park"].IsActivated;
-    public bool IsChangeable { get; set; } = false;
-    public bool IsStealer { get; set; } = false;
-    public bool IsRerollUsed { get; set; } = false;
+    private readonly HashSet<TurnEffect> _turnEffects = new();
+    public bool HasEffect(TurnEffect e) => _turnEffects.Contains(e);
+    public void Grant(TurnEffect e)     => _turnEffects.Add(e);
+    public void Revoke(TurnEffect e)    => _turnEffects.Remove(e);
+
+    public void GrantSiteEffect(string siteName)
+    {
+        var effect = siteName switch
+        {
+            "Terminal" => (TurnEffect?)TurnEffect.TwoDice,
+            "Mall"     => TurnEffect.Mall,
+            "TvTower"  => TurnEffect.DoubleCheck,
+            "Park"     => TurnEffect.Reroll,
+            _          => null
+        };
+        if (effect.HasValue) Grant(effect.Value);
+    }
 
     public bool HasWon() => Sites.Values.All(s => s.IsActivated);
 

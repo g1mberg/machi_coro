@@ -9,8 +9,7 @@ public static class PlayerAction
 {
     public static DiceResult Roll(Player player, int dices)
     {
-        //проверка на читы
-        if (!player.IsTwoDices) Dice.Dice.Roll(1); 
+        if (!player.HasEffect(TurnEffect.TwoDice)) dices = 1;
         return Dice.Dice.Roll(dices);
     }
 
@@ -29,6 +28,7 @@ public static class PlayerAction
         if (player.Money < site.Cost || site.IsActivated) return false;
         player.TakeMoney(site.Cost);
         site.Activate();
+        player.GrantSiteEffect(site.Name);
         return true;
     }
 
@@ -44,7 +44,7 @@ public static class PlayerAction
               && otherPlayer.City.Contains(otherEnterprise)
               && !enterprise.Color.Equals(EnterpriseColors.Purple)
               && !otherEnterprise.Color.Equals(EnterpriseColors.Purple) 
-              && player.IsChangeable)) return false;
+              && player.HasEffect(TurnEffect.CanChange))) return false;
 
         player.City.Remove(enterprise);
         player.City.Add(otherEnterprise);
@@ -55,7 +55,7 @@ public static class PlayerAction
 
     public static bool TrySteal(Player player, Player otherPlayer, int sum = 3)
     {
-        if (!player.IsStealer) return false;
+        if (!player.HasEffect(TurnEffect.CanSteal)) return false;
         player.AddMoney(otherPlayer.TakeMoney(sum));
         return true;
     }
