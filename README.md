@@ -22,11 +22,11 @@ git clone https://github.com/g1mberg/machi_coro
 
 По очереди:
 
-бросайте кубик
+  бросайте кубик
 
-получайте доход
+  получайте доход
 
-покупайте здания
+  покупайте здания
 
 Побеждает игрок, который первым построит все достопримечательности
-Ознакомиться с  полными правилами игры можно по ссылке https://hobbygames.ru/download/rules/Machi_Koro_rules-web_2015.pdf
+### Ознакомиться с  полными правилами игры можно по ссылке https://hobbygames.ru/download/rules/Machi_Koro_rules-web_2015.pdf
